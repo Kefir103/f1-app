@@ -1,0 +1,19 @@
+{
+    "name": "shared",
+    "version": "0.0.1",
+    "description": "Shared packages",
+    "homepage": "",
+    "license": "ISC",
+    "author": "Efim Pushkarev <pushkarevev@yandex.ru>",
+    "directories": {
+        "lib": "lib",
+        "test": "__tests__"
+    },
+    "files": [
+        "lib"
+    ],
+    "scripts": {},
+    "devDependencies": {
+        "typescript": "5.3.3"
+    }
+}
