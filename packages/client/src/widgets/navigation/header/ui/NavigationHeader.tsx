@@ -14,6 +14,10 @@ const HeaderItems: IHeaderItems[] = [
         title: 'Drivers',
         link: '/drivers',
     },
+    {
+        title: 'Circuits',
+        link: '/circuits',
+    },
 ];
 
 export function NavigationHeader() {
