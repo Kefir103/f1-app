@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { CircuitType } from '~f1-app/shared/types/Circuit/Circuit.type';
 
-@Entity({ name: 'circuits ' })
+@Entity({ name: 'circuits' })
 export class Circuit implements CircuitType {
     @PrimaryGeneratedColumn('increment')
     id: number;
