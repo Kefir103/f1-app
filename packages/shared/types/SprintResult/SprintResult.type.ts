@@ -1,18 +1,18 @@
 export interface SprintResultType {
     id: number;
-    raceId: number;
-    driverId: number;
-    constructorId: number;
-    number: number;
-    grid: number;
+    race_id: number;
+    driver_id: number;
+    constructor_id: number;
+    driver_number: number;
+    position_start_grid: number;
     position: number;
-    positionText: string;
-    positionOrder: string;
+    position_text: string;
+    position_order: string;
     points: number;
     laps: number;
-    time: string;
-    milliseconds: number;
-    fastestLap: number;
-    fastestLapTime: string;
-    statusId: number;
+    finish_time: string;
+    finish_milliseconds: number;
+    fastest_lap_number: number;
+    fastest_lap_time: string;
+    status_id: number;
 }

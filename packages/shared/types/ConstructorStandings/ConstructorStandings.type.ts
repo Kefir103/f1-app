@@ -1,9 +1,9 @@
 export interface ConstructorStandingsType {
     id: number;
-    raceId: number;
-    constructorId: number;
+    race_id: number;
+    constructor_id: number;
     points: number;
     position: number;
-    positionText: string;
-    wins: number;
+    position_text: string;
+    wins_count: number;
 }

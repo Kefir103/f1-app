@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { SeasonsService } from '~modules/Seasons/seasons.service';
 import { SeasonsController } from '~modules/Seasons/seasons.controller';
-import { SeasonsModelParseService } from '~modules/Seasons/seasons.modelParseService';
 
-import { Season, SeasonSchema } from '~schemas/Season/Season.schema';
+import { Season } from '~entities/Season/Season.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: Season.name, schema: SeasonSchema }])],
-    exports: [SeasonsModelParseService],
-    providers: [SeasonsService, SeasonsModelParseService],
+    imports: [TypeOrmModule.forFeature([Season])],
+    providers: [SeasonsService],
     controllers: [SeasonsController],
 })
 export class SeasonsModule {}

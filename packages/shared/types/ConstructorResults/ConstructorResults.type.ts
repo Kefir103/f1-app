@@ -1,7 +1,7 @@
 export interface ConstructorResultsType {
     id: number;
-    raceId: number;
-    constructorId: number;
+    race_id: number;
+    constructor_id: number;
     points: number;
-    status: string;
+    status_id: number;
 }

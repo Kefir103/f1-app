@@ -1,6 +1,7 @@
 export interface ConstructorType {
     id: number;
+    ref: string;
     name: string;
     nationality: string;
-    wikiUrl: string;
+    wiki_url: string;
 }

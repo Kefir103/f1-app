@@ -19,8 +19,9 @@
         "noFallthroughCasesInSwitch": false,
         "paths": {
             "~f1-app/*": ["../*"],
+            "~config/*": ["src/config/*"],
             "~modules/*": ["src/modules/*"],
-            "~schemas/*": ["src/schemas/*"],
+            "~entities/*": ["src/entities/*"],
             "~lib/*": ["src/lib/*"],
             "~middlewares/*": ["src/middlewares/*"]
         }

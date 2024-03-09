@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { LapTimesService } from '~modules/LapTimes/lap-times.service';
 import { LapTimesController } from '~modules/LapTimes/lap-times.controller';
-import { LapTimesModelParseService } from '~modules/LapTimes/lap-times.modelParseService';
 
-import { LapTimes, LapTimesSchema } from '~schemas/LapTimes/LapTimes.schema';
+import { LapTimes } from '~entities/LapTimes/LapTimes.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: LapTimes.name, schema: LapTimesSchema }])],
-    exports: [LapTimesModelParseService],
-    providers: [LapTimesService, LapTimesModelParseService],
+    imports: [TypeOrmModule.forFeature([LapTimes])],
+    providers: [LapTimesService],
     controllers: [LapTimesController],
 })
 export class LapTimesModule {}

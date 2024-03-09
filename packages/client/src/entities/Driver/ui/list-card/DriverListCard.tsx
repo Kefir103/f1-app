@@ -14,7 +14,7 @@ export function DriverListCard({ driver }: IDriverListCard) {
     const router = useRouter();
 
     const onCardClick = () => {
-        router.push(`/drivers/${driver._id}`);
+        router.push(`/drivers/${driver.ref}`);
     };
 
     return (
@@ -23,20 +23,20 @@ export function DriverListCard({ driver }: IDriverListCard) {
                 <CardHeader
                     title={
                         <Typography variant={'h2'}>
-                            {driver.firstName} {driver.lastName}{' '}
+                            {driver.first_name} {driver.last_name}{' '}
                             {driver.code ? `(${driver.code})` : ''}
                         </Typography>
                     }
                 />
                 <Typography>
-                    Date of birth: {moment(driver.dateOfBirth).format('DD.MM.YYYY')} (age{' '}
-                    {moment(Date.now()).diff(driver.dateOfBirth, 'years')})
+                    Date of birth: {moment(driver.date_of_birth).format('DD.MM.YYYY')} (age{' '}
+                    {moment(Date.now()).diff(driver.date_of_birth, 'years')})
                 </Typography>
                 <Typography>Nationality: {driver.nationality}</Typography>
-                <Typography>Wins: {driver.winsCount}</Typography>
-                <Typography>Pole positions: {driver.polesCount}</Typography>
+                <Typography>Wins: {driver.wins_count}</Typography>
+                <Typography>Pole positions: {driver.poles_count}</Typography>
                 <Link
-                    href={driver.wikiUrl}
+                    href={driver.wiki_url}
                     target={'_blank'}
                     rel={'noopener'}
                     className={'text-blue-500 underline'}

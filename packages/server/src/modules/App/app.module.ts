@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { ENV_CONFIG } from '~config/Env.Config';
 
 import { AppController } from '~modules/App/app.controller';
 
 import { AppService } from '~modules/App/app.service';
 import { DriverModule } from '~modules/Driver/driver.module';
-import { CsvModule } from '~modules/CSV/csv.module';
 import { CircuitModule } from '~modules/Circuit/circuit.module';
 import { ConstructorsModule } from '~modules/Constructors/constructors.module';
 import { QualifyingModule } from '~modules/Qualifying/qualifying.module';
@@ -14,9 +16,20 @@ import { SeasonsModule } from '~modules/Seasons/seasons.module';
 
 @Module({
     imports: [
-        MongooseModule.forRoot('mongodb://localhost/f1-app'),
+        ConfigModule.forRoot(ENV_CONFIG),
+        TypeOrmModule.forRoot({
+            type: 'postgres',
+            host: process.env.DATABASE_HOST,
+            port: Number(process.env.DATABASE_PORT),
+            database: process.env.DATABASE_DB,
+            username: process.env.DATABASE_USER,
+            password: process.env.DATABASE_PASS,
+            entities: [],
+            synchronize: true,
+            autoLoadEntities: true,
+        }),
+
         DriverModule,
-        CsvModule,
         CircuitModule,
         ConstructorsModule,
         QualifyingModule,

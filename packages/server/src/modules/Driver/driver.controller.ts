@@ -11,8 +11,8 @@ export class DriverController {
         return await this.driverService.getAll(page, perPage);
     }
 
-    @Get(':id')
-    public async getById(@Param('id') id: string) {
-        return await this.driverService.get(id);
+    @Get(':ref')
+    public async getByRef(@Param('ref') ref: string) {
+        return await this.driverService.get(ref);
     }
 }

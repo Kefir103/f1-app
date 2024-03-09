@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { SprintResultsController } from '~modules/SprintResults/sprint-results.controller';
 import { SprintResultsService } from '~modules/SprintResults/sprint-results.service';
-import { SprintResultsModelParseService } from '~modules/SprintResults/sprint-results.modelParseService';
 
-import { SprintResult, SprintResultSchema } from '~schemas/SprintResult/SprintResult.schema';
+import { SprintResult } from '~entities/SprintResult/SprintResult.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: SprintResult.name, schema: SprintResultSchema }])],
-    exports: [SprintResultsModelParseService],
+    imports: [TypeOrmModule.forFeature([SprintResult])],
     controllers: [SprintResultsController],
-    providers: [SprintResultsService, SprintResultsModelParseService],
+    providers: [SprintResultsService],
 })
 export class SprintResultsModule {}
