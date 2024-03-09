@@ -1,20 +1,20 @@
 export interface ResultType {
     id: number;
-    raceId: number;
-    driverId: number;
-    constructorId: number;
-    number: number;
-    grid: number;
+    race_id: number;
+    driver_id: number;
+    constructor_id: number;
+    driver_number: number;
+    position_start_grid: number;
     position: number;
-    positionText: string;
-    positionOrder: number;
+    position_text: string;
+    position_order: number;
     points: number;
     laps: number;
-    time: string;
-    milliseconds: number;
-    fastestLap: number;
-    rank: number;
-    fastestLapTime: string;
-    fastestLapSpeed: string;
-    statusId: number;
+    time_finish: string;
+    time_milliseconds: number;
+    fastest_lap_number: number;
+    fastest_lap_rank: number;
+    fastest_lap_time: string;
+    fastest_lap_speed: string;
+    status_id: number;
 }

@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ConstructorsService } from '~modules/Constructors/constructors.service';
 import { ConstructorsController } from '~modules/Constructors/constructors.controller';
-import { ConstructorsModelParseService } from '~modules/Constructors/constructors.modelParseService';
 
-import { Constructor, ConstructorSchema } from '~schemas/Constructor/Constructor.schema';
+import { Constructor } from '~entities/Constructor/Constructor.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: Constructor.name, schema: ConstructorSchema }])],
-    exports: [ConstructorsModelParseService],
-    providers: [ConstructorsService, ConstructorsModelParseService],
+    imports: [TypeOrmModule.forFeature([Constructor])],
+    providers: [ConstructorsService],
     controllers: [ConstructorsController],
 })
 export class ConstructorsModule {}

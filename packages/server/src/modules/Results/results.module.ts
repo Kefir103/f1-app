@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ResultsController } from '~modules/Results/results.controller';
 import { ResultsService } from '~modules/Results/results.service';
-import { ResultsModelParseService } from '~modules/Results/results.modelParseService';
 
-import { Result, ResultSchema } from '~schemas/Result/Result.schema';
+import { Result } from '~entities/Result/Result.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: Result.name, schema: ResultSchema }])],
-    exports: [ResultsModelParseService],
+    imports: [TypeOrmModule.forFeature([Result])],
     controllers: [ResultsController],
-    providers: [ResultsService, ResultsModelParseService],
+    providers: [ResultsService],
 })
 export class ResultsModule {}

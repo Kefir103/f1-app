@@ -1,11 +1,11 @@
 export interface QualifyingType {
     id: number;
-    raceId: number;
-    driverId: number;
-    constructorId: number;
-    number: number;
-    position: number;
-    q1: string;
-    q2: string;
-    q3: string;
+    race_id: number;
+    driver_id: number;
+    constructor_id: number;
+    driver_number: number;
+    driver_position: number;
+    q1_time: string;
+    q2_time: string;
+    q3_time: string;
 }

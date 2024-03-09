@@ -1,12 +1,12 @@
 export interface RaceType {
     id: number;
+    circuit_id: number;
     year: number;
     round: number;
-    circuitId: number;
     name: string;
     date: Date;
-    time: string;
-    wikiUrl: string;
+    start_time: string;
+    wiki_url: string;
     fp1_date: Date;
     fp1_time: string;
     fp2_date: Date;

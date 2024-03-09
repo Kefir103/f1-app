@@ -1,6 +1,6 @@
 export interface LapTimesType {
-    raceId: number;
-    driverId: number;
+    race_id: number;
+    driver_id: number;
     lap: number;
     position: number;
     time: string;
