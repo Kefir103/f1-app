@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import moment from 'moment';
 
-import { useDriverServer } from '~entities/Driver/api/useDriverServer';
+import { useDriverServer } from '~entities/driver/api/useDriverServer';
 
 interface IDriverPage {
     params: {
@@ -10,7 +10,7 @@ interface IDriverPage {
 }
 
 export default async function DriverPage({ params }: IDriverPage) {
-    const { data: driver } = await useDriverServer({ ref: params.ref });
+    const { driver } = await useDriverServer(params.ref);
 
     return (
         <>
