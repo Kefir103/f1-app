@@ -23,7 +23,9 @@
             "~modules/*": ["src/modules/*"],
             "~entities/*": ["src/entities/*"],
             "~lib/*": ["src/lib/*"],
-            "~middlewares/*": ["src/middlewares/*"]
+            "~middlewares/*": ["src/middlewares/*"],
+
+            "~test-utils/*": ["test-utils/*"]
         }
     }
 }

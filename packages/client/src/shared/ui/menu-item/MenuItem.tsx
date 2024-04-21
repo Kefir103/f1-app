@@ -10,7 +10,7 @@ export function MenuItem({ icon, title, description, onClick }: IMenuItem) {
                 title={
                     <div className={'flex items-center'}>
                         <Icon path={icon} size={1.5} />
-                        <span className={'ml-1'}>{title}</span>
+                        <h1 className={'ml-1 inline'}>{title}</h1>
                     </div>
                 }
             />
