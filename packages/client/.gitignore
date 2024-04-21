@@ -1,5 +1,11 @@
+# Package libraries and cache
 .next
 node_modules
-coverage
 
+# Test folders
+coverage
+playwright-report
+test-results
+
+# Local env file
 .env.local

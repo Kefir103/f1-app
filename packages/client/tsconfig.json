@@ -26,7 +26,10 @@
             "~widgets/*": ["./src/widgets/*"],
             "~views/*": ["./src/views/*"],
             "~shared/*": ["./src/shared/*"],
-            "~f1-app/*": ["../*"]
+            "~f1-app/*": ["../*"],
+
+            "~tests-utils/*": ["./__tests__/__utils__/*"],
+            "~mocks/*": ["./__tests__/__mocks__/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,6 +1,6 @@
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
 
-import { useCircuitsServer } from '~entities/Circuit/api/useCircuitsServer';
+import { useCircuitsServer } from '~entities/circuit/api/useCircuitsServer';
 
 import { CircuitList } from '~widgets/circuit-list/ui/CircuitList';
 

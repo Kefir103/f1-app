@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 
-import { useCircuitServer } from '~/entities/Circuit/api';
+import { useCircuitServer } from '~entities/circuit/api';
 
 interface ICircuitPage {
     params: {

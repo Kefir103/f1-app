@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
-import { Circuit } from '~entities/Circuit/type';
-import { CircuitListCard } from '~entities/Circuit/ui/list-card/CircuitListCard';
+import { Circuit } from '~entities/circuit/type';
+import { CircuitListCard } from '~entities/circuit/ui/list-card/CircuitListCard';
 
 interface ICircuitList {
     circuits: Circuit[];

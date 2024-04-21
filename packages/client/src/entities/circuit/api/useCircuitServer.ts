@@ -1,7 +1,7 @@
 import { axios } from '~shared/api/axios';
 
-import { Circuit } from '~entities/Circuit/type';
-import { URLS } from '~entities/Circuit/api/urls';
+import { Circuit } from '~entities/circuit/type';
+import { URLS } from '~entities/circuit/api/urls';
 
 export async function useCircuitServer(ref: string) {
     try {

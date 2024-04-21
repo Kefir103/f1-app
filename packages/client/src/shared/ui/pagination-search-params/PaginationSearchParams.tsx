@@ -13,10 +13,10 @@ export function PaginationSearchParams({ totalCount }: IPaginationSearchParams) 
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    const count = Math.ceil(totalCount / Number(searchParams.get('perPage') || 12));
+    const count = Math.ceil(totalCount / Number(searchParams?.get('perPage') || 12));
 
     const onPaginationChange = (event: any, page: number) => {
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(searchParams?.toString());
 
         params.set('page', String(page));
 
@@ -26,7 +26,7 @@ export function PaginationSearchParams({ totalCount }: IPaginationSearchParams) 
     return (
         <Pagination
             className={'mt-1'}
-            page={Number(searchParams.get('page') || 1)}
+            page={Number(searchParams?.get('page') || 1)}
             renderItem={(item) => (
                 <PaginationItem
                     {...item}
