@@ -24,6 +24,7 @@
             "~entities/*": ["./src/entities/*"],
             "~features/*": ["./src/features/*"],
             "~widgets/*": ["./src/widgets/*"],
+            "~views/*": ["./src/views/*"],
             "~shared/*": ["./src/shared/*"],
             "~f1-app/*": ["../*"]
         }
