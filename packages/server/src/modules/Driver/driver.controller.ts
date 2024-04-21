@@ -2,7 +2,7 @@ import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common
 
 import { DriverService } from '~modules/Driver/driver.service';
 
-@Controller('drivers')
+@Controller('driver')
 export class DriverController {
     constructor(private driverService: DriverService) {}
 
