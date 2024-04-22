@@ -6,19 +6,17 @@ import { Circuit } from '~entities/Circuit/Circuit.entity';
 
 import { CircuitMocks } from '~modules/Circuit/__tests__/mocks/Circuit.mock';
 
+import { UnitMockRepository } from '~test-utils/unit/mock-repository/UnitMockRepository';
+
 describe('CircuitService', () => {
     let service: CircuitService;
 
+    const circuitUnitMockRepository = UnitMockRepository(CircuitMocks);
+
     const mockRepository = {
-        find: jest.fn().mockImplementation(({ take, skip }) => CircuitMocks.slice(skip, take)),
-        findOneBy: jest.fn().mockImplementation((whereCondition) =>
-            CircuitMocks.find((circuit) => {
-                return Object.entries(whereCondition).every(
-                    ([key, value]) => circuit[key] === value,
-                );
-            }),
-        ),
-        count: jest.fn().mockReturnValue(CircuitMocks.length),
+        find: jest.fn().mockImplementation(circuitUnitMockRepository.find),
+        findOneBy: jest.fn().mockImplementation(circuitUnitMockRepository.findOneBy),
+        count: jest.fn().mockReturnValue(circuitUnitMockRepository.count),
     };
 
     beforeEach(async () => {

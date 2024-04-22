@@ -60,10 +60,8 @@ describe('CircuitController', () => {
     it('should throw NotFoundException if circuit is falsy', async () => {
         jest.spyOn(mockService, 'getOne').mockReturnValueOnce(null);
 
-        try {
+        await expect(async () => {
             await controller.getOne('');
-        } catch (error) {
-            expect(error).toBeInstanceOf(NotFoundException);
-        }
+        }).rejects.toBeInstanceOf(NotFoundException);
     });
 });
