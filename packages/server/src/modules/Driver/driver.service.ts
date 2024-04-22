@@ -23,7 +23,7 @@ export class DriverService {
         };
     }
 
-    public async get(ref: string) {
+    public async getOne(ref: string) {
         return await this.driverRepository.findOneBy({ ref: ref });
     }
 

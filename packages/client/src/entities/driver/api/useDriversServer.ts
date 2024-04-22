@@ -1,7 +1,7 @@
 import { axios } from '~shared/api/axios';
 
-import { URLS } from '~entities/Driver/api/urls';
-import { DriverType } from '~entities/Driver/type';
+import { URLS } from '~entities/driver/api/urls';
+import { DriverType } from '~entities/driver/type';
 
 interface IDriversResponse {
     data: DriverType[];
