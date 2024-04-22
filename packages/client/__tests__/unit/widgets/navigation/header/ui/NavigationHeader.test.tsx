@@ -8,5 +8,6 @@ describe('<NavigationHeader />', () => {
         render(<NavigationHeader />);
 
         expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Drivers' })).toBeInTheDocument();
     });
 });

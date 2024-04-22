@@ -1,13 +1,13 @@
 import { Grid } from '@mui/material';
 
-import { DriverType } from '~entities/Driver/type';
-import { DriverListCard } from '~entities/Driver/ui/list-card/DriverListCard';
+import { DriverType } from '~entities/driver/type';
+import { DriverListCard } from '~entities/driver/ui/list-card/DriverListCard';
 
 interface IDriverList {
     drivers: Array<DriverType>;
 }
 
-export async function DriverList({ drivers }: IDriverList) {
+export function DriverList({ drivers }: IDriverList) {
     return (
         <Grid container spacing={2}>
             {drivers?.map((driver) => (

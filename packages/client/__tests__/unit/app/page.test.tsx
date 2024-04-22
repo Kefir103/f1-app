@@ -10,5 +10,6 @@ describe('Home page', () => {
         const { getByText } = render(await RouterMock({ children: await HomePage() }));
 
         expect(getByText('Circuits')).toBeInTheDocument();
+        expect(getByText('Drivers')).toBeInTheDocument();
     });
 });

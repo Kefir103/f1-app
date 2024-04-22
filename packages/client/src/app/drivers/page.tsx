@@ -1,5 +1,5 @@
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
-import { useDriversServer } from '~entities/Driver/api';
+import { useDriversServer } from '~entities/driver/api';
 import { DriverList } from '~widgets/driver-list/ui';
 
 interface IDriversPage {
