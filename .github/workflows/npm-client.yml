@@ -1,15 +1,14 @@
 name: npm-client
 run-name: ${{ github.actor }}'s client's module jobs
 on:
-#  push:
-#    branches:
-#      - master
-#      - develop
-#  pull_request:
-#    branches:
-#      - master
-#      - develop
-  [push, pull_request]
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
 jobs:
   node-client:
     name: Client module jobs with NodeJS runner
