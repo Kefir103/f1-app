@@ -12,17 +12,35 @@ on:
   [push, pull_request]
 jobs:
   npm-install:
+    name: Client npm install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: docker-build-client
-        run: docker build -f ./packages/client/Dockerfile -t f1-app/client --target ci --label f1-app/client .
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: npm ci
-      - run: cd ./packages/client
-      - id: client-unit-tests
+          node-version: '20'
+      - id: npm-install
+        name: Installing dependencies
+        run: npm ci
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Client Docker build
+    steps:
+      - uses: actions/checkout@v4
+      - id: docker-build-client
+        name: Docker build client
+        run: docker build -f ./packages/client/Dockerfile -t f1-app/client --target ci --label f1-app/client .
+  npm-test:
+    name: Client tests runner
+    runs-on: ubuntu-latest
+    needs: npm-install
+    defaults:
+      run:
+        working-directory: ./packages/client
+    steps:
+      - id: npm-test
+        name: Run client unit tests
         run: npm run test
-      - id: client-e2e-tests
+      - id: npm-test-e2e
+        name: Run client e2e tests
         run: npm run test:e2e
