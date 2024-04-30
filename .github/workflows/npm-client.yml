@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: docker-build-client
-        run: docker build -f ../../packages/client/Dockerfile -t f1-app/client --target ci --label f1-app/client ../../
+        run: docker build -f ./packages/client/Dockerfile -t f1-app/client --target ci --label f1-app/client .
       - uses: actions/setup-node@v4
         with:
           node-version: 20
