@@ -19,6 +19,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - id: setup-envs
+        name: Setup environments
+        working-directory: ./packages/client
+        run: |
+          touch .env.local
+          echo NEXT_PUBLIC_URL_BASEPATH=$NEXT_PUBLIC_URL_BASEPATH >> .env.local
+          echo MOCK_SERVER_PORT=$MOCK_SERVER_PORT >> .env.local
+        shell: bash
+        env:
+          NEXT_PUBLIC_URL_BASEPATH: "http://localhost:4000"
+          MOCK_SERVER_PORT: "4000"
       - id: npm-ci
         name: Installing dependencies
         run: npm ci
