@@ -26,6 +26,10 @@ jobs:
         name: Run client unit tests
         working-directory: ./packages/client
         run: npm run test
+      - id: playwright-dependencies
+        name: Install Playwright dependencies
+        working-directory: ./packages/client
+        run: npx playwright install --with-deps
       - id: npm-test-e2e
         name: Run client e2e tests
         working-directory: ./packages/client
