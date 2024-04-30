@@ -1,15 +1,14 @@
 name: npm-server
 run-name: ${{ github.actor }}'s server's module jobs
 on:
-#  push:
-#    branches:
-#      - master
-#      - develop
-#  pull_request:
-#    branches:
-#      - master
-#      - develop
-  [push, pull_request]
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
 jobs:
   node-server:
     name: Server module jobs with NodeJS runner
