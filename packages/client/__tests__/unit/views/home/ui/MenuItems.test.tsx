@@ -15,5 +15,6 @@ describe('<MenuItems />', () => {
 
         expect(screen.getByText('Circuits')).toBeInTheDocument();
         expect(screen.getByText('Drivers')).toBeInTheDocument();
+        expect(screen.getByText('Constructors')).toBeInTheDocument();
     });
 });
