@@ -1,7 +1,7 @@
 'use client';
 
 import { Grid } from '@mui/material';
-import { mdiRacingHelmet, mdiStadiumOutline } from '@mdi/js';
+import { mdiRacingHelmet, mdiStadiumOutline, mdiTools } from '@mdi/js';
 import { useRouter } from 'next/navigation';
 
 import { MenuItem } from '~shared/ui/menu-item/MenuItem';
@@ -19,6 +19,12 @@ const menuItems: Omit<IMenuItem, 'onClick'>[] = [
         title: 'Circuits',
         description: 'List of all circuits',
         link: '/circuits',
+    },
+    {
+        icon: mdiTools,
+        title: 'Constructors',
+        description: 'List of all constructors',
+        link: '/constructors',
     },
 ];
 

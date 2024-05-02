@@ -5,6 +5,7 @@ test('has project entities cards', async ({ page }) => {
 
     await expect(page.getByRole('heading', { name: 'Circuits', exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Drivers', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Constructors', exact: true })).toBeVisible();
 });
 
 test('has header links', async ({ page }) => {
@@ -12,4 +13,5 @@ test('has header links', async ({ page }) => {
 
     await expect(page.getByRole('link', { name: 'Circuits', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Drivers', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Constructors', exact: true })).toBeVisible();
 });
