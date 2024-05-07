@@ -1,3 +1,4 @@
+import * as lodash from 'lodash';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
@@ -44,11 +45,27 @@ describe('SeasonsService', () => {
         const seasonsWithCount = await service.getAll(page, perPage);
 
         const expectedSeasonsWithCount = {
-            data: [SeasonsMock[0]],
+            data: [lodash.orderBy([...SeasonsMock], ['year'], ['desc'])[0]],
             count: SeasonsMock.length,
         };
 
         expect(seasonsWithCount).toEqual(expectedSeasonsWithCount);
+    });
+
+    it('should find with sort by year DESC', async () => {
+        const seasonsMock = SeasonsMock;
+
+        const page = 1;
+        const perPage = seasonsMock.length;
+
+        const sortedSeasons = await service.getAll(page, perPage);
+
+        const expectedSeasons = {
+            data: lodash.orderBy([...seasonsMock], ['year'], ['desc']),
+            count: seasonsMock.length,
+        };
+
+        expect(sortedSeasons).toEqual(expectedSeasons);
     });
 
     it('should find one by year', async () => {

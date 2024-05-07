@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as lodash from 'lodash';
 
 import { TestDbConnection } from '~test-utils/db/DbConnection';
 
@@ -31,10 +32,13 @@ describe('Season e2e', () => {
     });
 
     it('/season (GET)', () => {
-        return request(app.getHttpServer()).get('/season').expect(200).expect({
-            data: SeasonsMock,
-            count: SeasonsMock.length,
-        });
+        return request(app.getHttpServer())
+            .get('/season')
+            .expect(200)
+            .expect({
+                data: lodash.orderBy([...SeasonsMock], ['year'], ['desc']),
+                count: SeasonsMock.length,
+            });
     });
 
     it('/season with pagination (GET)', () => {
@@ -42,7 +46,10 @@ describe('Season e2e', () => {
             .get('/season')
             .query({ page: 1, perPage: 1 })
             .expect(200)
-            .expect({ data: [SeasonsMock[0]], count: SeasonsMock.length });
+            .expect({
+                data: [lodash.orderBy([...SeasonsMock], ['year'], ['desc'])[0]],
+                count: SeasonsMock.length,
+            });
     });
 
     it('/season/:year (GET, 200)', () => {
