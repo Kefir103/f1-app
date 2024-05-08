@@ -1,7 +1,7 @@
 'use client';
 
 import { Grid } from '@mui/material';
-import { mdiRacingHelmet, mdiStadiumOutline, mdiTools } from '@mdi/js';
+import { mdiRacingHelmet, mdiStadiumOutline, mdiTools, mdiCalendarMultiple } from '@mdi/js';
 import { useRouter } from 'next/navigation';
 
 import { MenuItem } from '~shared/ui/menu-item/MenuItem';
@@ -25,6 +25,12 @@ const menuItems: Omit<IMenuItem, 'onClick'>[] = [
         title: 'Constructors',
         description: 'List of all constructors',
         link: '/constructors',
+    },
+    {
+        icon: mdiCalendarMultiple,
+        title: 'Seasons',
+        description: 'List of all seasons',
+        link: '/seasons',
     },
 ];
 

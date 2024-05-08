@@ -22,6 +22,10 @@ const HeaderItems: IHeaderItems[] = [
         title: 'Constructors',
         link: '/constructors',
     },
+    {
+        title: 'Seasons',
+        link: '/seasons',
+    },
 ];
 
 export function NavigationHeader() {
