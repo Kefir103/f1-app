@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as moment from 'moment';
+import * as lodash from 'lodash';
 
 import { TestDbConnection } from '~test-utils/db/DbConnection';
 
@@ -53,7 +54,7 @@ describe('Race e2e', () => {
             .get('/race')
             .expect(200)
             .expect({
-                data: RacesMock.map(formatRaceResponse),
+                data: lodash.orderBy(RacesMock.map(formatRaceResponse), ['year'], ['desc']),
                 count: RacesMock.length,
             });
     });
@@ -63,7 +64,10 @@ describe('Race e2e', () => {
             .get('/race')
             .query({ page: 1, perPage: 1 })
             .expect(200)
-            .expect({ data: [RacesMock[0]].map(formatRaceResponse), count: RacesMock.length });
+            .expect({
+                data: [lodash.orderBy(RacesMock.map(formatRaceResponse), ['year'], ['desc'])[0]],
+                count: RacesMock.length,
+            });
     });
 
     it('/race/:id (GET, 200)', () => {

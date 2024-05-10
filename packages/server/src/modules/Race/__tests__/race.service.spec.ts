@@ -1,5 +1,6 @@
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as lodash from 'lodash';
 
 import { Race } from '~entities/Race/Race.entity';
 import { RaceService } from '~modules/Race/race.service';
@@ -44,7 +45,7 @@ describe('RaceService', () => {
         const races = await service.getAll(page, perPage);
 
         const expectedRaces = {
-            data: RacesMock,
+            data: lodash.orderBy(RacesMock, ['year'], ['desc']),
             count: RacesMock.length,
         };
 

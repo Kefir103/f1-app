@@ -12,6 +12,9 @@ export class RaceService {
         const races = await this.raceRepository.find({
             skip: (page - 1) * perPage,
             take: perPage,
+            order: {
+                year: 'DESC',
+            },
         });
 
         const count = await this.getCount();

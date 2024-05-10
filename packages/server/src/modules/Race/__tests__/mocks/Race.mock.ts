@@ -5,7 +5,7 @@ import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 export const RacesMock: RaceType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     circuit_id: 1,
-    year: 1,
+    year: index + 1,
     round: 1,
     name: `name_${index + 1}`,
     date: new Date(),
