@@ -54,7 +54,11 @@ describe('Race e2e', () => {
             .get('/race')
             .expect(200)
             .expect({
-                data: lodash.orderBy(RacesMock.map(formatRaceResponse), ['year'], ['desc']),
+                data: lodash.orderBy(
+                    RacesMock.map(formatRaceResponse),
+                    ['year', 'round'],
+                    ['desc', 'desc'],
+                ),
                 count: RacesMock.length,
             });
     });
@@ -65,7 +69,13 @@ describe('Race e2e', () => {
             .query({ page: 1, perPage: 1 })
             .expect(200)
             .expect({
-                data: [lodash.orderBy(RacesMock.map(formatRaceResponse), ['year'], ['desc'])[0]],
+                data: [
+                    lodash.orderBy(
+                        RacesMock.map(formatRaceResponse),
+                        ['year', 'round'],
+                        ['desc', 'desc'],
+                    )[0],
+                ],
                 count: RacesMock.length,
             });
     });

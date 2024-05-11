@@ -14,6 +14,7 @@ export class RaceService {
             take: perPage,
             order: {
                 year: 'DESC',
+                round: 'DESC',
             },
         });
 

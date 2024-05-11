@@ -45,7 +45,7 @@ describe('RaceService', () => {
         const races = await service.getAll(page, perPage);
 
         const expectedRaces = {
-            data: lodash.orderBy(RacesMock, ['year'], ['desc']),
+            data: lodash.orderBy(RacesMock, ['year', 'round'], ['desc', 'desc']),
             count: RacesMock.length,
         };
 
