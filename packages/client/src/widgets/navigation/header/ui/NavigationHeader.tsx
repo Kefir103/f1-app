@@ -26,6 +26,10 @@ const HeaderItems: IHeaderItems[] = [
         title: 'Seasons',
         link: '/seasons',
     },
+    {
+        title: 'Races',
+        link: '/races',
+    },
 ];
 
 export function NavigationHeader() {
