@@ -9,9 +9,11 @@ import { TestDbConnection } from '~test-utils/db/DbConnection';
 import { RaceModule } from '~modules/Race/race.module';
 import { Race } from '~entities/Race/Race.entity';
 
+import { Circuit } from '~entities/Circuit/Circuit.entity';
+
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
-import { RacesMock } from '~modules/Race/__tests__/mocks/Race.mock';
+import { RacesMock, RacesCircuitsMock } from '~modules/Race/__tests__/mocks/Race.mock';
 
 function formatRaceResponse(race: RaceType) {
     return {
@@ -38,6 +40,10 @@ describe('Race e2e', () => {
                 RaceModule,
                 ...TestDbConnection([
                     {
+                        entitySchema: Circuit,
+                        data: RacesCircuitsMock,
+                    },
+                    {
                         entitySchema: Race,
                         data: RacesMock,
                     },
@@ -55,7 +61,12 @@ describe('Race e2e', () => {
             .expect(200)
             .expect({
                 data: lodash.orderBy(
-                    RacesMock.map(formatRaceResponse),
+                    RacesMock.map(formatRaceResponse).map((race) => ({
+                        ...race,
+                        circuit: RacesCircuitsMock.find(
+                            (circuit) => circuit.id === race.circuit_id,
+                        ),
+                    })),
                     ['year', 'round'],
                     ['desc', 'desc'],
                 ),
@@ -71,7 +82,12 @@ describe('Race e2e', () => {
             .expect({
                 data: [
                     lodash.orderBy(
-                        RacesMock.map(formatRaceResponse),
+                        RacesMock.map(formatRaceResponse).map((race) => ({
+                            ...race,
+                            circuit: RacesCircuitsMock.find(
+                                (circuit) => circuit.id === race.circuit_id,
+                            ),
+                        })),
                         ['year', 'round'],
                         ['desc', 'desc'],
                     )[0],
@@ -86,7 +102,12 @@ describe('Race e2e', () => {
         return request(app.getHttpServer())
             .get(`/race/${entity.id}`)
             .expect(200)
-            .expect(formatRaceResponse(entity));
+            .expect(
+                formatRaceResponse({
+                    ...entity,
+                    circuit: RacesCircuitsMock.find((circuit) => circuit.id === entity.circuit_id),
+                }),
+            );
     });
 
     it('/race/:not-existed-id (GET, 404)', () => {

@@ -16,6 +16,9 @@ export class RaceService {
                 year: 'DESC',
                 round: 'DESC',
             },
+            relations: {
+                circuit: true,
+            },
         });
 
         const count = await this.getCount();
@@ -27,8 +30,13 @@ export class RaceService {
     }
 
     public async getOne(id: number) {
-        return await this.raceRepository.findOneBy({
-            id: id,
+        return await this.raceRepository.findOne({
+            where: {
+                id: id,
+            },
+            relations: {
+                circuit: true,
+            },
         });
     }
 

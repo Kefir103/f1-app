@@ -5,18 +5,26 @@ import * as lodash from 'lodash';
 import { Race } from '~entities/Race/Race.entity';
 import { RaceService } from '~modules/Race/race.service';
 
-import { RacesMock } from '~modules/Race/__tests__/mocks/Race.mock';
+import { RacesCircuitsMock, RacesMock } from '~modules/Race/__tests__/mocks/Race.mock';
 
 import { UnitMockRepository } from '~test-utils/unit/mock-repository/UnitMockRepository';
 
 describe('RaceService', () => {
     let service: RaceService;
 
-    const raceUnitMockRepository = UnitMockRepository(RacesMock);
+    const raceUnitMockRepository = UnitMockRepository(RacesMock, [
+        {
+            name: 'circuit',
+            key: 'circuit_id',
+            foreign_key: 'id',
+            multiple: false,
+            entities: RacesCircuitsMock,
+        },
+    ]);
 
     const mockRepository = {
         find: jest.fn().mockImplementation(raceUnitMockRepository.find),
-        findOneBy: jest.fn().mockImplementation(raceUnitMockRepository.findOneBy),
+        findOne: jest.fn().mockImplementation(raceUnitMockRepository.findOne),
         count: jest.fn().mockReturnValue(raceUnitMockRepository.count),
     };
 
@@ -45,7 +53,14 @@ describe('RaceService', () => {
         const races = await service.getAll(page, perPage);
 
         const expectedRaces = {
-            data: lodash.orderBy(RacesMock, ['year', 'round'], ['desc', 'desc']),
+            data: lodash.orderBy(
+                RacesMock.map((race) => ({
+                    ...race,
+                    circuit: RacesCircuitsMock.find((circuit) => race.circuit_id === circuit.id),
+                })),
+                ['year', 'round'],
+                ['desc', 'desc'],
+            ),
             count: RacesMock.length,
         };
 
@@ -53,7 +68,10 @@ describe('RaceService', () => {
     });
 
     it('should return race by id', async () => {
-        const raceMock = RacesMock[0];
+        const raceMock = {
+            ...RacesMock[0],
+            circuit: RacesCircuitsMock.find((circuit) => circuit.id === RacesMock[0].circuit_id),
+        };
 
         const race = await service.getOne(raceMock.id);
 
