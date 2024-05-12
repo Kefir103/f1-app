@@ -13,6 +13,9 @@ export class DriverService {
         const drivers = await this.driverRepository.find({
             skip: (page - 1) * perPage,
             take: perPage,
+            relations: {
+                constructor_entity: true,
+            },
         });
 
         const count = await this.getCount();
@@ -24,7 +27,14 @@ export class DriverService {
     }
 
     public async getOne(ref: string) {
-        return await this.driverRepository.findOneBy({ ref: ref });
+        return await this.driverRepository.findOne({
+            where: {
+                ref: ref,
+            },
+            relations: {
+                constructor_entity: true,
+            },
+        });
     }
 
     public async getCount() {
