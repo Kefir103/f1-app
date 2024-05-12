@@ -25,6 +25,16 @@ export function DriverListCard({ driver }: IDriverListCard) {
                     }
                 />
                 <Typography>
+                    Team:{' '}
+                    <NextLink
+                        className={'link'}
+                        href={`/constructors/${driver.constructor_entity.ref}`}
+                        title={`Team: ${driver.constructor_entity.name}`}
+                    >
+                        {driver.constructor_entity.name}
+                    </NextLink>
+                </Typography>
+                <Typography>
                     Date of birth: {moment(driver.date_of_birth).format('DD.MM.YYYY')} (age{' '}
                     {moment(Date.now()).diff(driver.date_of_birth, 'years')})
                 </Typography>

@@ -3,6 +3,7 @@ import { test } from '~tests-utils/e2e/server/MockApiTest';
 import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
 import { URLS } from '~entities/driver/api/urls';
+import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
@@ -68,4 +69,36 @@ test("should go to driver page after driver's name click", async ({ page, server
         .click();
 
     await expect(page).toHaveURL(`/drivers/${driver.ref}`);
+});
+
+test("should go to constructor page after constructor's name click", async ({ page, server }) => {
+    const driver = DriversMock[0];
+    const constructor = driver.constructor_entity;
+
+    await setupServer(
+        server,
+        {
+            url: URLS.index,
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send({
+                    data: [driver],
+                    count: DriversMock.length,
+                });
+            },
+        },
+        {
+            url: CONSTRUCTOR_URLS.ref(constructor.ref),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(constructor);
+            },
+        },
+    );
+
+    await page.goto('/drivers');
+
+    await page.getByTitle(`Team: ${constructor.name}`).click();
+
+    await expect(page).toHaveURL(`/constructors/${constructor.ref}`);
 });
