@@ -1,6 +1,9 @@
+import { CircuitType } from '../Circuit/Circuit.type';
+
 export interface RaceType {
     id: number;
     circuit_id: number;
+    circuit: CircuitType;
     year: number;
     round: number;
     name: string;

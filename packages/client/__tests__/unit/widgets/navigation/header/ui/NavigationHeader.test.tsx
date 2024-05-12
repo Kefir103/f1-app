@@ -11,5 +11,6 @@ describe('<NavigationHeader />', () => {
         expect(screen.getByRole('link', { name: 'Drivers' })).toBeInTheDocument();
         expect(screen.getByRole('link', { name: 'Constructors' })).toBeInTheDocument();
         expect(screen.getByRole('link', { name: 'Seasons' })).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Races' })).toBeInTheDocument();
     });
 });
