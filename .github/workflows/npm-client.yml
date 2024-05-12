@@ -1,0 +1,58 @@
+name: npm-client
+run-name: ${{ github.actor }}'s client's module jobs
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+jobs:
+  node-client:
+    name: Client module jobs with NodeJS runner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - id: setup-envs
+        name: Setup environments
+        working-directory: ./packages/client
+        run: |
+          touch .env.local
+          echo NEXT_PUBLIC_URL_BASEPATH=$NEXT_PUBLIC_URL_BASEPATH >> .env.local
+          echo MOCK_SERVER_PORT=$MOCK_SERVER_PORT >> .env.local
+        shell: bash
+        env:
+          NEXT_PUBLIC_URL_BASEPATH: "http://localhost:4000"
+          MOCK_SERVER_PORT: "4000"
+      - id: npm-ci
+        name: Installing dependencies
+        run: npm ci
+      - id: npm-test
+        name: Run client unit tests
+        working-directory: ./packages/client
+        run: npm run test
+      - id: playwright-dependencies
+        name: Install Playwright dependencies
+        working-directory: ./packages/client
+        run: npx playwright install --with-deps
+      - id: npm-test-e2e
+        name: Run client e2e tests
+        working-directory: ./packages/client
+        run: npm run test:e2e
+      - id: npm-build
+        name: Build client module
+        working-directory: ./packages/client
+        run: npm run build
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Client Docker build
+    steps:
+      - uses: actions/checkout@v4
+      - id: docker-build-client
+        name: Docker build client
+        run: docker build -f ./packages/client/Dockerfile -t f1-app/client --target ci --label f1-app/client .

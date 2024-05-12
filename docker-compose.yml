@@ -1,5 +1,43 @@
 version: "3.9"
 services:
+  client:
+    container_name: "f1-app-client"
+    env_file:
+      - ./packages/client/.env
+      - ./packages/client/.env.local
+    build:
+      context: .
+      dockerfile: ./packages/client/Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    volumes:
+      - ./packages/client:/app/packages/client
+      - ./packages/shared:/app/packages/shared
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+  server:
+    container_name: "f1-app-server"
+    env_file:
+      - ./packages/server/.env
+      - ./packages/server/.env.local
+    depends_on:
+      - postgresql
+    build:
+      context: .
+      dockerfile: ./packages/server/Dockerfile
+      target: dev
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./packages/server:/app/packages/server
+      - ./packages/shared:/app/packages/shared
+    links:
+      - postgresql
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/circuit?page=1&perPage=1"]
   postgresql:
     image: postgres:16.2-alpine3.19
     container_name: "f1-app-postgresql"

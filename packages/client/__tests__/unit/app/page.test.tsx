@@ -11,5 +11,8 @@ describe('Home page', () => {
 
         expect(getByText('Circuits')).toBeInTheDocument();
         expect(getByText('Drivers')).toBeInTheDocument();
+        expect(getByText('Constructors')).toBeInTheDocument();
+        expect(getByText('Seasons')).toBeInTheDocument();
+        expect(getByText('Races')).toBeInTheDocument();
     });
 });

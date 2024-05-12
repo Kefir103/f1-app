@@ -1,0 +1,39 @@
+name: npm-server
+run-name: ${{ github.actor }}'s server's module jobs
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+jobs:
+  node-server:
+    name: Server module jobs with NodeJS runner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - id: npm-ci
+        name: Installing dependencies
+        run: npm ci
+      - id: npm-test
+        name: Run server unit tests
+        working-directory: ./packages/server
+        run: npm run test:cov
+      - id: npm-test-e2e
+        name: Run server e2e tests
+        working-directory: ./packages/server
+        run: npm run test:e2e
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Server Docker build
+    steps:
+      - uses: actions/checkout@v4
+      - id: docker-build-server
+        name: Docker build server
+        run: docker build -f ./packages/server/Dockerfile -t f1-app/server --target ci --label f1-app/server .
