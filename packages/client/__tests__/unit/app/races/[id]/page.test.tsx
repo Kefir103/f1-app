@@ -28,6 +28,11 @@ describe('<RacePage />', () => {
 
         expect(getByRole('heading', { name: raceMock.name })).toBeInTheDocument();
 
+        const circuit = getByTitle(`Circuit: ${raceMock.circuit.name}`);
+
+        expect(circuit).toBeInTheDocument();
+        expect(circuit).toHaveAttribute('href', `/circuits/${raceMock.circuit.ref}`);
+
         const season = getByTitle(`Season: ${raceMock.year}`);
 
         expect(season).toBeInTheDocument();

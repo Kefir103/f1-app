@@ -19,6 +19,16 @@ export default async function RacePage({ params }: IRacePage) {
                 {race.name}
             </Typography>
             <Typography className={'mb-2'}>
+                Circuit:{' '}
+                <NextLink
+                    className={'link'}
+                    href={`/circuits/${race.circuit.ref}`}
+                    title={`Circuit: ${race.circuit.name}`}
+                >
+                    {race.circuit.name}
+                </NextLink>
+            </Typography>
+            <Typography className={'mb-2'}>
                 Season:{' '}
                 <NextLink
                     className={'link'}

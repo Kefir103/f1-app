@@ -17,6 +17,11 @@ describe('<RaceListCard />', () => {
         expect(raceName).toBeInTheDocument();
         expect(raceName).toHaveAttribute('href', `/races/${raceMock.id}`);
 
+        const circuit = getByTitle(`Circuit: ${raceMock.circuit.name}`);
+
+        expect(circuit).toBeInTheDocument();
+        expect(circuit).toHaveAttribute('href', `/circuits/${raceMock.circuit.ref}`);
+
         const season = getByTitle(`Year: ${raceMock.year}`);
 
         expect(season).toBeInTheDocument();

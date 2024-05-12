@@ -6,6 +6,7 @@ import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifySer
 
 import { RACE_URLS } from '~entities/race/api';
 import { SEASON_URLS } from '~entities/season/api';
+import { CIRCUITS_URLS } from '~entities/circuit/api';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
@@ -28,6 +29,11 @@ test('render race page', async ({ page, server }) => {
     await page.goto(`/races/${raceMock.id}`);
 
     await expect(page.getByRole('heading', { name: raceMock.name })).toBeVisible();
+
+    const circuit = page.getByTitle(`Circuit: ${raceMock.circuit.name}`);
+
+    await expect(circuit).toBeVisible();
+    await expect(circuit).toHaveAttribute('href', `/circuits/${raceMock.circuit.ref}`);
 
     const season = page.getByTitle(`Season: ${raceMock.year}`);
 
@@ -88,4 +94,33 @@ test('should go to season page after year click', async ({ page, server }) => {
     await page.getByTitle(`Season: ${raceMock.year}`).click();
 
     await expect(page).toHaveURL(`/seasons/${raceMock.year}`);
+});
+
+test("should go to circuit page after circuit's name click", async ({ page, server }) => {
+    const raceMock = RacesMock[0];
+    const circuitMock = raceMock.circuit;
+
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
+        },
+        {
+            url: CIRCUITS_URLS.ref(circuitMock.ref),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(circuitMock);
+            },
+        },
+    );
+
+    await page.goto(`/races/${raceMock.id}`);
+
+    await page.getByTitle(`Circuit: ${circuitMock.name}`).click();
+
+    await expect(page).toHaveURL(`/circuits/${circuitMock.ref}`);
 });

@@ -20,6 +20,16 @@ export function RaceListCard({ race }: IRaceListCard) {
                     }
                 />
                 <Typography>
+                    Circuit:{' '}
+                    <NextLink
+                        className={'link'}
+                        href={`/circuits/${race.circuit.ref}`}
+                        title={`Circuit: ${race.circuit.name}`}
+                    >
+                        {race.circuit.name}
+                    </NextLink>
+                </Typography>
+                <Typography>
                     Year:{' '}
                     <NextLink
                         className={'link'}

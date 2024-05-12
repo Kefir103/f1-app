@@ -5,6 +5,7 @@ import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifySer
 
 import { RACE_URLS } from '~entities/race/api';
 import { SEASON_URLS } from '~entities/season/api';
+import { CIRCUITS_URLS } from '~entities/circuit/api';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
@@ -91,4 +92,35 @@ test('should go to season page after year click', async ({ page, server }) => {
     await page.getByTitle(`Year: ${RacesMock[0].year}`).click();
 
     await expect(page).toHaveURL(`/seasons/${RacesMock[0].year}`);
+});
+
+test("should go to circuit page after circuit's name click", async ({ page, server }) => {
+    const circuitMock = RacesMock[0].circuit;
+
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.index,
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send({
+                    data: RacesMock,
+                    count: RacesMock.length,
+                });
+            },
+        },
+        {
+            url: CIRCUITS_URLS.ref(circuitMock.ref),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(circuitMock);
+            },
+        },
+    );
+
+    await page.goto('/races');
+
+    await page.getByTitle(`Circuit: ${circuitMock.name}`).click();
+
+    await expect(page).toHaveURL(`/circuits/${circuitMock.ref}`);
 });
