@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { Typography } from '@mui/material';
 import moment from 'moment';
 
@@ -20,6 +21,16 @@ export default async function DriverPage({ params }: IDriverPage) {
             <a className={'link'} href={driver.wiki_url} target={'_blank'}>
                 Wiki
             </a>
+            <Typography className={'my-2'}>
+                Team:{' '}
+                <NextLink
+                    className={'link'}
+                    href={`/constructors/${driver.constructor_entity.ref}`}
+                    title={`Team: ${driver.constructor_entity.name}`}
+                >
+                    {driver.constructor_entity.name}
+                </NextLink>
+            </Typography>
             <Typography className={'my-2'}>
                 Date of birth: {moment(driver.date_of_birth).format('DD.MM.YYYY')}
             </Typography>

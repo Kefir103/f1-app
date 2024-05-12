@@ -12,11 +12,13 @@ import { DriverModule } from '~modules/Driver/driver.module';
 import { Driver } from '~entities/Driver/Driver.entity';
 import { Result } from '~entities/Result/Result.entity';
 import { Qualifying } from '~entities/Qualifying/Qualifying.entity';
+import { Constructor } from '~entities/Constructor/Constructor.entity';
 
 import {
     DriverMocks,
     DriverQualifyingMock,
     DriverResultsMock,
+    DriverConstructorMock,
 } from '~modules/Driver/__tests__/mocks/Driver.mock';
 
 function formatDriverResponse(driver: DriverType) {
@@ -46,6 +48,10 @@ describe('Driver e2e', () => {
                         entitySchema: Qualifying,
                         data: DriverQualifyingMock,
                     },
+                    {
+                        entitySchema: Constructor,
+                        data: DriverConstructorMock,
+                    },
                 ]),
             ],
         }).compile();
@@ -59,7 +65,12 @@ describe('Driver e2e', () => {
             .get('/driver')
             .expect(200)
             .expect({
-                data: DriverMocks.map(formatDriverResponse),
+                data: DriverMocks.map(formatDriverResponse).map((driver) => ({
+                    ...driver,
+                    constructor_entity: DriverConstructorMock.find(
+                        (constructor) => constructor.id === driver.constructor_id,
+                    ),
+                })),
                 count: DriverMocks.length,
             });
     });
@@ -69,11 +80,26 @@ describe('Driver e2e', () => {
             .get('/driver')
             .query({ page: 1, perPage: 1 })
             .expect(200)
-            .expect({ data: [formatDriverResponse(DriverMocks[0])], count: DriverMocks.length });
+            .expect({
+                data: [
+                    formatDriverResponse({
+                        ...DriverMocks[0],
+                        constructor_entity: DriverConstructorMock.find(
+                            (constructor) => constructor.id === DriverMocks[0].constructor_id,
+                        ),
+                    }),
+                ],
+                count: DriverMocks.length,
+            });
     });
 
     it('/driver/:ref (GET, 200)', () => {
-        const entity = formatDriverResponse(DriverMocks[0]);
+        const entity = formatDriverResponse({
+            ...DriverMocks[0],
+            constructor_entity: DriverConstructorMock.find(
+                (constructor) => constructor.id === DriverMocks[0].constructor_id,
+            ),
+        });
 
         return request(app.getHttpServer()).get(`/driver/${entity.ref}`).expect(200).expect(entity);
     });
