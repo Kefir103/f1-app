@@ -1,3 +1,4 @@
+import { Breadcrumbs, IBreadcrumbItem } from '~shared/ui/breadcrumbs';
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
 
 import { useSeasonsServer } from '~entities/season/api';
@@ -17,8 +18,20 @@ export default async function SeasonsPage({ searchParams }: ISeasonsPage) {
         perPage: Number(searchParams.perPage || 12),
     });
 
+    const breadcrumbsItems: IBreadcrumbItem[] = [
+        {
+            path: '',
+            label: 'Home',
+        },
+        {
+            path: 'seasons',
+            label: 'Seasons',
+        },
+    ];
+
     return (
         <>
+            <Breadcrumbs items={breadcrumbsItems} />
             <SeasonList seasons={data} />
             <PaginationSearchParams totalCount={count} />
         </>

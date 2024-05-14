@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <AppRouterCacheProvider options={{ enableCssLayer: true }}>
                     <Providers>
                         <NavigationHeader />
-                        <section className={'mt-20'}>{children}</section>
+                        <section className={'mt-16'}>{children}</section>
                     </Providers>
                 </AppRouterCacheProvider>
             </body>

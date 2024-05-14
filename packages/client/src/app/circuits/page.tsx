@@ -1,3 +1,4 @@
+import { Breadcrumbs, IBreadcrumbItem } from '~shared/ui/breadcrumbs';
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
 
 import { useCircuitsServer } from '~entities/circuit/api/useCircuitsServer';
@@ -17,8 +18,20 @@ export default async function CircuitsPage({ searchParams }: ICircuitsPage) {
         perPage: Number(searchParams.perPage) || 12,
     });
 
+    const breadcrumbsItems: IBreadcrumbItem[] = [
+        {
+            path: '',
+            label: 'Home',
+        },
+        {
+            path: 'circuits',
+            label: 'Circuits',
+        },
+    ];
+
     return (
         <>
+            <Breadcrumbs items={breadcrumbsItems} />
             <CircuitList circuits={data} />
             <PaginationSearchParams totalCount={count} />
         </>

@@ -1,3 +1,4 @@
+import { Breadcrumbs, IBreadcrumbItem } from '~shared/ui/breadcrumbs';
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
 
 import { useRacesServer } from '~entities/race/api';
@@ -17,8 +18,20 @@ export default async function RacesPage({ searchParams }: IRacesPage) {
         perPage: Number(searchParams.perPage) || 12,
     });
 
+    const breadcrumbsItems: IBreadcrumbItem[] = [
+        {
+            path: '',
+            label: 'Home',
+        },
+        {
+            path: 'races',
+            label: 'Races',
+        },
+    ];
+
     return (
         <>
+            <Breadcrumbs items={breadcrumbsItems} />
             <RaceList races={data} />
             <PaginationSearchParams totalCount={count} />
         </>

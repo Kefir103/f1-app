@@ -2,6 +2,8 @@ import NextLink from 'next/link';
 import { Typography } from '@mui/material';
 import moment from 'moment';
 
+import { Breadcrumbs, IBreadcrumbItem } from '~shared/ui/breadcrumbs';
+
 import { useDriverServer } from '~entities/driver/api/useDriverServer';
 
 interface IDriverPage {
@@ -13,8 +15,24 @@ interface IDriverPage {
 export default async function DriverPage({ params }: IDriverPage) {
     const { driver } = await useDriverServer(params.ref);
 
+    const breadcrumbsItems: IBreadcrumbItem[] = [
+        {
+            path: '',
+            label: 'Home',
+        },
+        {
+            path: 'drivers',
+            label: 'Drivers',
+        },
+        {
+            path: driver.ref,
+            label: `${driver.first_name} ${driver.last_name}`,
+        },
+    ];
+
     return (
         <>
+            <Breadcrumbs items={breadcrumbsItems} />
             <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
                 {driver.first_name} {driver.last_name} {driver.code ? `(${driver.code})` : ''}
             </Typography>

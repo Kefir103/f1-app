@@ -1,4 +1,6 @@
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
+import { Breadcrumbs, IBreadcrumbItem } from '~shared/ui/breadcrumbs';
+
 import { useDriversServer } from '~entities/driver/api';
 import { DriverList } from '~widgets/driver-list/ui';
 
@@ -15,8 +17,20 @@ export default async function DriversPage({ searchParams }: IDriversPage) {
         perPage: Number(searchParams.perPage) || 12,
     });
 
+    const breadcrumbsItems: IBreadcrumbItem[] = [
+        {
+            path: '',
+            label: 'Home',
+        },
+        {
+            path: 'drivers',
+            label: 'Drivers',
+        },
+    ];
+
     return (
         <>
+            <Breadcrumbs items={breadcrumbsItems} />
             <DriverList drivers={data} />
             <PaginationSearchParams totalCount={count} />
         </>

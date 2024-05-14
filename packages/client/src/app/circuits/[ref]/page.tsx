@@ -1,5 +1,7 @@
 import { Typography } from '@mui/material';
 
+import { IBreadcrumbItem, Breadcrumbs } from '~shared/ui/breadcrumbs';
+
 import { useCircuitServer } from '~entities/circuit/api';
 
 interface ICircuitPage {
@@ -11,8 +13,24 @@ interface ICircuitPage {
 export default async function CircuitPage({ params }: ICircuitPage) {
     const { circuit } = await useCircuitServer(params.ref);
 
+    const breadcrumbsItems: IBreadcrumbItem[] = [
+        {
+            path: '',
+            label: 'Home',
+        },
+        {
+            path: 'circuits',
+            label: 'Circuits',
+        },
+        {
+            path: circuit.ref,
+            label: circuit.name,
+        },
+    ];
+
     return (
         <>
+            <Breadcrumbs items={breadcrumbsItems} />
             <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
                 {circuit.name}
             </Typography>
