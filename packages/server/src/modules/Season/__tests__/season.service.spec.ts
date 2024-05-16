@@ -17,7 +17,7 @@ describe('SeasonsService', () => {
     const mockRepository = {
         find: jest.fn().mockImplementation(seasonUnitMockRepository.find),
         findOneBy: jest.fn().mockImplementation(seasonUnitMockRepository.findOneBy),
-        count: jest.fn().mockReturnValue(seasonUnitMockRepository.count),
+        count: jest.fn().mockImplementation(seasonUnitMockRepository.count),
     };
 
     beforeEach(async () => {

@@ -16,7 +16,7 @@ describe('ConstructorsService', () => {
     const mockRepository = {
         find: jest.fn().mockImplementation(constructorUnitMockRepository.find),
         findOneBy: jest.fn().mockImplementation(constructorUnitMockRepository.findOneBy),
-        count: jest.fn().mockReturnValue(constructorUnitMockRepository.count),
+        count: jest.fn().mockImplementation(constructorUnitMockRepository.count),
     };
 
     beforeEach(async () => {

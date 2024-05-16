@@ -1,4 +1,5 @@
 import { CircuitType } from '../Circuit/Circuit.type';
+import { ResultType } from '../Result/Result.type';
 
 export interface RaceType {
     id: number;
@@ -10,6 +11,7 @@ export interface RaceType {
     date: Date;
     start_time: string;
     wiki_url: string;
+    results?: ResultType[];
     fp1_date: Date;
     fp1_time: string;
     fp2_date: Date;

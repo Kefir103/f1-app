@@ -15,7 +15,7 @@ describe('DriverService', () => {
     const mockRepository = {
         find: jest.fn().mockImplementation(driverUnitMockRepository.find),
         findOneBy: jest.fn().mockImplementation(driverUnitMockRepository.findOneBy),
-        count: jest.fn().mockReturnValue(driverUnitMockRepository.count),
+        count: jest.fn().mockImplementation(driverUnitMockRepository.count),
     };
 
     beforeEach(async () => {

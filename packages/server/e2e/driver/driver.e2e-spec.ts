@@ -12,10 +12,14 @@ import { DriverModule } from '~modules/Driver/driver.module';
 import { Driver } from '~entities/Driver/Driver.entity';
 import { Result } from '~entities/Result/Result.entity';
 import { Qualifying } from '~entities/Qualifying/Qualifying.entity';
+import { Race } from '~entities/Race/Race.entity';
+import { Circuit } from '~entities/Circuit/Circuit.entity';
 
 import {
+    DriverCircuitsMock,
     DriverMocks,
     DriverQualifyingMock,
+    DriverRacesMock,
     DriverResultsMock,
 } from '~modules/Driver/__tests__/mocks/Driver.mock';
 
@@ -45,6 +49,14 @@ describe('Driver e2e', () => {
                     {
                         entitySchema: Qualifying,
                         data: DriverQualifyingMock,
+                    },
+                    {
+                        entitySchema: Race,
+                        data: DriverRacesMock,
+                    },
+                    {
+                        entitySchema: Circuit,
+                        data: DriverCircuitsMock,
                     },
                 ]),
             ],

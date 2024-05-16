@@ -3,13 +3,18 @@ import { NotFoundException } from '@nestjs/common';
 
 import { RaceController } from '~modules/Race/race.controller';
 import { RaceService } from '~modules/Race/race.service';
+import { ResultsService } from '~modules/Results/results.service';
 
 describe('RaceController', () => {
     let controller: RaceController;
 
-    let mockService = {
+    let mockRaceService = {
         getAll: jest.fn(),
         getOne: jest.fn().mockReturnValue({}),
+    };
+
+    let mockResultsService = {
+        getAll: jest.fn(),
     };
 
     beforeEach(async () => {
@@ -18,7 +23,11 @@ describe('RaceController', () => {
             providers: [
                 {
                     provide: RaceService,
-                    useValue: mockService,
+                    useValue: mockRaceService,
+                },
+                {
+                    provide: ResultsService,
+                    useValue: mockResultsService,
                 },
             ],
         }).compile();
@@ -36,7 +45,7 @@ describe('RaceController', () => {
 
         await controller.getAll({ page, perPage });
 
-        expect(mockService.getAll).toHaveBeenCalledWith(page, perPage);
+        expect(mockRaceService.getAll).toHaveBeenCalledWith(page, perPage);
     });
 
     it('should call service with default pagination', async () => {
@@ -45,7 +54,7 @@ describe('RaceController', () => {
 
         await controller.getAll({});
 
-        expect(mockService.getAll).toHaveBeenCalledWith(pageDefault, perPageDefault);
+        expect(mockRaceService.getAll).toHaveBeenCalledWith(pageDefault, perPageDefault);
     });
 
     it('should call service getOne with id', async () => {
@@ -53,16 +62,24 @@ describe('RaceController', () => {
 
         await controller.getOne(id);
 
-        expect(mockService.getOne).toHaveBeenCalledWith(id);
+        expect(mockRaceService.getOne).toHaveBeenCalledWith(id);
     });
 
     it('should return NotFoundException if race is falsy', async () => {
-        mockService.getOne.mockReturnValueOnce(null);
+        mockRaceService.getOne.mockReturnValueOnce(null);
 
         const id = -1;
 
         await expect(async () => {
             await controller.getOne(id);
         }).rejects.toThrow(NotFoundException);
+    });
+
+    it('should call results service with race_id', async () => {
+        const id = 1;
+
+        await controller.getResults(id);
+
+        expect(mockResultsService.getAll).toHaveBeenCalledWith({ where: { race_id: id } });
     });
 });
