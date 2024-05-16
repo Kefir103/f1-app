@@ -2,6 +2,10 @@ import NextLink from 'next/link';
 import moment from 'moment';
 import { Typography, Link } from '@mui/material';
 
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
+
+import { getBreadcrumbsItemsRaceView } from '~app/races/[id]/breadcrumbs';
+
 import { useRaceServer } from '~entities/race/api';
 
 interface IRacePage {
@@ -15,6 +19,7 @@ export default async function RacePage({ params }: IRacePage) {
 
     return (
         <>
+            <Breadcrumbs items={getBreadcrumbsItemsRaceView({ race })} />
             <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
                 {race.name}
             </Typography>

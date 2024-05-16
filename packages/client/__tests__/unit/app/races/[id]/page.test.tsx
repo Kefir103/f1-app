@@ -10,6 +10,7 @@ import { RACE_URLS } from '~entities/race/api';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -89,5 +90,21 @@ describe('<RacePage />', () => {
         expect(getByText('Qualifying date: Unknown')).toBeInTheDocument();
 
         expect(getByText('Sprint date: Unknown')).toBeInTheDocument();
+    });
+
+    it('should render breadcrumbs correctly', async () => {
+        const raceMock = RacesMock[0];
+
+        MockAdapter.onGet(RACE_URLS.id(raceMock.id)).replyOnce(200, raceMock);
+
+        const { getByTitle } = await render(
+            await RouterMock({
+                children: await RacePage({ params: { id: raceMock.id } }),
+            }),
+        );
+
+        expect(getByTitle(getBreadcrumbTitle('Home'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle('Races'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle(raceMock.name))).toBeInTheDocument();
     });
 });
