@@ -7,6 +7,8 @@ import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
+
 test.afterEach(async ({ server }) => {
     await closeServer(server);
 });
@@ -101,4 +103,28 @@ test("should go to constructor page after constructor's name click", async ({ pa
     await page.getByTitle(`Team: ${constructor.name}`).click();
 
     await expect(page).toHaveURL(`/constructors/${constructor.ref}`);
+});
+
+test('should render breadcrumbs correctly', async ({ page, server }) => {
+    await setupServer(server, {
+        url: URLS.index,
+        method: 'GET',
+        handler: function (_, reply) {
+            reply.send({
+                data: [],
+                count: 0,
+            });
+        },
+    });
+
+    await page.goto('/drivers');
+
+    const breadcrumbHome = page.getByTitle(getBreadcrumbTitle('Home'));
+    const breadcrumbDrivers = page.getByTitle(getBreadcrumbTitle('Drivers'));
+
+    await expect(breadcrumbHome).toBeVisible();
+    await expect(breadcrumbHome).toHaveAttribute('href', '/');
+
+    await expect(breadcrumbDrivers).toBeVisible();
+    await expect(breadcrumbDrivers).toHaveAttribute('href', '/drivers');
 });

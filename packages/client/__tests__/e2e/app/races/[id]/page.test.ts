@@ -11,6 +11,8 @@ import { CIRCUITS_URLS } from '~entities/circuit/api';
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
+
 test.afterEach(async ({ server }) => {
     await closeServer(server);
 });
@@ -123,4 +125,31 @@ test("should go to circuit page after circuit's name click", async ({ page, serv
     await page.getByTitle(`Circuit: ${circuitMock.name}`).click();
 
     await expect(page).toHaveURL(`/circuits/${circuitMock.ref}`);
+});
+
+test('should render breadcrumbs correctly', async ({ page, server }) => {
+    const raceMock = RacesMock[0];
+
+    await setupServer(server, {
+        url: RACE_URLS.id(raceMock.id),
+        method: 'GET',
+        handler: function (_, reply) {
+            reply.send(raceMock);
+        },
+    });
+
+    await page.goto(`/races/${raceMock.id}`);
+
+    const breadcrumbHome = page.getByTitle(getBreadcrumbTitle('Home'));
+    const breadcrumbRaces = page.getByTitle(getBreadcrumbTitle('Races'));
+    const breadcrumbRaceView = page.getByTitle(getBreadcrumbTitle(raceMock.name));
+
+    await expect(breadcrumbHome).toBeVisible();
+    await expect(breadcrumbHome).toHaveAttribute('href', '/');
+
+    await expect(breadcrumbRaces).toBeVisible();
+    await expect(breadcrumbRaces).toHaveAttribute('href', '/races');
+
+    await expect(breadcrumbRaceView).toBeVisible();
+    await expect(breadcrumbRaceView).toHaveAttribute('href', `/races/${raceMock.id}`);
 });

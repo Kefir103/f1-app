@@ -40,6 +40,7 @@ export function Breadcrumbs({ items }: IBreadcrumbs) {
                         )}
                         key={`breadcrumb_item_${breadcrumbUrl}`}
                         href={breadcrumbUrl}
+                        title={`Breadcrumb: ${item.label}`}
                     >
                         {item.label}
                     </NextLink>

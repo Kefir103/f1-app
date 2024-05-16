@@ -1,5 +1,7 @@
-import { Breadcrumbs, IBreadcrumbItem } from '~shared/ui/breadcrumbs';
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
+
+import { getBreadcrumbsItemsConstructors } from '~app/constructors/breadcrumbs';
 
 import { ConstructorList } from '~widgets/constructor-list/ui';
 
@@ -18,20 +20,9 @@ export default async function ConstructorsPage({ searchParams }: IConstructorsPa
         perPage: Number(searchParams.perPage) || 12,
     });
 
-    const breadcrumbsItems: IBreadcrumbItem[] = [
-        {
-            path: '',
-            label: 'Home',
-        },
-        {
-            path: 'constructors',
-            label: 'Constructors',
-        },
-    ];
-
     return (
         <>
-            <Breadcrumbs items={breadcrumbsItems} />
+            <Breadcrumbs items={getBreadcrumbsItemsConstructors()} />
             <ConstructorList constructors={data} />
             <PaginationSearchParams totalCount={count} />
         </>

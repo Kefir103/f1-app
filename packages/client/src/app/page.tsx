@@ -1,18 +1,13 @@
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
+
+import { getBreadcrumbsItemsHome } from '~app/breadcrumbs';
+
 import { MenuItems } from '~views/home';
 
-import { IBreadcrumbItem, Breadcrumbs } from '~shared/ui/breadcrumbs';
-
 export default async function Home() {
-    const breadcrumbsItems: IBreadcrumbItem[] = [
-        {
-            path: '',
-            label: 'Home',
-        },
-    ];
-
     return (
         <>
-            <Breadcrumbs items={breadcrumbsItems} />
+            <Breadcrumbs items={getBreadcrumbsItemsHome()} />
             <MenuItems />
         </>
     );

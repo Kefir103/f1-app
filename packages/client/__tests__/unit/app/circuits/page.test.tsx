@@ -8,6 +8,7 @@ import { URLS } from '~entities/circuit/api/urls';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -45,5 +46,21 @@ describe('Circuits page', () => {
         );
 
         expect(getByText(CircuitsMock[0].name)).toBeInTheDocument();
+    });
+
+    it('should render breadcrumbs correctly', async () => {
+        MockAdapter.onGet(URLS.index).replyOnce(200, {
+            data: [],
+            count: 0,
+        });
+
+        const { getByTitle } = await render(
+            await RouterMock({
+                children: await CircuitsPage({ searchParams: {} }),
+            }),
+        );
+
+        expect(getByTitle(getBreadcrumbTitle('Home'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle('Circuits'))).toBeInTheDocument();
     });
 });
