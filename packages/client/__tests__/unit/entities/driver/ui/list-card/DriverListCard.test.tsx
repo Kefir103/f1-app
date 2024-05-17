@@ -10,7 +10,7 @@ describe('<DriverListCard />', () => {
     it('should render correctly', () => {
         const driver = DriversMock[0];
 
-        const { getByRole, getByText } = render(<DriverListCard driver={driver} />);
+        const { getByRole, getByText, getByTitle } = render(<DriverListCard driver={driver} />);
 
         // Driver link
         const driverLink = getByRole('link', {
@@ -19,6 +19,14 @@ describe('<DriverListCard />', () => {
 
         expect(driverLink).toBeInTheDocument();
         expect(driverLink).toHaveAttribute('href', `/drivers/${driver.ref}`);
+
+        const constructorLink = getByTitle(`Team: ${driver.constructor_entity.name}`);
+
+        expect(constructorLink).toBeInTheDocument();
+        expect(constructorLink).toHaveAttribute(
+            'href',
+            `/constructors/${driver.constructor_entity.ref}`,
+        );
 
         // Driver date of birth
         expect(

@@ -1,4 +1,7 @@
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
+
+import { getBreadcrumbsItemsCircuits } from '~app/circuits/breadcrumbs';
 
 import { useCircuitsServer } from '~entities/circuit/api/useCircuitsServer';
 
@@ -19,6 +22,7 @@ export default async function CircuitsPage({ searchParams }: ICircuitsPage) {
 
     return (
         <>
+            <Breadcrumbs items={getBreadcrumbsItemsCircuits()} />
             <CircuitList circuits={data} />
             <PaginationSearchParams totalCount={count} />
         </>

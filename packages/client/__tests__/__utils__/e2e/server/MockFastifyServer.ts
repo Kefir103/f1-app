@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 const ROOT_PATH = path.resolve(__dirname, '../../../../');
 
 dotenv.config({
-    path: path.resolve(ROOT_PATH, '.env.local'),
+    path: path.resolve(ROOT_PATH, '.env.test'),
 });
 
 const PORT = Number(process.env.MOCK_SERVER_PORT);

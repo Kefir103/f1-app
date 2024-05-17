@@ -1,6 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn, VirtualColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    VirtualColumn,
+} from 'typeorm';
 
-import { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
+import type { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
+import type { ConstructorType } from '~f1-app/shared/types/Constructor/Constructor.type';
+
+import { Constructor } from '~entities/Constructor/Constructor.entity';
 
 @Entity({ name: 'drivers' })
 export class Driver implements DriverType {
@@ -9,6 +19,13 @@ export class Driver implements DriverType {
 
     @Column('varchar', { unique: true, length: 255 })
     ref: string;
+
+    @Column('integer')
+    constructor_id: number;
+
+    @OneToOne(() => Constructor, { createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'constructor_id', referencedColumnName: 'id' })
+    constructor_entity: ConstructorType;
 
     @Column('integer', { nullable: true })
     number: number;

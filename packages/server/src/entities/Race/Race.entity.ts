@@ -1,6 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { RaceType } from '~f1-app/shared/types/Race/Race.type';
+import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
+
+import { Circuit } from '~entities/Circuit/Circuit.entity';
 
 @Entity({ name: 'races' })
 export class Race implements RaceType {
@@ -9,6 +11,10 @@ export class Race implements RaceType {
 
     @Column('integer')
     circuit_id: number;
+
+    @OneToOne(() => Circuit, { nullable: false, createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'circuit_id', referencedColumnName: 'id' })
+    circuit: Circuit;
 
     @Column('integer')
     year: number;
