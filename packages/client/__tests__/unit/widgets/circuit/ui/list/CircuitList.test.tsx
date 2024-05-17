@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { CircuitList } from '~widgets/circuit-list/ui/CircuitList';
+import { CircuitList } from '~widgets/circuit/ui';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 

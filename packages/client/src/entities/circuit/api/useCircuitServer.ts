@@ -1,11 +1,11 @@
 import { axios } from '~shared/api/axios';
 
-import { Circuit } from '~entities/circuit/type';
-import { URLS } from '~entities/circuit/api/urls';
+import type { CircuitType } from '~entities/circuit';
+import { CIRCUIT_URLS } from '~entities/circuit/api';
 
 export async function useCircuitServer(ref: string) {
     try {
-        const { data: circuit } = await axios.get<Circuit>(URLS.ref(ref));
+        const { data: circuit } = await axios.get<CircuitType>(CIRCUIT_URLS.ref(ref));
 
         return { circuit };
     } catch (error: unknown) {

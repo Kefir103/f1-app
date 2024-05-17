@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material';
 
-import { Circuit } from '~entities/circuit/type';
-import { CircuitListCard } from '~entities/circuit/ui/list-card/CircuitListCard';
+import type { CircuitType } from '~entities/circuit';
+import { CircuitListCard } from '~entities/circuit/ui';
 
 interface ICircuitList {
-    circuits: Circuit[];
+    circuits: CircuitType[];
 }
 
 export function CircuitList({ circuits }: ICircuitList) {

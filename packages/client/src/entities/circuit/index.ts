@@ -1,2 +1,1 @@
-export * as CircuitApi from './api';
-export * as CircuitType from './type';
+export type { Circuit as CircuitType } from './type';
