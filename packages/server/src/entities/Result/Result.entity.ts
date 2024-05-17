@@ -1,6 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { ResultType } from '~f1-app/shared/types/Result/Result.type';
+
+import { Race } from '~entities/Race/Race.entity';
 
 @Entity({ name: 'results' })
 export class Result implements ResultType {
@@ -9,6 +11,13 @@ export class Result implements ResultType {
 
     @Column('integer')
     race_id: number;
+
+    @ManyToOne(() => Race, (race) => race.results, {
+        nullable: false,
+        createForeignKeyConstraints: false,
+    })
+    @JoinColumn({ name: 'race_id', referencedColumnName: 'id' })
+    race: Race;
 
     @Column('integer')
     driver_id: number;

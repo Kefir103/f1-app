@@ -9,11 +9,18 @@ import { TestDbConnection } from '~test-utils/db/DbConnection';
 import { RaceModule } from '~modules/Race/race.module';
 import { Race } from '~entities/Race/Race.entity';
 
+import { ResultsModule } from '~modules/Results/results.module';
+import { Result } from '~entities/Result/Result.entity';
+
 import { Circuit } from '~entities/Circuit/Circuit.entity';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
-import { RacesMock, RacesCircuitsMock } from '~modules/Race/__tests__/mocks/Race.mock';
+import {
+    RacesMock,
+    RacesCircuitsMock,
+    RacesResultsMock,
+} from '~modules/Race/__tests__/mocks/Race.mock';
 
 function formatRaceResponse(race: RaceType) {
     return {
@@ -38,10 +45,15 @@ describe('Race e2e', () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
             imports: [
                 RaceModule,
+                ResultsModule,
                 ...TestDbConnection([
                     {
                         entitySchema: Circuit,
                         data: RacesCircuitsMock,
+                    },
+                    {
+                        entitySchema: Result,
+                        data: RacesResultsMock,
                     },
                     {
                         entitySchema: Race,
@@ -112,5 +124,15 @@ describe('Race e2e', () => {
 
     it('/race/:not-existed-id (GET, 404)', () => {
         return request(app.getHttpServer()).get('/race/not-found-id').expect(404);
+    });
+
+    it('/race/:id/results (GET, 200)', () => {
+        const entity = RacesMock[0];
+        const entityResults = RacesResultsMock.filter((result) => result.race_id === entity.id);
+
+        return request(app.getHttpServer()).get(`/race/${entity.id}/results`).expect(200).expect({
+            data: entityResults,
+            count: entityResults.length,
+        });
     });
 });

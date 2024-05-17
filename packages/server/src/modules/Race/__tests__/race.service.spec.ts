@@ -25,7 +25,7 @@ describe('RaceService', () => {
     const mockRepository = {
         find: jest.fn().mockImplementation(raceUnitMockRepository.find),
         findOne: jest.fn().mockImplementation(raceUnitMockRepository.findOne),
-        count: jest.fn().mockReturnValue(raceUnitMockRepository.count),
+        count: jest.fn().mockImplementation(raceUnitMockRepository.count),
     };
 
     beforeEach(async () => {

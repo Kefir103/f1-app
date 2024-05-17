@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { RaceList } from '~widgets/race-list/ui';
+import { RaceList } from '~widgets/race/ui';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 

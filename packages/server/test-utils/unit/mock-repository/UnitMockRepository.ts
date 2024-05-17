@@ -26,7 +26,7 @@ const getRelations = (entity: object, relationsOptions: object, relations: IRela
 };
 
 export const UnitMockRepository = (entities: object[], relations: IRelations[] = []) => ({
-    find: ({ take, skip, order, relations: relationsOptions }) => {
+    find: ({ take, skip, order, relations: relationsOptions, where }) => {
         let resultEntities = [...entities];
 
         if (lodash.isPlainObject(order)) {
@@ -50,6 +50,12 @@ export const UnitMockRepository = (entities: object[], relations: IRelations[] =
             }));
         }
 
+        if (where) {
+            resultEntities = resultEntities.filter((entity) => {
+                return Object.entries(where).every(([key, value]) => entity[key] === value);
+            });
+        }
+
         return resultEntities.slice(skip, take);
     },
     findOneBy: (whereCondition: object) => {
@@ -69,5 +75,15 @@ export const UnitMockRepository = (entities: object[], relations: IRelations[] =
 
         return entity;
     },
-    count: entities.length,
+    count: (options?: { where: object }) => {
+        if (!options) {
+            return entities.length;
+        }
+
+        if (options.where) {
+            return entities.filter((entity) => {
+                return Object.entries(options.where).every(([key, value]) => entity[key] === value);
+            }).length;
+        }
+    },
 });

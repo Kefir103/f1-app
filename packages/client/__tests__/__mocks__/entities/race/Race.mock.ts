@@ -1,7 +1,7 @@
 import type { Race } from '~entities/race';
-import type { Circuit } from '~entities/circuit/type';
+import type { CircuitType } from '~entities/circuit';
 
-const RacesCircuitMock: Circuit[] = new Array(2).fill(null).map((_, index) => ({
+const RacesCircuitMock: CircuitType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     name: `circuit_name_${index + 1}`,
     ref: `circuit_ref_${index + 1}`,

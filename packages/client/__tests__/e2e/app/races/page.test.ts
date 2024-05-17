@@ -5,7 +5,7 @@ import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifySer
 
 import { RACE_URLS } from '~entities/race/api';
 import { SEASON_URLS } from '~entities/season/api';
-import { CIRCUITS_URLS } from '~entities/circuit/api';
+import { CIRCUIT_URLS } from '~entities/circuit/api';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
@@ -112,7 +112,7 @@ test("should go to circuit page after circuit's name click", async ({ page, serv
             },
         },
         {
-            url: CIRCUITS_URLS.ref(circuitMock.ref),
+            url: CIRCUIT_URLS.ref(circuitMock.ref),
             method: 'GET',
             handler: function (_, reply) {
                 reply.send(circuitMock);

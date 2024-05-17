@@ -1,7 +1,7 @@
 import { axios } from '~shared/api/axios';
 
-import { URLS } from '~entities/circuit/api/urls';
-import { Circuit } from '~entities/circuit/type';
+import { CIRCUIT_URLS } from '~entities/circuit/api';
+import type { CircuitType } from '~entities/circuit';
 
 interface IUseCircuitsServer {
     page: number;
@@ -9,13 +9,13 @@ interface IUseCircuitsServer {
 }
 
 interface ICircuitsResponse {
-    data: Circuit[];
+    data: CircuitType[];
     count: number;
 }
 
 export async function useCircuitsServer({ page, perPage }: IUseCircuitsServer) {
     try {
-        const { data } = await axios.get<ICircuitsResponse>(URLS.index, {
+        const { data } = await axios.get<ICircuitsResponse>(CIRCUIT_URLS.index, {
             params: {
                 page,
                 perPage,

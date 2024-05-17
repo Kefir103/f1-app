@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
 import type { Race } from '~entities/race';
-import { RaceListCard } from '~entities/race/ui/list-card';
+import { RaceListCard } from '~entities/race/ui';
 
 interface IRaceList {
     races: Race[];

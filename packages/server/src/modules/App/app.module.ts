@@ -13,6 +13,7 @@ import { ConstructorModule } from '~modules/Constructor/constructor.module';
 import { QualifyingModule } from '~modules/Qualifying/qualifying.module';
 import { RaceModule } from '~modules/Race/race.module';
 import { SeasonModule } from '~modules/Season/season.module';
+import { ResultsModule } from '~modules/Results/results.module';
 
 @Module({
     imports: [
@@ -35,6 +36,7 @@ import { SeasonModule } from '~modules/Season/season.module';
         QualifyingModule,
         RaceModule,
         SeasonModule,
+        ResultsModule
     ],
     controllers: [AppController],
     providers: [AppService],
