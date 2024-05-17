@@ -1,11 +1,12 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
 import { Circuit } from '~entities/Circuit/Circuit.entity';
+import { Result } from '~entities/Result/Result.entity';
 
 @Entity({ name: 'races' })
-export class Race implements RaceType {
+export class Race implements Required<RaceType> {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
@@ -33,6 +34,12 @@ export class Race implements RaceType {
 
     @Column('varchar', { length: 255 })
     wiki_url: string;
+
+    @OneToMany(() => Result, (result) => result.race, {
+        nullable: true,
+        createForeignKeyConstraints: false,
+    })
+    results: Result[];
 
     @Column('date', { nullable: true })
     fp1_date: Date;

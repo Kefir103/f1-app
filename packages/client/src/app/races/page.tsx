@@ -5,7 +5,7 @@ import { getBreadcrumbsItemsRaces } from '~app/races/breadcrumbs';
 
 import { useRacesServer } from '~entities/race/api';
 
-import { RaceList } from '~widgets/race-list/ui';
+import { RaceList } from '~widgets/race/ui';
 
 interface IRacesPage {
     searchParams: {

@@ -1,6 +1,9 @@
+import { RaceType } from '../Race/Race.type';
+
 export interface ResultType {
     id: number;
     race_id: number;
+    race: RaceType;
     driver_id: number;
     constructor_id: number;
     driver_number: number;

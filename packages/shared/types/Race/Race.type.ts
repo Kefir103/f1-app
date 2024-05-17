@@ -1,4 +1,5 @@
 import { CircuitType } from '../Circuit/Circuit.type';
+import { ResultType } from '../Result/Result.type';
 
 export interface RaceType {
     id: number;
@@ -8,16 +9,17 @@ export interface RaceType {
     round: number;
     name: string;
     date: Date;
-    start_time: string;
+    start_time?: string | null;
     wiki_url: string;
-    fp1_date: Date;
-    fp1_time: string;
-    fp2_date: Date;
-    fp2_time: string;
-    fp3_date: Date;
-    fp3_time: string;
-    qualifying_date: Date;
-    qualifying_time: string;
-    sprint_date: Date;
-    sprint_time: string;
+    results?: ResultType[];
+    fp1_date?: Date | null;
+    fp1_time?: string | null;
+    fp2_date?: Date | null;
+    fp2_time?: string | null;
+    fp3_date?: Date | null;
+    fp3_time?: string | null;
+    qualifying_date?: Date | null;
+    qualifying_time?: string | null;
+    sprint_date?: Date | null;
+    sprint_time?: string | null;
 }
