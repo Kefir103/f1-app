@@ -1,10 +1,11 @@
-import { Typography } from '@mui/material';
 
 import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsCircuitView } from '~app/circuits/[ref]/breadcrumbs';
 
 import { useCircuitServer } from '~entities/circuit/api';
+
+import { CircuitInfo } from '~widgets/circuit/ui';
 
 interface ICircuitPage {
     params: {
@@ -18,17 +19,7 @@ export default async function CircuitPage({ params }: ICircuitPage) {
     return (
         <>
             <Breadcrumbs items={getBreadcrumbsItemsCircuitView({ circuit })} />
-            <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
-                {circuit.name}
-            </Typography>
-            <a className={'link'} href={circuit.wiki_url} target={'_blank'}>
-                Wiki
-            </a>
-            <Typography className={'my-2'}>Country: {circuit.country}</Typography>
-            <Typography className={'my-2'}>Location: {circuit.location}</Typography>
-            <Typography className={'my-2'}>Latitude: {circuit.latitude}</Typography>
-            <Typography className={'my-2'}>Longitude: {circuit.longitude}</Typography>
-            <Typography className={'my-2'}>Altitude: {circuit.altitude}m</Typography>
+            <CircuitInfo circuit={circuit} />
         </>
     );
 }
