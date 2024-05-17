@@ -1,6 +1,10 @@
+import type { ConstructorType } from '../Constructor/Constructor.type';
+
 export interface DriverType {
     id: number;
     ref: string;
+    constructor_id: number;
+    constructor_entity: ConstructorType;
     number: number;
     code: string;
     first_name: string;

@@ -1,5 +1,9 @@
 import { useRaceServer } from '~entities/race/api';
 
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
+
+import { getBreadcrumbsItemsRaceView } from '~app/races/[id]/breadcrumbs';
+
 import { RaceInfo } from '~widgets/race/ui';
 
 interface IRacePage {
@@ -13,6 +17,7 @@ export default async function RacePage({ params }: IRacePage) {
 
     return (
         <>
+            <Breadcrumbs items={getBreadcrumbsItemsRaceView({ race })} />
             <RaceInfo race={race} />
         </>
     );

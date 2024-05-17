@@ -9,6 +9,7 @@ import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -41,5 +42,24 @@ describe('<ConstructorPage />', () => {
 
         // Constructor nationality
         expect(getByText(`Nationality: ${constructorMock.nationality}`)).toBeInTheDocument();
+    });
+
+    it('should render breadcrumbs correctly', async () => {
+        const constructorMock = ConstructorsMock[0];
+
+        MockAdapter.onGet(CONSTRUCTOR_URLS.ref(constructorMock.ref)).replyOnce(
+            200,
+            constructorMock,
+        );
+
+        const { getByTitle } = await render(
+            await RouterMock({
+                children: await ConstructorPage({ params: { ref: constructorMock.ref } }),
+            }),
+        );
+
+        expect(getByTitle(getBreadcrumbTitle('Home'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle('Constructors'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle(constructorMock.name))).toBeInTheDocument();
     });
 });

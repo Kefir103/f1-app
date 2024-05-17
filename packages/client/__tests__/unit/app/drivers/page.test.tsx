@@ -10,6 +10,7 @@ import DriversPage from '~app/drivers/page';
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -34,5 +35,21 @@ describe('DriversPage', () => {
                 name: `${firstDriver.first_name} ${firstDriver.last_name} (${firstDriver.code})`,
             }),
         ).toBeInTheDocument();
+    });
+
+    it('should render breadcrumbs correctly', async () => {
+        MockAdapter.onGet(URLS.index).replyOnce(200, {
+            data: [],
+            count: 0,
+        });
+
+        const { getByTitle } = await render(
+            await RouterMock({
+                children: await DriversPage({ searchParams: {} }),
+            }),
+        );
+
+        expect(getByTitle(getBreadcrumbTitle('Home'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle('Drivers'))).toBeInTheDocument();
     });
 });

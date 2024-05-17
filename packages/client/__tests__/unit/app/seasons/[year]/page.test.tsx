@@ -9,6 +9,7 @@ import { SEASON_URLS } from '~entities/season/api';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -29,5 +30,23 @@ describe('<SeasonPage />', () => {
 
         expect(getByRole('heading', { name: `Season ${seasonMock.year}` })).toBeInTheDocument();
         expect(getByRole('link', { name: 'Wiki' })).toBeInTheDocument();
+    });
+
+    it('should render breadcrumbs correctly', async () => {
+        const seasonMock = SeasonsMock[0];
+
+        MockAdapter.onGet(SEASON_URLS.year(seasonMock.year)).reply(200, seasonMock);
+
+        const { getByTitle } = await render(
+            await RouterMock({
+                children: await SeasonPage({
+                    params: { year: seasonMock.year },
+                }),
+            }),
+        );
+
+        expect(getByTitle(getBreadcrumbTitle('Home'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle('Seasons'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle(String(seasonMock.year)))).toBeInTheDocument();
     });
 });
