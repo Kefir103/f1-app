@@ -8,13 +8,13 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 
 describe('Home page', () => {
     it('should render home page', async () => {
-        const { getByText } = render(await RouterMock({ children: await HomePage() }));
+        const { getByRole } = render(await RouterMock({ children: await HomePage() }));
 
-        expect(getByText('Circuits')).toBeInTheDocument();
-        expect(getByText('Drivers')).toBeInTheDocument();
-        expect(getByText('Constructors')).toBeInTheDocument();
-        expect(getByText('Seasons')).toBeInTheDocument();
-        expect(getByText('Races')).toBeInTheDocument();
+        expect(getByRole('link', { name: 'Circuits' })).toBeInTheDocument();
+        expect(getByRole('link', { name: 'Drivers' })).toBeInTheDocument();
+        expect(getByRole('link', { name: 'Constructors' })).toBeInTheDocument();
+        expect(getByRole('link', { name: 'Seasons' })).toBeInTheDocument();
+        expect(getByRole('link', { name: 'Races' })).toBeInTheDocument();
     });
 
     it('should render correct breadcrumbs', async () => {

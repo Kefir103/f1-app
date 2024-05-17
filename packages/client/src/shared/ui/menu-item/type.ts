@@ -3,5 +3,4 @@ export interface IMenuItem {
     title: string;
     description?: string;
     link: string;
-    onClick: Function | any;
 }
