@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import moment from 'moment';
 
-import { RaceListCard } from '~entities/race/ui/list-card';
+import { RaceListCard } from '~entities/race/ui';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 
