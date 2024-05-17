@@ -1,5 +1,9 @@
 import { Typography } from '@mui/material';
 
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
+
+import { getBreadcrumbsItemsCircuitView } from '~app/circuits/[ref]/breadcrumbs';
+
 import { useCircuitServer } from '~entities/circuit/api';
 
 interface ICircuitPage {
@@ -13,6 +17,7 @@ export default async function CircuitPage({ params }: ICircuitPage) {
 
     return (
         <>
+            <Breadcrumbs items={getBreadcrumbsItemsCircuitView({ circuit })} />
             <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
                 {circuit.name}
             </Typography>

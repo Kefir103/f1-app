@@ -6,6 +6,8 @@ import { URLS } from '~entities/circuit/api/urls';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
+
 test.afterEach(async ({ server }) => {
     await closeServer(server);
 });
@@ -56,4 +58,28 @@ test('should open circuit page after link click', async ({ page, server }) => {
     await page.getByRole('link', { name: circuit.name, exact: true }).click();
 
     await expect(page).toHaveURL(`/circuits/${circuit.ref}`);
+});
+
+test('should render breadcrumbs correctly', async ({ page, server }) => {
+    await setupServer(server, {
+        url: URLS.index,
+        method: 'GET',
+        handler: function (_, reply) {
+            reply.send({
+                data: [],
+                count: 0,
+            });
+        },
+    });
+
+    await page.goto('/circuits');
+
+    const breadcrumbHome = page.getByTitle(getBreadcrumbTitle('Home'));
+    const breadcrumbCircuits = page.getByTitle(getBreadcrumbTitle('Circuits'));
+
+    await expect(breadcrumbHome).toBeVisible();
+    await expect(breadcrumbHome).toHaveAttribute('href', '/');
+
+    await expect(breadcrumbHome).toBeVisible();
+    await expect(breadcrumbCircuits).toHaveAttribute('href', '/circuits');
 });

@@ -1,4 +1,7 @@
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
+
+import { getBreadcrumbsItemsConstructors } from '~app/constructors/breadcrumbs';
 
 import { ConstructorList } from '~widgets/constructor-list/ui';
 
@@ -19,6 +22,7 @@ export default async function ConstructorsPage({ searchParams }: IConstructorsPa
 
     return (
         <>
+            <Breadcrumbs items={getBreadcrumbsItemsConstructors()} />
             <ConstructorList constructors={data} />
             <PaginationSearchParams totalCount={count} />
         </>

@@ -2,6 +2,10 @@ import NextLink from 'next/link';
 import { Typography } from '@mui/material';
 import moment from 'moment';
 
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
+
+import { getBreadcrumbsItemsDriverView } from '~app/drivers/[ref]/breadcrumbs';
+
 import { useDriverServer } from '~entities/driver/api/useDriverServer';
 
 interface IDriverPage {
@@ -15,6 +19,7 @@ export default async function DriverPage({ params }: IDriverPage) {
 
     return (
         <>
+            <Breadcrumbs items={getBreadcrumbsItemsDriverView({ driver })} />
             <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
                 {driver.first_name} {driver.last_name} {driver.code ? `(${driver.code})` : ''}
             </Typography>

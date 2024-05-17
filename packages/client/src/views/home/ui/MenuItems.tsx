@@ -1,5 +1,3 @@
-'use client';
-
 import { Grid } from '@mui/material';
 import {
     mdiRacingHelmet,
@@ -8,12 +6,11 @@ import {
     mdiCalendarMultiple,
     mdiFlagCheckered,
 } from '@mdi/js';
-import { useRouter } from 'next/navigation';
 
 import { MenuItem } from '~shared/ui/menu-item/MenuItem';
 import type { IMenuItem } from '~shared/ui/menu-item/type';
 
-const menuItems: Omit<IMenuItem, 'onClick'>[] = [
+const menuItems: IMenuItem[] = [
     {
         icon: mdiRacingHelmet,
         title: 'Drivers',
@@ -47,12 +44,6 @@ const menuItems: Omit<IMenuItem, 'onClick'>[] = [
 ];
 
 export function MenuItems() {
-    const router = useRouter();
-
-    const onMenuItemClick = (link: string) => {
-        router.push(link);
-    };
-
     return (
         <Grid container spacing={2}>
             {menuItems.map(({ icon, link, title, description }) => (
@@ -63,7 +54,6 @@ export function MenuItems() {
                         title={title}
                         description={description}
                         link={link}
-                        onClick={() => onMenuItemClick(link)}
                     />
                 </Grid>
             ))}
