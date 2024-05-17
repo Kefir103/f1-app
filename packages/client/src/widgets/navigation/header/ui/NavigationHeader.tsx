@@ -35,6 +35,8 @@ const HeaderItems: IHeaderItems[] = [
 export function NavigationHeader() {
     return (
         <nav
+            id={'navigation-header'}
+            aria-label={'Navigation Header'}
             className={
                 'fixed left-0 right-0 top-0 flex h-20 w-full items-center px-10 dark:border-b-2 dark:border-b-slate-700 dark:bg-slate-950'
             }
