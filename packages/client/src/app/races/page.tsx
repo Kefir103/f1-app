@@ -2,7 +2,7 @@ import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
 
 import { useRacesServer } from '~entities/race/api';
 
-import { RaceList } from '~widgets/race-list/ui';
+import { RaceList } from '~widgets/race/ui';
 
 interface IRacesPage {
     searchParams: {
