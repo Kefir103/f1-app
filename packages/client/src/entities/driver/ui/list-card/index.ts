@@ -1,1 +1,1 @@
-export * as DriverListCard from '~entities/driver/ui/list-card/DriverListCard';
+export { DriverListCard } from './DriverListCard';

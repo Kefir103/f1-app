@@ -6,7 +6,7 @@ import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsDriverView } from '~app/drivers/[ref]/breadcrumbs';
 
-import { useDriverServer } from '~entities/driver/api/useDriverServer';
+import { useDriverServer } from '~entities/driver/api';
 
 interface IDriverPage {
     params: {

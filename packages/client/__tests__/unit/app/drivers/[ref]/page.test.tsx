@@ -4,7 +4,7 @@ import moment from 'moment';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import { URLS } from '~entities/driver/api/urls';
+import { DRIVER_URLS } from '~entities/driver/api';
 
 import DriverPage from '~app/drivers/[ref]/page';
 
@@ -19,7 +19,7 @@ describe('<DriverPage />', () => {
     it('should render correctly', async () => {
         const driver = DriversMock[0];
 
-        MockAdapter.onGet(URLS.ref(driver.ref)).replyOnce(200, driver);
+        MockAdapter.onGet(DRIVER_URLS.ref(driver.ref)).replyOnce(200, driver);
 
         const { getByRole, getByText, getByTitle } = await render(
             await RouterMock({
@@ -67,7 +67,7 @@ describe('<DriverPage />', () => {
             code: '',
         };
 
-        MockAdapter.onGet(URLS.ref(driver.ref)).replyOnce(200, driver);
+        MockAdapter.onGet(DRIVER_URLS.ref(driver.ref)).replyOnce(200, driver);
 
         const { getByRole } = await render(
             await RouterMock({
@@ -83,7 +83,7 @@ describe('<DriverPage />', () => {
     it('should render breadcrumbs correctly', async () => {
         const driverMock = DriversMock[0];
 
-        MockAdapter.onGet(URLS.ref(driverMock.ref)).replyOnce(200, driverMock);
+        MockAdapter.onGet(DRIVER_URLS.ref(driverMock.ref)).replyOnce(200, driverMock);
 
         const { getByTitle } = await render(
             await RouterMock({
