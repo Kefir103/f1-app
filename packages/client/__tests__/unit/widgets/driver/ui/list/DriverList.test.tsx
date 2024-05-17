@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { DriverList } from '~widgets/driver-list/ui';
+import { DriverList } from '~widgets/driver/ui';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
