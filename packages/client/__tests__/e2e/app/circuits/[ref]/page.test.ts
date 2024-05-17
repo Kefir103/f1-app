@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
-import { CIRCUITS_URLS } from '~entities/circuit/api';
+import { CIRCUIT_URLS } from '~entities/circuit/api';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 
@@ -16,7 +16,7 @@ test('render circuit', async ({ page, server }) => {
     const circuitMock = CircuitsMock[0];
 
     await setupServer(server, {
-        url: CIRCUITS_URLS.ref(circuitMock.ref),
+        url: CIRCUIT_URLS.ref(circuitMock.ref),
         method: 'GET',
         handler: function (_, reply) {
             reply.send(circuitMock);
@@ -46,7 +46,7 @@ test('should render breadcrumbs correctly', async ({ page, server }) => {
     const circuitMock = CircuitsMock[0];
 
     await setupServer(server, {
-        url: CIRCUITS_URLS.ref(circuitMock.ref),
+        url: CIRCUIT_URLS.ref(circuitMock.ref),
         method: 'GET',
         handler: function (_, reply) {
             reply.send(circuitMock);

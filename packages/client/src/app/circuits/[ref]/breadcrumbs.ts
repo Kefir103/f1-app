@@ -2,10 +2,10 @@ import { IBreadcrumbItem } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsCircuits } from '~app/circuits/breadcrumbs';
 
-import { Circuit } from '~entities/circuit/type';
+import type { CircuitType } from '~entities/circuit';
 
 interface IBreadcrumbsCircuit {
-    circuit: Circuit;
+    circuit: CircuitType;
 }
 
 const getBreadcrumbsItems = ({ circuit }: IBreadcrumbsCircuit): IBreadcrumbItem[] => [

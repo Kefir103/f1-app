@@ -5,7 +5,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 
 import CircuitPage from '~app/circuits/[ref]/page';
 
-import { CircuitApi } from '~entities/circuit';
+import { CIRCUIT_URLS } from '~entities/circuit/api';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
@@ -18,7 +18,7 @@ describe('Circuits Page', () => {
     it('should render correctly', async () => {
         const circuitMock = CircuitsMock[0];
 
-        MockAdapter.onGet(CircuitApi.CIRCUITS_URLS.ref(circuitMock.ref)).replyOnce(
+        MockAdapter.onGet(CIRCUIT_URLS.ref(circuitMock.ref)).replyOnce(
             200,
             circuitMock,
         );
@@ -43,7 +43,7 @@ describe('Circuits Page', () => {
     it('should render breadcrumbs correctly', async () => {
         const circuitMock = CircuitsMock[0];
 
-        MockAdapter.onGet(CircuitApi.CIRCUITS_URLS.ref(circuitMock.ref)).replyOnce(
+        MockAdapter.onGet(CIRCUIT_URLS.ref(circuitMock.ref)).replyOnce(
             200,
             circuitMock,
         );

@@ -3,7 +3,7 @@ import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
 
 import { getBreadcrumbsItemsCircuits } from '~app/circuits/breadcrumbs';
 
-import { useCircuitsServer } from '~entities/circuit/api/useCircuitsServer';
+import { useCircuitsServer } from '~entities/circuit/api';
 
 import { CircuitList } from '~widgets/circuit-list/ui/CircuitList';
 
