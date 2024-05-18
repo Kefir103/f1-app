@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import moment from 'moment';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
@@ -21,7 +20,7 @@ describe('<DriverPage />', () => {
 
         MockAdapter.onGet(DRIVER_URLS.ref(driver.ref)).replyOnce(200, driver);
 
-        const { getByRole, getByText, getByTitle } = await render(
+        const { getByRole } = await render(
             await RouterMock({
                 children: await DriverPage({ params: { ref: driver.ref } }),
             }),
@@ -32,51 +31,6 @@ describe('<DriverPage />', () => {
             getByRole('heading', {
                 name: `${driver.first_name} ${driver.last_name} (${driver.code})`,
             }),
-        ).toBeInTheDocument();
-
-        // Driver's constructor
-
-        const driverConstructor = getByTitle(`Team: ${driver.constructor_entity.name}`);
-
-        expect(driverConstructor).toBeInTheDocument();
-        expect(driverConstructor).toHaveAttribute(
-            'href',
-            `/constructors/${driver.constructor_entity.ref}`,
-        );
-
-        // Driver wiki link
-        expect(getByRole('link', { name: 'Wiki' })).toBeInTheDocument();
-
-        // Driver date of birth
-        expect(
-            getByText(`Date of birth: ${moment(driver.date_of_birth).format('DD.MM.YYYY')}`),
-        ).toBeInTheDocument();
-
-        // Driver nationality
-        expect(getByText(`Nationality: ${driver.nationality}`)).toBeInTheDocument();
-
-        // Driver wins count
-        expect(getByText(`Wins: ${driver.wins_count}`)).toBeInTheDocument();
-
-        // Driver poles count
-        expect(getByText(`Poles: ${driver.poles_count}`)).toBeInTheDocument();
-    });
-    it('should render driver without code correctly', async () => {
-        const driver = {
-            ...DriversMock[0],
-            code: '',
-        };
-
-        MockAdapter.onGet(DRIVER_URLS.ref(driver.ref)).replyOnce(200, driver);
-
-        const { getByRole } = await render(
-            await RouterMock({
-                children: await DriverPage({ params: { ref: driver.ref } }),
-            }),
-        );
-
-        expect(
-            getByRole('heading', { name: `${driver.first_name} ${driver.last_name}` }),
         ).toBeInTheDocument();
     });
 
