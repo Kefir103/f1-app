@@ -1,2 +1,1 @@
-export * as DriverApi from './api';
-export * as DriverType from './type';
+export type { DriverType } from './type';

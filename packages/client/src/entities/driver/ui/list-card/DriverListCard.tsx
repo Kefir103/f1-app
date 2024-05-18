@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, Link, Typography } from '@mui/material';
 import moment from 'moment';
 import NextLink from 'next/link';
 
-import { DriverType } from '~entities/driver/type';
+import type { DriverType } from '~entities/driver';
 
 interface IDriverListCard {
     driver: DriverType;
@@ -24,6 +24,16 @@ export function DriverListCard({ driver }: IDriverListCard) {
                         </NextLink>
                     }
                 />
+                <Typography>
+                    Team:{' '}
+                    <NextLink
+                        className={'link'}
+                        href={`/constructors/${driver.constructor_entity.ref}`}
+                        title={`Team: ${driver.constructor_entity.name}`}
+                    >
+                        {driver.constructor_entity.name}
+                    </NextLink>
+                </Typography>
                 <Typography>
                     Date of birth: {moment(driver.date_of_birth).format('DD.MM.YYYY')} (age{' '}
                     {moment(Date.now()).diff(driver.date_of_birth, 'years')})

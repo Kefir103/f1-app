@@ -1,19 +1,23 @@
 CREATE SCHEMA IF NOT EXISTS directory;
 
-DROP TABLE IF EXISTS circuits CASCADE;
-DROP TABLE IF EXISTS constructor_results CASCADE;
-DROP TABLE IF EXISTS constructor_standings CASCADE;
-DROP TABLE IF EXISTS constructors CASCADE;
-DROP TABLE IF EXISTS driver_standings CASCADE;
-DROP TABLE IF EXISTS drivers CASCADE;
-DROP TABLE IF EXISTS lap_times CASCADE;
-DROP TABLE IF EXISTS pit_stops CASCADE;
-DROP TABLE IF EXISTS qualifying CASCADE;
-DROP TABLE IF EXISTS races CASCADE;
-DROP TABLE IF EXISTS results CASCADE;
-DROP TABLE IF EXISTS seasons CASCADE;
-DROP TABLE IF EXISTS sprint_results CASCADE;
-DROP TABLE IF EXISTS directory.status CASCADE;
+DROP TABLE IF EXISTS circuits CASCADE; -- Complete
+DROP TABLE IF EXISTS constructor_results CASCADE; -- Complete
+DROP TABLE IF EXISTS constructor_standings CASCADE; -- Complete
+DROP TABLE IF EXISTS constructors CASCADE; -- Complete
+DROP TABLE IF EXISTS driver_standings CASCADE; -- Complete
+DROP TABLE IF EXISTS drivers CASCADE; -- Complete
+DROP TABLE IF EXISTS lap_times CASCADE; -- Complete
+DROP TABLE IF EXISTS pit_stops CASCADE; -- Complete
+DROP TABLE IF EXISTS qualifying CASCADE; -- Complete
+DROP TABLE IF EXISTS races CASCADE; -- Complete
+DROP TABLE IF EXISTS results CASCADE; -- Complete
+DROP TABLE IF EXISTS seasons CASCADE; -- Complete
+DROP TABLE IF EXISTS sprint_results CASCADE; -- Complete
+DROP TABLE IF EXISTS directory.status CASCADE; -- Complete
+
+
+
+-- Complete 14 / 14
 
 -- Circuits ------------
 CREATE TABLE circuits
@@ -54,15 +58,16 @@ COPY constructors (id, ref, name, nationality, wiki_url)
 -- Drivers ----------
 CREATE TABLE drivers
 (
-    id            SERIAL PRIMARY KEY,
-    ref           VARCHAR(255) UNIQUE NOT NULL,
-    number        INT,
-    code          VARCHAR(5),
-    first_name    VARCHAR(255)        NOT NULL,
-    last_name     VARCHAR(255)        NOT NULL,
-    date_of_birth DATE,
-    nationality   VARCHAR(255),
-    wiki_url      VARCHAR(255) UNIQUE NOT NULL
+    id             SERIAL PRIMARY KEY,
+    ref            VARCHAR(255) UNIQUE NOT NULL,
+    constructor_id INTEGER REFERENCES constructors (id),
+    number         INT,
+    code           VARCHAR(5),
+    first_name     VARCHAR(255)        NOT NULL,
+    last_name      VARCHAR(255)        NOT NULL,
+    date_of_birth  DATE,
+    nationality    VARCHAR(255),
+    wiki_url       VARCHAR(255) UNIQUE NOT NULL
 );
 
 COPY drivers (id, ref, number, code, first_name, last_name, date_of_birth, nationality, wiki_url)
@@ -304,22 +309,22 @@ COPY results (id, race_id, driver_id, constructor_id, driver_number, position_st
 -- Sprint results -------------------
 CREATE TABLE sprint_results
 (
-    id                   SERIAL       NOT NULL PRIMARY KEY,
-    race_id              INTEGER      NOT NULL REFERENCES races (id),
-    driver_id            INTEGER      NOT NULL REFERENCES drivers (id),
-    constructor_id       INTEGER      NOT NULL REFERENCES constructors (id),
-    driver_number        INTEGER,
-    position_start_grid  INTEGER      NOT NULL DEFAULT 0,
-    position       INTEGER,
-    position_text  VARCHAR(255) NOT NULL,
-    position_order INTEGER      NOT NULL DEFAULT 0,
-    points               FLOAT        NOT NULL DEFAULT 0,
-    laps                 INTEGER      NOT NULL DEFAULT 0,
-    finish_time          VARCHAR(255),
-    finish_milliseconds  INTEGER,
-    fastest_lap_number   INTEGER,
-    fastest_lap_time     VARCHAR(255),
-    status_id            INTEGER REFERENCES directory.status (id)
+    id                  SERIAL       NOT NULL PRIMARY KEY,
+    race_id             INTEGER      NOT NULL REFERENCES races (id),
+    driver_id           INTEGER      NOT NULL REFERENCES drivers (id),
+    constructor_id      INTEGER      NOT NULL REFERENCES constructors (id),
+    driver_number       INTEGER,
+    position_start_grid INTEGER      NOT NULL DEFAULT 0,
+    position            INTEGER,
+    position_text       VARCHAR(255) NOT NULL,
+    position_order      INTEGER      NOT NULL DEFAULT 0,
+    points              FLOAT        NOT NULL DEFAULT 0,
+    laps                INTEGER      NOT NULL DEFAULT 0,
+    finish_time         VARCHAR(255),
+    finish_milliseconds INTEGER,
+    fastest_lap_number  INTEGER,
+    fastest_lap_time    VARCHAR(255),
+    status_id           INTEGER REFERENCES directory.status (id)
 );
 
 COPY sprint_results (id, race_id, driver_id, constructor_id, driver_number, position_start_grid, position,
@@ -330,3 +335,13 @@ COPY sprint_results (id, race_id, driver_id, constructor_id, driver_number, posi
     NULL '\N'
     CSV HEADER;
 ----------------------------------------------------
+
+-- Set constructor_id to drivers -------------------
+
+UPDATE drivers d
+SET constructor_id = (SELECT r.constructor_id FROM results r WHERE r.driver_id = d.id ORDER BY r.id DESC LIMIT 1)
+WHERE d.constructor_id IS NULL;
+
+ALTER TABLE drivers
+    ALTER
+        COLUMN constructor_id SET NOT NULL;

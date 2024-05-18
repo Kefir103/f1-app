@@ -1,11 +1,10 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import { URLS } from '~entities/driver/api/urls';
-import { useDriversServer } from '~entities/driver/api';
+import type { DriverType } from '~entities/driver';
+import { DRIVER_URLS, useDriversServer } from '~entities/driver/api';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
-import { DriverType } from '~entities/driver/type';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -23,7 +22,7 @@ describe('useDriversServer', () => {
         const perPage = 1;
         const driversMock = formatDrivers([DriversMock[0]]);
 
-        MockAdapter.onGet(URLS.index).replyOnce(200, {
+        MockAdapter.onGet(DRIVER_URLS.index).replyOnce(200, {
             data: driversMock,
             count: driversMock.length,
         });
@@ -34,7 +33,7 @@ describe('useDriversServer', () => {
         expect(count).toEqual(driversMock.length);
     });
     it('should throw an error next from response', async () => {
-        MockAdapter.onGet(URLS.index).networkErrorOnce();
+        MockAdapter.onGet(DRIVER_URLS.index).networkErrorOnce();
 
         await expect(async () => {
             return await useDriversServer({ page: 1, perPage: 1 });

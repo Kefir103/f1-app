@@ -1,6 +1,10 @@
-import { Typography } from '@mui/material';
+import { Breadcrumbs } from '~shared/ui/breadcrumbs';
+
+import { getBreadcrumbsItemsConstructorView } from '~app/constructors/[ref]/breadcrumbs';
 
 import { useConstructorServer } from '~entities/constructor/api';
+
+import { ConstructorInfo } from '~widgets/constructor/ui';
 
 interface IConstructorPage {
     params: {
@@ -13,13 +17,8 @@ export default async function ConstructorPage({ params }: IConstructorPage) {
 
     return (
         <>
-            <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
-                {constructor.name}
-            </Typography>
-            <a className={'link'} href={constructor.wiki_url} target={'_blank'} rel={'noopener'}>
-                Wiki
-            </a>
-            <Typography className={'my-2'}>Nationality: {constructor.nationality}</Typography>
+            <Breadcrumbs items={getBreadcrumbsItemsConstructorView({ constructor })} />
+            <ConstructorInfo constructor_entity={constructor} />
         </>
     );
 }

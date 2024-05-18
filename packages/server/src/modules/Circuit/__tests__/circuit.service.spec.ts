@@ -16,7 +16,7 @@ describe('CircuitService', () => {
     const mockRepository = {
         find: jest.fn().mockImplementation(circuitUnitMockRepository.find),
         findOneBy: jest.fn().mockImplementation(circuitUnitMockRepository.findOneBy),
-        count: jest.fn().mockReturnValue(circuitUnitMockRepository.count),
+        count: jest.fn().mockImplementation(circuitUnitMockRepository.count),
     };
 
     beforeEach(async () => {
