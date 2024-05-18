@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { ConstructorList } from '~widgets/constructor-list/ui';
+import { ConstructorList } from '~widgets/constructor/ui';
 
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 
