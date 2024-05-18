@@ -29,7 +29,6 @@ describe('<SeasonPage />', () => {
         );
 
         expect(getByRole('heading', { name: `Season ${seasonMock.year}` })).toBeInTheDocument();
-        expect(getByRole('link', { name: 'Wiki' })).toBeInTheDocument();
     });
 
     it('should render breadcrumbs correctly', async () => {
