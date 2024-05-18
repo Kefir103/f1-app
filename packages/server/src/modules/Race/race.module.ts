@@ -6,8 +6,10 @@ import { RaceService } from '~modules/Race/race.service';
 
 import { Race } from '~entities/Race/Race.entity';
 
+import { ResultsModule } from '~modules/Results/results.module';
+
 @Module({
-    imports: [TypeOrmModule.forFeature([Race])],
+    imports: [TypeOrmModule.forFeature([Race]), ResultsModule],
     controllers: [RaceController],
     providers: [RaceService],
 })

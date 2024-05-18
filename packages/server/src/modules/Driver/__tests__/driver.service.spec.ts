@@ -4,18 +4,26 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { DriverService } from '~modules/Driver/driver.service';
 import { Driver } from '~entities/Driver/Driver.entity';
 
-import { DriverMocks } from '~modules/Driver/__tests__/mocks/Driver.mock';
+import { DriverConstructorMock, DriverMocks } from '~modules/Driver/__tests__/mocks/Driver.mock';
 
 import { UnitMockRepository } from '~test-utils/unit/mock-repository/UnitMockRepository';
 
 describe('DriverService', () => {
     let service: DriverService;
-    const driverUnitMockRepository = UnitMockRepository(DriverMocks);
+    const driverUnitMockRepository = UnitMockRepository(DriverMocks, [
+        {
+            name: 'constructor_entity',
+            key: 'constructor_id',
+            foreign_key: 'id',
+            multiple: false,
+            entities: DriverConstructorMock,
+        },
+    ]);
 
     const mockRepository = {
         find: jest.fn().mockImplementation(driverUnitMockRepository.find),
-        findOneBy: jest.fn().mockImplementation(driverUnitMockRepository.findOneBy),
-        count: jest.fn().mockReturnValue(driverUnitMockRepository.count),
+        findOne: jest.fn().mockImplementation(driverUnitMockRepository.findOne),
+        count: jest.fn().mockImplementation(driverUnitMockRepository.count),
     };
 
     beforeEach(async () => {
@@ -43,7 +51,14 @@ describe('DriverService', () => {
         const driversWithCount = await service.getAll(page, perPage);
 
         const expectedDriversWithCount = {
-            data: [DriverMocks[0]],
+            data: [
+                {
+                    ...DriverMocks[0],
+                    constructor_entity: DriverConstructorMock.find(
+                        (constructor) => constructor.id === DriverMocks[0].constructor_id,
+                    ),
+                },
+            ],
             count: DriverMocks.length,
         };
 
@@ -55,7 +70,12 @@ describe('DriverService', () => {
 
         const driver = await service.getOne(ref);
 
-        const expectedDriver = DriverMocks[0];
+        const expectedDriver = {
+            ...DriverMocks[0],
+            constructor_entity: DriverConstructorMock.find(
+                (constructor) => constructor.id === DriverMocks[0].constructor_id,
+            ),
+        };
 
         expect(driver).toEqual(expectedDriver);
     });

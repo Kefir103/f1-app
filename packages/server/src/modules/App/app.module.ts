@@ -12,7 +12,8 @@ import { CircuitModule } from '~modules/Circuit/circuit.module';
 import { ConstructorModule } from '~modules/Constructor/constructor.module';
 import { QualifyingModule } from '~modules/Qualifying/qualifying.module';
 import { RaceModule } from '~modules/Race/race.module';
-import { SeasonsModule } from '~modules/Seasons/seasons.module';
+import { SeasonModule } from '~modules/Season/season.module';
+import { ResultsModule } from '~modules/Results/results.module';
 
 @Module({
     imports: [
@@ -34,7 +35,8 @@ import { SeasonsModule } from '~modules/Seasons/seasons.module';
         ConstructorModule,
         QualifyingModule,
         RaceModule,
-        SeasonsModule,
+        SeasonModule,
+        ResultsModule
     ],
     controllers: [AppController],
     providers: [AppService],

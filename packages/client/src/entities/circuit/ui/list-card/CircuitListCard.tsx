@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, Typography, Link } from '@mui/material';
 import NextLink from 'next/link';
 
-import { Circuit } from '~entities/circuit/type';
+import type { CircuitType } from '~entities/circuit';
 
 interface ICircuitListCard {
-    circuit: Circuit;
+    circuit: CircuitType;
 }
 
 export function CircuitListCard({ circuit }: ICircuitListCard) {

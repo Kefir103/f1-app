@@ -10,6 +10,7 @@ import DriverPage from '~app/drivers/[ref]/page';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
+import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -20,7 +21,7 @@ describe('<DriverPage />', () => {
 
         MockAdapter.onGet(URLS.ref(driver.ref)).replyOnce(200, driver);
 
-        const { getByRole, getByText } = await render(
+        const { getByRole, getByText, getByTitle } = await render(
             await RouterMock({
                 children: await DriverPage({ params: { ref: driver.ref } }),
             }),
@@ -32,6 +33,16 @@ describe('<DriverPage />', () => {
                 name: `${driver.first_name} ${driver.last_name} (${driver.code})`,
             }),
         ).toBeInTheDocument();
+
+        // Driver's constructor
+
+        const driverConstructor = getByTitle(`Team: ${driver.constructor_entity.name}`);
+
+        expect(driverConstructor).toBeInTheDocument();
+        expect(driverConstructor).toHaveAttribute(
+            'href',
+            `/constructors/${driver.constructor_entity.ref}`,
+        );
 
         // Driver wiki link
         expect(getByRole('link', { name: 'Wiki' })).toBeInTheDocument();
@@ -66,6 +77,24 @@ describe('<DriverPage />', () => {
 
         expect(
             getByRole('heading', { name: `${driver.first_name} ${driver.last_name}` }),
+        ).toBeInTheDocument();
+    });
+
+    it('should render breadcrumbs correctly', async () => {
+        const driverMock = DriversMock[0];
+
+        MockAdapter.onGet(URLS.ref(driverMock.ref)).replyOnce(200, driverMock);
+
+        const { getByTitle } = await render(
+            await RouterMock({
+                children: await DriverPage({ params: { ref: driverMock.ref } }),
+            }),
+        );
+
+        expect(getByTitle(getBreadcrumbTitle('Home'))).toBeInTheDocument();
+        expect(getByTitle(getBreadcrumbTitle('Drivers'))).toBeInTheDocument();
+        expect(
+            getByTitle(getBreadcrumbTitle(`${driverMock.first_name} ${driverMock.last_name}`)),
         ).toBeInTheDocument();
     });
 });
