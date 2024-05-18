@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import { URLS } from '~entities/driver/api/urls';
+import { DRIVER_URLS } from '~entities/driver/api';
 
 import DriversPage from '~app/drivers/page';
 
@@ -19,7 +19,7 @@ describe('DriversPage', () => {
     it('should render drivers page correctly', async () => {
         const firstDriver = DriversMock[0];
 
-        MockAdapter.onGet(URLS.index).replyOnce(200, {
+        MockAdapter.onGet(DRIVER_URLS.index).replyOnce(200, {
             data: DriversMock,
             count: DriversMock.length,
         });
@@ -38,7 +38,7 @@ describe('DriversPage', () => {
     });
 
     it('should render breadcrumbs correctly', async () => {
-        MockAdapter.onGet(URLS.index).replyOnce(200, {
+        MockAdapter.onGet(DRIVER_URLS.index).replyOnce(200, {
             data: [],
             count: 0,
         });

@@ -1,7 +1,7 @@
 import { axios } from '~shared/api/axios';
 
-import { URLS } from '~entities/driver/api/urls';
-import { DriverType } from '~entities/driver/type';
+import type { DriverType } from '~entities/driver';
+import { DRIVER_URLS } from '~entities/driver/api';
 
 interface IDriversResponse {
     data: DriverType[];
@@ -15,7 +15,7 @@ interface IUseDriverServer {
 
 export async function useDriversServer({ page, perPage }: IUseDriverServer) {
     try {
-        const { data } = await axios.get<IDriversResponse>(URLS.index, {
+        const { data } = await axios.get<IDriversResponse>(DRIVER_URLS.index, {
             params: {
                 page,
                 perPage,

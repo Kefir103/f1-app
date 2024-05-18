@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
-import { URLS } from '~entities/driver/api/urls';
+import { DRIVER_URLS } from '~entities/driver/api';
 import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
@@ -18,7 +18,7 @@ test('should render driver page', async ({ page, server }) => {
     const driver = DriversMock[0];
 
     await setupServer(server, {
-        url: URLS.ref(driver.ref),
+        url: DRIVER_URLS.ref(driver.ref),
         method: 'GET',
         handler: function (_, reply) {
             reply.send(driver);
@@ -68,7 +68,7 @@ test("should go to constructor page after constructor's name click", async ({ pa
     await setupServer(
         server,
         {
-            url: URLS.ref(driver.ref),
+            url: DRIVER_URLS.ref(driver.ref),
             method: 'GET',
             handler: function (_, reply) {
                 reply.send(driver);
@@ -94,7 +94,7 @@ test('should render breadcrumbs correctly', async ({ page, server }) => {
     const driverMock = DriversMock[0];
 
     await setupServer(server, {
-        url: URLS.ref(driverMock.ref),
+        url: DRIVER_URLS.ref(driverMock.ref),
         method: 'GET',
         handler: function (_, reply) {
             reply.send(driverMock);

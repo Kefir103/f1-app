@@ -5,7 +5,7 @@ import { getBreadcrumbsItemsDrivers } from '~app/drivers/breadcrumbs';
 
 import { useDriversServer } from '~entities/driver/api';
 
-import { DriverList } from '~widgets/driver-list/ui';
+import { DriverList } from '~widgets/driver/ui';
 
 interface IDriversPage {
     searchParams: {
