@@ -1,8 +1,7 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import { URLS } from '~entities/driver/api/urls';
-import { useDriverServer } from '~entities/driver/api/useDriverServer';
+import { DRIVER_URLS, useDriverServer } from '~entities/driver/api';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
@@ -16,14 +15,14 @@ describe('useDriverServer', () => {
             date_of_birth: DriversMock[0].date_of_birth.toString(),
         };
 
-        MockAdapter.onGet(URLS.ref(driverMock.ref)).replyOnce(200, driverMock);
+        MockAdapter.onGet(DRIVER_URLS.ref(driverMock.ref)).replyOnce(200, driverMock);
 
         const { driver } = await useDriverServer(driverMock.ref);
 
         expect(driver).toEqual(driverMock);
     });
     it('should throw an error on error response', async () => {
-        MockAdapter.onGet(URLS.ref('')).networkErrorOnce();
+        MockAdapter.onGet(DRIVER_URLS.ref('')).networkErrorOnce();
 
         await expect(async () => await useDriverServer('')).rejects.toThrow(Error);
     });

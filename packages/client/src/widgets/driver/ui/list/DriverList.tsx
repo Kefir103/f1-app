@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
-import { DriverType } from '~entities/driver/type';
-import { DriverListCard } from '~entities/driver/ui/list-card/DriverListCard';
+import type { DriverType } from '~entities/driver';
+import { DriverListCard } from '~entities/driver/ui';
 
 interface IDriverList {
     drivers: Array<DriverType>;

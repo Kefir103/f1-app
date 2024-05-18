@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, Link, Typography } from '@mui/material';
 import moment from 'moment';
 import NextLink from 'next/link';
 
-import { DriverType } from '~entities/driver/type';
+import type { DriverType } from '~entities/driver';
 
 interface IDriverListCard {
     driver: DriverType;
