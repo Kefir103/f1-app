@@ -1,10 +1,10 @@
 import NextLink from 'next/link';
 import { Card, CardContent, CardHeader, Link } from '@mui/material';
 
-import type { Season } from '~entities/season/type';
+import type { SeasonType } from '~entities/season';
 
 interface ISeasonListCard {
-    season: Season;
+    season: SeasonType;
 }
 
 export function SeasonListCard({ season }: ISeasonListCard) {

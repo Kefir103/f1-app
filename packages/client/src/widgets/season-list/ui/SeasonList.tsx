@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material';
 
-import type { Season } from '~entities/season/type';
-import { SeasonListCard } from '~entities/season/ui/list-card';
+import type { SeasonType } from '~entities/season';
+import { SeasonListCard } from '~entities/season/ui';
 
 interface ISeasonList {
-    seasons: Season[];
+    seasons: SeasonType[];
 }
 
 export function SeasonList({ seasons }: ISeasonList) {
