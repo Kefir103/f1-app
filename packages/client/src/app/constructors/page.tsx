@@ -3,7 +3,7 @@ import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
 
 import { getBreadcrumbsItemsConstructors } from '~app/constructors/breadcrumbs';
 
-import { ConstructorList } from '~widgets/constructor-list/ui';
+import { ConstructorList } from '~widgets/constructor/ui';
 
 import { useConstructorsServer } from '~entities/constructor/api';
 

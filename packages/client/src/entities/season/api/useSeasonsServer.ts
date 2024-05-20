@@ -1,7 +1,7 @@
 import { axios } from '~shared/api/axios';
 
-import type { Season } from '~entities/season/type';
-import { URLS } from '~entities/season/api/urls';
+import type { SeasonType } from '~entities/season';
+import { SEASON_URLS } from '~entities/season/api';
 
 interface IUseSeasonsServer {
     page: number;
@@ -9,13 +9,13 @@ interface IUseSeasonsServer {
 }
 
 interface IUseSeasonsServerResponse {
-    data: Season[];
+    data: SeasonType[];
     count: number;
 }
 
 export async function useSeasonsServer({ page, perPage }: IUseSeasonsServer) {
     try {
-        const { data } = await axios.get<IUseSeasonsServerResponse>(URLS.index, {
+        const { data } = await axios.get<IUseSeasonsServerResponse>(SEASON_URLS.index, {
             params: {
                 page,
                 perPage,

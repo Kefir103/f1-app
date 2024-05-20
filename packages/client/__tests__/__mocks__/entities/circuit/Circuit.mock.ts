@@ -1,6 +1,6 @@
-import { Circuit } from '~entities/circuit/type';
+import type { CircuitType } from '~entities/circuit';
 
-export const CircuitsMock: Circuit[] = [
+export const CircuitsMock: CircuitType[] = [
     {
         id: 1,
         ref: 'first_ref',

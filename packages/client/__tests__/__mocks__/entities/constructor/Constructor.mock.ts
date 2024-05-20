@@ -1,4 +1,4 @@
-import { Constructor } from '~entities/constructor/type';
+import { Constructor } from '~entities/constructor';
 
 export const ConstructorsMock: Constructor[] = [
     {

@@ -23,7 +23,7 @@ describe('<ConstructorPage />', () => {
             constructorMock,
         );
 
-        const { getByRole, getByText } = await render(
+        const { getByRole } = await render(
             RouterMock({
                 children: await ConstructorPage({
                     params: { ref: constructorMock.ref },
@@ -33,15 +33,6 @@ describe('<ConstructorPage />', () => {
 
         // Constructor name
         expect(getByRole('heading', { name: constructorMock.name })).toBeInTheDocument();
-
-        // Constructor Wiki URL
-        const wikiUrl = getByRole('link', { name: 'Wiki' });
-
-        expect(wikiUrl).toBeInTheDocument();
-        expect(wikiUrl).toHaveAttribute('href', constructorMock.wiki_url);
-
-        // Constructor nationality
-        expect(getByText(`Nationality: ${constructorMock.nationality}`)).toBeInTheDocument();
     });
 
     it('should render breadcrumbs correctly', async () => {

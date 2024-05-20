@@ -5,7 +5,7 @@ import { getBreadcrumbsItemsSeasons } from '~app/seasons/breadcrumbs';
 
 import { useSeasonsServer } from '~entities/season/api';
 
-import { SeasonList } from '~widgets/season-list/ui';
+import { SeasonList } from '~widgets/season/ui';
 
 interface ISeasonsPage {
     searchParams: {
