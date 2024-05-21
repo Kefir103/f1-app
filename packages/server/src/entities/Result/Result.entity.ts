@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { ResultType } from '~f1-app/shared/types/Result/Result.type';
+import type { ResultType } from '~f1-app/shared/types/Result/Result.type';
 
 import { Race } from '~entities/Race/Race.entity';
+import { Driver } from '~entities/Driver/Driver.entity';
 
 @Entity({ name: 'results' })
 export class Result implements ResultType {
@@ -21,6 +22,10 @@ export class Result implements ResultType {
 
     @Column('integer')
     driver_id: number;
+
+    @OneToOne(() => Driver, { nullable: false, createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'driver_id', referencedColumnName: 'id' })
+    driver: Driver;
 
     @Column('integer')
     constructor_id: number;

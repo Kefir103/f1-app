@@ -1,10 +1,12 @@
-import { RaceType } from '../Race/Race.type';
+import type { RaceType } from '../Race/Race.type';
+import type { DriverType } from '../Driver/Driver.type';
 
 export interface ResultType {
     id: number;
     race_id: number;
     race: RaceType;
     driver_id: number;
+    driver: DriverType;
     constructor_id: number;
     driver_number?: number | null;
     position_start_grid: number;

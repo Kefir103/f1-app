@@ -28,6 +28,9 @@ export class RaceController {
 
     @Get(':id/results')
     public async getResults(@Param('id') id: number) {
-        return await this.resultsService.getAll({ where: { race_id: id } });
+        return await this.resultsService.getAll({
+            where: { race_id: id },
+            relations: { driver: true },
+        });
     }
 }
