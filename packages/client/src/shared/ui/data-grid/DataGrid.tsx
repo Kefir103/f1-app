@@ -24,6 +24,14 @@ export function DataGrid<T extends object = {}>({
     rowKey,
     size,
 }: IDataGridProps<T>) {
+    const getTableCellValue = (column: DataGridColumnType<T>, entity: T, index: number): string => {
+        if (column.render) {
+            return column.render(entity[column.field], entity, index);
+        }
+
+        return String(entity[column.field] ?? '');
+    };
+
     return (
         <TableContainer component={Paper} className={'dark:bg-slate-900'}>
             <Table size={size}>
@@ -42,22 +50,20 @@ export function DataGrid<T extends object = {}>({
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((entity, index) => (
-                        <TableRow key={rowKey(entity, index)}>
+                    {data.map((entity, entityIndex) => (
+                        <TableRow key={rowKey(entity, entityIndex)}>
                             {columns.map((column) => {
-                                const value = entity[column.field] ?? '';
-
                                 return (
                                     <TableCell
                                         className={
                                             'dark:border-t-2 dark:border-t-slate-700 dark:text-amber-50'
                                         }
-                                        key={`table_row_${rowKey(entity, index)}_${String(
+                                        key={`table_row_${rowKey(entity, entityIndex)}_${String(
                                             column.field,
                                         )}`}
                                         align={column.align || 'inherit'}
                                     >
-                                        {String(value)}
+                                        {getTableCellValue(column, entity, entityIndex)}
                                     </TableCell>
                                 );
                             })}

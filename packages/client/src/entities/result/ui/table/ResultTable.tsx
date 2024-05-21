@@ -13,11 +13,13 @@ export function ResultTable({ results, entityColumns }: IResultTableProps) {
         {
             field: 'position',
             title: 'Position',
+            render: (position) => position ?? 'DNF',
         },
         ...entityColumns,
         {
             field: 'fastest_lap_time',
             title: 'Fastest lap time',
+            render: (fastestLapTime) => fastestLapTime || '-',
         },
         {
             field: 'fastest_lap_rank',
@@ -26,6 +28,7 @@ export function ResultTable({ results, entityColumns }: IResultTableProps) {
         {
             field: 'fastest_lap_number',
             title: 'Fastest lap number',
+            render: (fastestLapNumber) => fastestLapNumber || '-',
         },
         {
             field: 'points',

@@ -37,4 +37,44 @@ describe('<DataGrid />', () => {
 
         expect(getAllByRole('row')[1].querySelector('td')).toHaveTextContent('');
     });
+
+    it('should render cell value via custom render function', () => {
+        const tableData = [{ name: 'name' }];
+
+        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
+            {
+                field: 'name',
+                title: 'Name',
+                render: (name) => name.toUpperCase(),
+            },
+        ];
+
+        const { getAllByRole } = render(
+            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
+        );
+
+        expect(getAllByRole('row')[1].querySelector('td')).toHaveTextContent(
+            tableData[0].name.toUpperCase(),
+        );
+    });
+
+    it('should render cell union value via custom render function', () => {
+        const tableData = [{ name: 'name', surname: 'surname' }];
+
+        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
+            {
+                field: 'name',
+                title: 'Name + Surname',
+                render: (_, entity) => `${entity.name} ${entity.surname}`,
+            },
+        ];
+
+        const { getAllByRole } = render(
+            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
+        );
+
+        expect(getAllByRole('row')[1].querySelector('td')).toHaveTextContent(
+            `${tableData[0].name} ${tableData[0].surname}`,
+        );
+    });
 });
