@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import {
     Paper,
     Table,
@@ -24,7 +26,11 @@ export function DataGrid<T extends object = {}>({
     rowKey,
     size,
 }: IDataGridProps<T>) {
-    const getTableCellValue = (column: DataGridColumnType<T>, entity: T, index: number): string => {
+    const getTableCellValue = (
+        column: DataGridColumnType<T>,
+        entity: T,
+        index: number,
+    ): ReactElement | string => {
         if (column.render) {
             return column.render(entity[column.field], entity, index);
         }

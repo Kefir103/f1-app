@@ -221,10 +221,51 @@ test('should render results table', async ({ page, server }) => {
     await page.goto(`/races/${raceMock.id}`);
 
     await expect(page.getByRole('columnheader', { name: 'Position' })).toBeVisible();
-    await expect(page.getByRole('columnheader', { name: 'Driver number' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Driver' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Fastest lap time' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Fastest lap rank' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Fastest lap number' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Points' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Laps' })).toBeVisible();
+});
+
+test("should open driver page in new tab after result's table driver's name click", async ({
+    page,
+    server,
+    context,
+}) => {
+    const raceMock = RacesMock[0];
+
+    const resultsMock = getRaceResultsMocks(raceMock.id);
+    const driverMock = resultsMock.data[0].driver;
+
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
+        },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(resultsMock);
+            },
+        },
+    );
+
+    await page.goto(`/races/${raceMock.id}`);
+
+    const newPagePromise = context.waitForEvent('page');
+
+    await page
+        .getByRole('link', { name: `${driverMock.first_name} ${driverMock.last_name}` })
+        .click();
+
+    const newPage = await newPagePromise;
+
+    await expect(newPage).toHaveURL(`/drivers/${driverMock.ref}`);
 });

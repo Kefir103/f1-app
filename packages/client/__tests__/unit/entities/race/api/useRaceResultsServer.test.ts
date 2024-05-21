@@ -1,5 +1,7 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
+import moment from 'moment';
+import lodash from 'lodash';
 
 import { RACE_URLS, useRaceResultsServer } from '~entities/race/api';
 
@@ -12,7 +14,20 @@ describe('useRaceResultsServer', () => {
     it('should return results from response', async () => {
         const raceId = 1;
 
-        const resultsMockFiltered = RacesResultsMock.filter((result) => result.race_id === raceId);
+        const resultsMockFiltered = RacesResultsMock.filter(
+            (result) => result.race_id === raceId,
+        ).map((result) => {
+            return lodash.omit(
+                {
+                    ...result,
+                    driver: {
+                        ...result.driver,
+                        date_of_birth: moment(result.driver.date_of_birth).format('YYYY-MM-DD'),
+                    },
+                },
+                'race',
+            );
+        });
 
         MockAdapter.onGet(RACE_URLS.results(raceId)).replyOnce(200, {
             data: resultsMockFiltered,

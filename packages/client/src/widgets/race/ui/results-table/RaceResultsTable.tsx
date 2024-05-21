@@ -1,7 +1,10 @@
+import NextLink from 'next/link';
 import { Typography } from '@mui/material';
 
 import type { ResultType } from '~entities/result';
 import { ResultTable } from '~entities/result/ui';
+
+import type { DriverType } from '~entities/driver';
 
 import type { DataGridColumnType } from '~shared/ui/data-grid';
 
@@ -12,8 +15,18 @@ export interface IResultsTableProps {
 export function RaceResultsTable({ results }: IResultsTableProps) {
     const additionalColumns: DataGridColumnType<ResultType>[] = [
         {
-            field: 'driver_number',
-            title: 'Driver number',
+            field: 'driver',
+            title: 'Driver',
+            render: (driver: DriverType) => (
+                <NextLink
+                    className={'link'}
+                    href={`/drivers/${driver.ref}`}
+                    title={`Driver: ${driver.first_name} ${driver.last_name}`}
+                    target={'_blank'}
+                >
+                    {driver.first_name} {driver.last_name}
+                </NextLink>
+            ),
         },
     ];
 
