@@ -4,6 +4,7 @@ import type { ResultType } from '~f1-app/shared/types/Result/Result.type';
 
 import { Race } from '~entities/Race/Race.entity';
 import { Driver } from '~entities/Driver/Driver.entity';
+import { Constructor } from '~entities/Constructor/Constructor.entity';
 
 @Entity({ name: 'results' })
 export class Result implements ResultType {
@@ -29,6 +30,10 @@ export class Result implements ResultType {
 
     @Column('integer')
     constructor_id: number;
+
+    @OneToOne(() => Constructor, { nullable: false, createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'constructor_id', referencedColumnName: 'id' })
+    constructor_entity: Constructor;
 
     @Column('integer', { nullable: true })
     driver_number: number;

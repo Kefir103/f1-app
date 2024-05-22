@@ -46,7 +46,7 @@ export const DriverMocks: Omit<DriverType, 'constructor_entity'>[] = [
     },
 ];
 
-export const DriverResultsMock: Omit<ResultType, 'driver'>[] = [
+export const DriverResultsMock: Omit<ResultType, 'driver' | 'constructor_entity'>[] = [
     {
         id: 1,
         race_id: 1,

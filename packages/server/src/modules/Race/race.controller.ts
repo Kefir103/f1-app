@@ -30,7 +30,10 @@ export class RaceController {
     public async getResults(@Param('id') id: number) {
         return await this.resultsService.getAll({
             where: { race_id: id },
-            relations: { driver: true },
+            relations: {
+                driver: true,
+                constructor_entity: true,
+            },
         });
     }
 }

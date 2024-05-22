@@ -19,11 +19,18 @@ export const ResultsDriversMock: DriverType[] = new Array(2).fill(null).map((_, 
     poles_count: 0,
 }));
 
-export const ResultsMock: Omit<ResultType, 'race' | 'driver'>[] = new Array(2).fill(null).map((_, index) => ({
+export const ResultsConstructorsMock: ConstructorType[] = new Array(2).fill(null).map((_, index) => ({
+    id: index + 1,
+    ref: `results_constructor_ref_${index + 1}`,
+    name: `results_constructor_name_${index + 1}`,
+    wiki_url: `results_constructor_wiki_url_${index + 1}`,
+    nationality: `results_constructor_nationality_${index + 1}`,
+}))
+
+export const ResultsMock: Omit<ResultType, 'race' | 'driver' | 'constructor_entity'>[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     race_id: index + 1,
     driver_id: index + 1,
-    // driver: ResultsDriversMock.find((driver) => driver.id === index + 1),
     constructor_id: index + 1,
     driver_number: index + 1,
     position_start_grid: index + 1,

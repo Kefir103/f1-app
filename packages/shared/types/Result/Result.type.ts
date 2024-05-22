@@ -1,5 +1,6 @@
 import type { RaceType } from '../Race/Race.type';
 import type { DriverType } from '../Driver/Driver.type';
+import type { ConstructorType } from '../Constructor/Constructor.type';
 
 export interface ResultType {
     id: number;
@@ -8,6 +9,7 @@ export interface ResultType {
     driver_id: number;
     driver: DriverType;
     constructor_id: number;
+    constructor_entity: ConstructorType;
     driver_number?: number | null;
     position_start_grid: number;
     position?: number | null;

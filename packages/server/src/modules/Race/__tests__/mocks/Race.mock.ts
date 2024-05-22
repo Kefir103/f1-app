@@ -87,6 +87,7 @@ export const RacesResultsMock: Omit<ResultType, 'race'>[] = new Array(2)
         driver_id: index + 1,
         driver: RacesDriversMock.find((driver) => driver.id === index + 1) as DriverType,
         constructor_id: index + 1,
+        constructor_entity: RacesConstructorsMock.find((constructor) => constructor.id === index + 1),
         driver_number: index + 1,
         position_start_grid: index + 1,
         position: 99,

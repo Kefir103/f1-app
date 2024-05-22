@@ -5,7 +5,11 @@ import { Result } from '~entities/Result/Result.entity';
 
 import { UnitMockRepository } from '~test-utils/unit/mock-repository/UnitMockRepository';
 
-import { ResultsDriversMock, ResultsMock } from '~modules/Results/__tests__/mocks/Results.mock';
+import {
+    ResultsConstructorsMock,
+    ResultsDriversMock,
+    ResultsMock,
+} from '~modules/Results/__tests__/mocks/Results.mock';
 import { ResultsService } from '~modules/Results/results.service';
 
 describe('ResultsService', () => {
@@ -17,6 +21,13 @@ describe('ResultsService', () => {
             key: 'driver_id',
             foreign_key: 'id',
             entities: ResultsDriversMock,
+            multiple: false,
+        },
+        {
+            name: 'constructor_entity',
+            key: 'constructor_id',
+            foreign_key: 'id',
+            entities: ResultsConstructorsMock,
             multiple: false,
         },
     ]);
