@@ -3,6 +3,7 @@ import type { CircuitType } from '~entities/circuit';
 import type { ResultType } from '~entities/result';
 import type { DriverType } from '~entities/driver';
 import type { Constructor } from '~entities/constructor';
+import type { StatusType } from '~entities/status';
 
 const RacesCircuitMock: CircuitType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -65,6 +66,11 @@ export const RacesResultsConstructorsMock: Constructor[] = new Array(2)
         wiki_url: `race_results_constructor_wiki_${index + 1}`,
     }));
 
+export const RacesResultsStatusesMock: StatusType[] = new Array(2).fill(null).map((_, index) => ({
+    id: index + 1,
+    status: `races_results_status_${index + 1}`,
+}));
+
 export const RacesResultsMock: ResultType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     race_id: 1,
@@ -89,4 +95,5 @@ export const RacesResultsMock: ResultType[] = new Array(2).fill(null).map((_, in
     fastest_lap_time: '',
     fastest_lap_speed: '',
     status_id: 1,
+    status: RacesResultsStatusesMock.find((status) => status.id === 1) as StatusType,
 }));

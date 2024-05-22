@@ -12,7 +12,7 @@ const getTableCellIndex = (headerText: string) =>
 
 describe('<ResultTable />', () => {
     it('should render correctly', () => {
-        const { getByRole } = render(<ResultTable results={ResultsMock} />);
+        const { getByRole } = render(<ResultTable results={ResultsMock as ResultType[]} />);
 
         expect(getByRole('columnheader', { name: 'Position' })).toBeInTheDocument();
         expect(getByRole('columnheader', { name: 'Fastest lap time' })).toBeInTheDocument();
@@ -24,9 +24,9 @@ describe('<ResultTable />', () => {
     });
 
     it('should render DNF if position is null', () => {
-        const resultsMock: ResultType[] = [{ ...ResultsMock[0], position: null }];
+        const resultsMock: typeof ResultsMock = [{ ...ResultsMock[0], position: null }];
 
-        const { getAllByRole } = render(<ResultTable results={resultsMock} />);
+        const { getAllByRole } = render(<ResultTable results={resultsMock as ResultType[]} />);
 
         const positionCellIndex = getTableCellIndex('Position');
 
@@ -36,9 +36,9 @@ describe('<ResultTable />', () => {
     });
 
     it('should render "-" if fastest lap number is null', () => {
-        const resultsMock: ResultType[] = [{ ...ResultsMock[0], fastest_lap_number: null }];
+        const resultsMock: typeof ResultsMock = [{ ...ResultsMock[0], fastest_lap_number: null }];
 
-        const { getAllByRole } = render(<ResultTable results={resultsMock} />);
+        const { getAllByRole } = render(<ResultTable results={resultsMock as ResultType[]} />);
 
         const positionCellIndex = getTableCellIndex('Fastest lap number');
 
@@ -48,9 +48,9 @@ describe('<ResultTable />', () => {
     });
 
     it('should render "-" if fastest lap time is null', () => {
-        const resultsMock: ResultType[] = [{ ...ResultsMock[0], fastest_lap_time: null }];
+        const resultsMock: typeof ResultsMock = [{ ...ResultsMock[0], fastest_lap_time: null }];
 
-        const { getAllByRole } = render(<ResultTable results={resultsMock} />);
+        const { getAllByRole } = render(<ResultTable results={resultsMock as ResultType[]} />);
 
         const positionCellIndex = getTableCellIndex('Fastest lap time');
 
