@@ -5,6 +5,7 @@ import type { ResultType } from '~f1-app/shared/types/Result/Result.type';
 import { Race } from '~entities/Race/Race.entity';
 import { Driver } from '~entities/Driver/Driver.entity';
 import { Constructor } from '~entities/Constructor/Constructor.entity';
+import { Status } from '~entities/Status/Status.entity';
 
 @Entity({ name: 'results' })
 export class Result implements ResultType {
@@ -76,4 +77,8 @@ export class Result implements ResultType {
 
     @Column('integer', { default: 0 })
     status_id: number;
+
+    @OneToOne(() => Status, { nullable: true, createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'status_id', referencedColumnName: 'id' })
+    status: Status;
 }

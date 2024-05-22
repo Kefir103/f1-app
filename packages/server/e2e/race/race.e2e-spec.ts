@@ -17,6 +17,7 @@ import { Circuit } from '~entities/Circuit/Circuit.entity';
 import { Driver } from '~entities/Driver/Driver.entity';
 import { Constructor } from '~entities/Constructor/Constructor.entity';
 import { Qualifying } from '~entities/Qualifying/Qualifying.entity';
+import { Status } from '~entities/Status/Status.entity';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
@@ -27,6 +28,7 @@ import {
     RacesDriversMock,
     RacesConstructorsMock,
     RacesQualifyingsMock,
+    RacesStatusesMock,
 } from '~modules/Race/__tests__/mocks/Race.mock';
 
 function formatRaceResponse(race: RaceType) {
@@ -77,6 +79,10 @@ describe('Race e2e', () => {
                     {
                         entitySchema: Qualifying,
                         data: RacesQualifyingsMock,
+                    },
+                    {
+                        entitySchema: Status,
+                        data: RacesStatusesMock,
                     },
                 ]),
             ],
@@ -147,14 +153,15 @@ describe('Race e2e', () => {
 
     it('/race/:id/results (GET, 200)', () => {
         const entity = RacesMock[0];
-        const entityResults = RacesResultsMock.filter((result) => result.race_id === entity.id)
-            .map((result) => ({
+        const entityResults = RacesResultsMock.filter((result) => result.race_id === entity.id).map(
+            (result) => ({
                 ...result,
                 driver: {
                     ...result.driver,
-                    date_of_birth: moment(result.driver.date_of_birth).format('YYYY-MM-DD')
-                }
-            }));
+                    date_of_birth: moment(result.driver.date_of_birth).format('YYYY-MM-DD'),
+                },
+            }),
+        );
 
         return request(app.getHttpServer()).get(`/race/${entity.id}/results`).expect(200).expect({
             data: entityResults,

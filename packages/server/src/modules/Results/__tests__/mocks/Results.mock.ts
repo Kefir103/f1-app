@@ -1,6 +1,7 @@
 import type { ResultType } from '~f1-app/shared/types/Result/Result.type';
 import type { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
 import type { ConstructorType } from '~f1-app/shared/types/Constructor/Constructor.type';
+import type { StatusType } from '~f1-app/shared/types/Status/Status.type';
 
 export const ResultsDriversMock: DriverType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -25,9 +26,14 @@ export const ResultsConstructorsMock: ConstructorType[] = new Array(2).fill(null
     name: `results_constructor_name_${index + 1}`,
     wiki_url: `results_constructor_wiki_url_${index + 1}`,
     nationality: `results_constructor_nationality_${index + 1}`,
-}))
+}));
 
-export const ResultsMock: Omit<ResultType, 'race' | 'driver' | 'constructor_entity'>[] = new Array(2).fill(null).map((_, index) => ({
+export const ResultsStatusMock: StatusType[] = new Array(2).fill(null).map((_, index) => ({
+    id: index + 1,
+    status: `results_status_${index + 1}`,
+}));
+
+export const ResultsMock: Omit<ResultType, 'race' | 'driver' | 'constructor_entity' | 'status'>[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     race_id: index + 1,
     driver_id: index + 1,

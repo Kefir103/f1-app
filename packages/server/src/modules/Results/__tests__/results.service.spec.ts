@@ -9,6 +9,7 @@ import {
     ResultsConstructorsMock,
     ResultsDriversMock,
     ResultsMock,
+    ResultsStatusMock,
 } from '~modules/Results/__tests__/mocks/Results.mock';
 import { ResultsService } from '~modules/Results/results.service';
 
@@ -28,6 +29,13 @@ describe('ResultsService', () => {
             key: 'constructor_id',
             foreign_key: 'id',
             entities: ResultsConstructorsMock,
+            multiple: false,
+        },
+        {
+            name: 'status',
+            key: 'status_id',
+            foreign_key: 'id',
+            entities: ResultsStatusMock,
             multiple: false,
         },
     ]);
@@ -64,6 +72,7 @@ describe('ResultsService', () => {
             },
             relations: {
                 driver: true,
+                constructor_entity: true,
             },
         });
 
@@ -72,6 +81,10 @@ describe('ResultsService', () => {
         ).map((result) => ({
             ...result,
             driver: ResultsDriversMock.find((driver) => driver.id === result.driver_id),
+            constructor_entity: ResultsConstructorsMock.find(
+                (constructor) => constructor.id === result.constructor_id,
+            ),
+            status: ResultsStatusMock.find((status) => status.id === result.status_id),
         }));
 
         const expectedResults = {

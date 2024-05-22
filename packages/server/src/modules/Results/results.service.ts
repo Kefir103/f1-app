@@ -17,7 +17,10 @@ export class ResultsService {
     }) {
         const data = await this.resultsRepository.find({
             where,
-            relations,
+            relations: {
+                ...relations,
+                status: true,
+            },
             order: {
                 position_order: 'ASC',
             },

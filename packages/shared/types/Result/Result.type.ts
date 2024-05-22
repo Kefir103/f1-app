@@ -1,6 +1,7 @@
 import type { RaceType } from '../Race/Race.type';
 import type { DriverType } from '../Driver/Driver.type';
 import type { ConstructorType } from '../Constructor/Constructor.type';
+import type { StatusType } from '../Status/Status.type';
 
 export interface ResultType {
     id: number;
@@ -24,4 +25,5 @@ export interface ResultType {
     fastest_lap_time?: string | null;
     fastest_lap_speed?: string | null;
     status_id: number;
+    status: StatusType;
 }
