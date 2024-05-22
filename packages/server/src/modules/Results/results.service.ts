@@ -18,6 +18,9 @@ export class ResultsService {
         const data = await this.resultsRepository.find({
             where,
             relations,
+            order: {
+                position_order: 'ASC',
+            },
         });
 
         const count = await this.getCount({
