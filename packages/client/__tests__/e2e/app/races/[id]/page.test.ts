@@ -222,11 +222,13 @@ test('should render results table', async ({ page, server }) => {
 
     await expect(page.getByRole('columnheader', { name: 'Position' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Driver' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Constructor' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Fastest lap time' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Fastest lap rank' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Fastest lap number' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Points' })).toBeVisible();
     await expect(page.getByRole('columnheader', { name: 'Laps' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Status' })).toBeVisible();
 });
 
 test("should open driver page in new tab after result's table driver's name click", async ({

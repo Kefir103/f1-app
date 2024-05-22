@@ -2,6 +2,7 @@ import { DataGrid, DataGridColumnType } from '~shared/ui/data-grid';
 
 import type { ResultType } from '~entities/result';
 import type { DataGridColumn } from '~shared/ui/data-grid/types/Column.type';
+import type { StatusType } from '~entities/status';
 
 interface IResultTableProps {
     results: ResultType[];
@@ -37,6 +38,11 @@ export function ResultTable({ results, entityColumns }: IResultTableProps) {
         {
             field: 'laps',
             title: 'Laps',
+        },
+        {
+            field: 'status',
+            title: 'Status',
+            render: ({ status }: StatusType) => status,
         },
     ];
 

@@ -5,5 +5,5 @@ export interface DataGridColumn<T> {
     field: keyof T;
     title: string;
     align?: TableCellProps['align'];
-    render?: (value: any, entity: T, index: number) => ReactElement
+    render?: (value: any, entity: T, index: number) => ReactElement | string
 }

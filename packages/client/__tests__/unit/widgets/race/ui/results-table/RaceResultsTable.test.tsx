@@ -16,6 +16,7 @@ describe('<RaceResultsTable />', () => {
         expect(getByRole('columnheader', { name: 'Fastest lap number' })).toBeInTheDocument();
         expect(getByRole('columnheader', { name: 'Points' })).toBeInTheDocument();
         expect(getByRole('columnheader', { name: 'Laps' })).toBeInTheDocument();
+        expect(getByRole('columnheader', { name: 'Status' })).toBeInTheDocument();
     });
 
     it("should render driver's link", () => {
