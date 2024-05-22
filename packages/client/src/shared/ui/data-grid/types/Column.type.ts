@@ -1,7 +1,9 @@
 import { ReactElement } from 'react';
 import { TableCellProps } from '@mui/material';
 
-export interface DataGridColumnRowCellOptions extends TableCellProps {}
+export type DataGridColumnRowCellOptions<T> = Omit<TableCellProps, 'className'> & {
+    className: (value: any, entity: T, index: number) => string;
+};
 
 export interface DataGridColumn<T> {
     field: keyof T;
@@ -9,6 +11,6 @@ export interface DataGridColumn<T> {
     align?: TableCellProps['align'];
     render?: (value: any, entity: T, index: number) => ReactElement | string;
     rowOptions?: {
-        cellOptions?: DataGridColumnRowCellOptions;
-    }
+        cellOptions?: DataGridColumnRowCellOptions<T>;
+    };
 }

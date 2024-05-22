@@ -38,12 +38,19 @@ export function DataGrid<T extends object = {}>({
         return String(entity[column.field] ?? '');
     };
 
-    const getTableBodyCellProps = (rowCellOptions?: DataGridColumnRowCellOptionsType) => {
+    const getTableBodyCellProps = (
+        rowCellOptions: DataGridColumnRowCellOptionsType<T> | undefined,
+        value: any,
+        entity: T,
+        index: number,
+    ) => {
         const defaultClassNames = 'dark:border-t-2 dark:border-t-slate-700 dark:text-amber-50';
 
         return {
             ...rowCellOptions,
-            className: `${defaultClassNames} ${rowCellOptions?.className ?? ''}`,
+            className: `${defaultClassNames} ${
+                rowCellOptions?.className(value, entity, index) ?? ''
+            }`,
         };
     };
 
@@ -74,7 +81,12 @@ export function DataGrid<T extends object = {}>({
                                             column.field,
                                         )}`}
                                         align={column.align || 'inherit'}
-                                        {...getTableBodyCellProps(column?.rowOptions?.cellOptions)}
+                                        {...getTableBodyCellProps(
+                                            column?.rowOptions?.cellOptions,
+                                            entity[column.field],
+                                            entity,
+                                            entityIndex,
+                                        )}
                                     >
                                         {getTableCellValue(column, entity, entityIndex)}
                                     </TableCell>

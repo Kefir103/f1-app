@@ -88,10 +88,10 @@ describe('<DataGrid />', () => {
                 title: 'Name',
                 rowOptions: {
                     cellOptions: {
-                        className: additionalClassName,
-                    }
-                }
-            }
+                        className: () => additionalClassName,
+                    },
+                },
+            },
         ];
 
         const { getAllByRole } = render(
