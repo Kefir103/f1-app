@@ -1,1 +1,1 @@
-export { ResultTable } from './table';
+export { ResultTable, ResultTableFastestLapFormatter as ResultTableFastestLapFormatter } from './table';

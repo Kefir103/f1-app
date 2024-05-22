@@ -70,4 +70,43 @@ describe('<ResultTable />', () => {
             '-',
         );
     });
+
+    it('only one fastest laps columns row should have purple text if fastest lap order is first', () => {
+        const resultsMock: typeof ResultsMock = ResultsMock.map((resultMock, index) => ({
+            ...resultMock,
+            fastest_lap_time: `1:${index + 1}`,
+            fastest_lap_rank: index + 1,
+            fastest_lap_number: 1,
+        }));
+
+        const { getAllByRole } = render(<ResultTable results={resultsMock as ResultType[]} />);
+
+        const fastestLapTimeCellIndex = getTableCellIndex('Fastest lap time');
+        const fastestLapRankCellIndex = getTableCellIndex('Fastest lap rank');
+        const fastestLapNumberCellIndex = getTableCellIndex('Fastest lap number');
+
+        const [_, firstTableBodyRow, secondTableBodyRow] = getAllByRole('row');
+
+        const fastestLapsExpectingClassNames = ['dark:text-purple-500', 'text-purple-600'];
+
+        expect(firstTableBodyRow.querySelectorAll('td')[fastestLapTimeCellIndex]).toHaveClass(
+            ...fastestLapsExpectingClassNames,
+        );
+        expect(firstTableBodyRow.querySelectorAll('td')[fastestLapRankCellIndex]).toHaveClass(
+            ...fastestLapsExpectingClassNames,
+        );
+        expect(firstTableBodyRow.querySelectorAll('td')[fastestLapNumberCellIndex]).toHaveClass(
+            ...fastestLapsExpectingClassNames,
+        );
+
+        expect(secondTableBodyRow.querySelectorAll('td')[fastestLapTimeCellIndex]).not.toHaveClass(
+            ...fastestLapsExpectingClassNames,
+        );
+        expect(secondTableBodyRow.querySelectorAll('td')[fastestLapRankCellIndex]).not.toHaveClass(
+            ...fastestLapsExpectingClassNames,
+        );
+        expect(
+            secondTableBodyRow.querySelectorAll('td')[fastestLapNumberCellIndex],
+        ).not.toHaveClass(...fastestLapsExpectingClassNames);
+    });
 });

@@ -1,1 +1,1 @@
-export { ResultPosition } from './enums';
+export { ResultPosition, ResultFastestLap } from './enums';
