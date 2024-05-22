@@ -1,2 +1,2 @@
 export { DataGrid } from './DataGrid';
-export type { DataGridColumnType } from './types';
+export type { DataGridColumnType, DataGridColumnRowCellOptionsType } from './types';

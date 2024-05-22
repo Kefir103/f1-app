@@ -77,4 +77,27 @@ describe('<DataGrid />', () => {
             `${tableData[0].name} ${tableData[0].surname}`,
         );
     });
+
+    it('should add additional class to table body cells className via rowOptions.cellOptions without overriding default class', () => {
+        const tableData = [{ name: 'name' }];
+        const additionalClassName = 'some-additional-class';
+
+        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
+            {
+                field: 'name',
+                title: 'Name',
+                rowOptions: {
+                    cellOptions: {
+                        className: additionalClassName,
+                    }
+                }
+            }
+        ];
+
+        const { getAllByRole } = render(
+            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
+        );
+
+        expect(getAllByRole('row')[1].querySelector('td')).toHaveClass(additionalClassName);
+    });
 });

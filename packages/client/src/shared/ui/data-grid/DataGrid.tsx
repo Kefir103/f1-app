@@ -11,7 +11,7 @@ import {
     TableRow,
 } from '@mui/material';
 
-import type { DataGridColumnType } from '~shared/ui/data-grid';
+import type { DataGridColumnType, DataGridColumnRowCellOptionsType } from '~shared/ui/data-grid';
 
 interface IDataGridProps<T extends object = {}> {
     data: T[];
@@ -38,6 +38,15 @@ export function DataGrid<T extends object = {}>({
         return String(entity[column.field] ?? '');
     };
 
+    const getTableBodyCellProps = (rowCellOptions?: DataGridColumnRowCellOptionsType) => {
+        const defaultClassNames = 'dark:border-t-2 dark:border-t-slate-700 dark:text-amber-50';
+
+        return {
+            ...rowCellOptions,
+            className: `${defaultClassNames} ${rowCellOptions?.className ?? ''}`,
+        };
+    };
+
     return (
         <TableContainer component={Paper} className={'dark:bg-slate-900'}>
             <Table size={size}>
@@ -61,13 +70,11 @@ export function DataGrid<T extends object = {}>({
                             {columns.map((column) => {
                                 return (
                                     <TableCell
-                                        className={
-                                            'dark:border-t-2 dark:border-t-slate-700 dark:text-amber-50'
-                                        }
                                         key={`table_row_${rowKey(entity, entityIndex)}_${String(
                                             column.field,
                                         )}`}
                                         align={column.align || 'inherit'}
+                                        {...getTableBodyCellProps(column?.rowOptions?.cellOptions)}
                                     >
                                         {getTableCellValue(column, entity, entityIndex)}
                                     </TableCell>
