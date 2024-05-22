@@ -35,6 +35,18 @@ describe('<ResultTable />', () => {
         );
     });
 
+    it('should render DNS in position cell if laps count is equal 0', () => {
+        const resultsMock: typeof ResultsMock = [{ ...ResultsMock[0], position: null, laps: 0 }];
+
+        const { getAllByRole } = render(<ResultTable results={resultsMock as ResultType[]} />);
+
+        const positionCellIndex = getTableCellIndex('Position');
+
+        expect(getAllByRole('row')[1].querySelectorAll('td')[positionCellIndex]).toHaveTextContent(
+            'DNS',
+        );
+    });
+
     it('should render "-" if fastest lap number is null', () => {
         const resultsMock: typeof ResultsMock = [{ ...ResultsMock[0], fastest_lap_number: null }];
 

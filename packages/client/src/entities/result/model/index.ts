@@ -1,0 +1,1 @@
+export { ResultPosition } from './enums';

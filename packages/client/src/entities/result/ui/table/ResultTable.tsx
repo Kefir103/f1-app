@@ -1,8 +1,11 @@
 import { DataGrid, DataGridColumnType } from '~shared/ui/data-grid';
 
 import type { ResultType } from '~entities/result';
-import type { DataGridColumn } from '~shared/ui/data-grid/types/Column.type';
 import type { StatusType } from '~entities/status';
+
+import { ResultPosition } from '~entities/result/model';
+
+import type { DataGridColumn } from '~shared/ui/data-grid/types/Column.type';
 
 interface IResultTableProps {
     results: ResultType[];
@@ -14,7 +17,17 @@ export function ResultTable({ results, entityColumns }: IResultTableProps) {
         {
             field: 'position',
             title: 'Position',
-            render: (position) => position ?? 'DNF',
+            render: (position, resultEntity) => {
+                if (resultEntity.laps === 0) {
+                    return ResultPosition.DID_NOT_STARTED;
+                }
+
+                if (!position) {
+                    return ResultPosition.DID_NOT_FINISHED;
+                }
+
+                return position;
+            },
         },
         ...entityColumns,
         {
