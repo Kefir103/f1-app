@@ -2,6 +2,7 @@ import type { Race } from '~entities/race';
 import type { CircuitType } from '~entities/circuit';
 import type { ResultType } from '~entities/result';
 import type { DriverType } from '~entities/driver';
+import type { Constructor } from '~entities/constructor';
 
 const RacesCircuitMock: CircuitType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -54,6 +55,16 @@ export const RacesResultsDriversMock: Omit<DriverType, 'constructor_entity'>[] =
         poles_count: 1,
     }));
 
+export const RacesResultsConstructorsMock: Constructor[] = new Array(2)
+    .fill(null)
+    .map((_, index) => ({
+        id: index + 1,
+        ref: `race_results_constructor_ref_${index + 1}`,
+        name: `race_results_constructor_name_${index + 1}`,
+        nationality: `race_results_constructor_nationality_${index + 1}`,
+        wiki_url: `race_results_constructor_wiki_${index + 1}`,
+    }));
+
 export const RacesResultsMock: ResultType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     race_id: 1,
@@ -61,6 +72,9 @@ export const RacesResultsMock: ResultType[] = new Array(2).fill(null).map((_, in
     driver_id: index + 1,
     driver: RacesResultsDriversMock.find((driver) => driver.id === index + 1) as DriverType,
     constructor_id: index + 1,
+    constructor_entity: RacesResultsConstructorsMock.find(
+        (constructor) => constructor.id === index + 1,
+    ) as Constructor,
     driver_number: index + 1,
     position_start_grid: index + 1,
     position: index + 1,

@@ -269,3 +269,42 @@ test("should open driver page in new tab after result's table driver's name clic
 
     await expect(newPage).toHaveURL(`/drivers/${driverMock.ref}`);
 });
+
+test("should open constructor page in new tab after result's table constructor's name click", async ({
+    page,
+    server,
+    context,
+}) => {
+    const raceMock = RacesMock[0];
+
+    const resultsMock = getRaceResultsMocks(raceMock.id);
+    const constructorMock = resultsMock.data[0].constructor_entity;
+
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
+        },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(resultsMock);
+            },
+        },
+    );
+
+    await page.goto(`/races/${raceMock.id}`);
+
+    const newPagePromise = context.waitForEvent('page');
+
+    await page.getByRole('link', { name: constructorMock.name }).click();
+
+    const newPage = await newPagePromise;
+
+    await expect(newPage).toHaveURL(`/constructors/${constructorMock.ref}`);
+});

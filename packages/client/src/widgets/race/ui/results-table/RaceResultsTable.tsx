@@ -5,6 +5,7 @@ import type { ResultType } from '~entities/result';
 import { ResultTable } from '~entities/result/ui';
 
 import type { DriverType } from '~entities/driver';
+import type { Constructor } from '~entities/constructor';
 
 import type { DataGridColumnType } from '~shared/ui/data-grid';
 
@@ -25,6 +26,20 @@ export function RaceResultsTable({ results }: IResultsTableProps) {
                     target={'_blank'}
                 >
                     {driver.first_name} {driver.last_name}
+                </NextLink>
+            ),
+        },
+        {
+            field: 'constructor_entity',
+            title: 'Constructor',
+            render: (constructor: Constructor) => (
+                <NextLink
+                    className={'link'}
+                    href={`/constructors/${constructor.ref}`}
+                    title={`Constructor: ${constructor.name}`}
+                    target={'_blank'}
+                >
+                    {constructor.name}
                 </NextLink>
             ),
         },

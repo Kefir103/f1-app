@@ -10,6 +10,7 @@ describe('<RaceResultsTable />', () => {
 
         expect(getByRole('columnheader', { name: 'Position' })).toBeInTheDocument();
         expect(getByRole('columnheader', { name: 'Driver' })).toBeInTheDocument();
+        expect(getByRole('columnheader', { name: 'Constructor'})).toBeInTheDocument();
         expect(getByRole('columnheader', { name: 'Fastest lap time' })).toBeInTheDocument();
         expect(getByRole('columnheader', { name: 'Fastest lap rank' })).toBeInTheDocument();
         expect(getByRole('columnheader', { name: 'Fastest lap number' })).toBeInTheDocument();
@@ -26,5 +27,16 @@ describe('<RaceResultsTable />', () => {
 
         expect(driverLink).toBeInTheDocument();
         expect(driverLink).toHaveAttribute('href', `/drivers/${driver.ref}`);
+    });
+
+    it("should render constructor's link", () => {
+        const { constructor_entity } = RacesResultsMock[0];
+
+        const { getByRole } = render(<RaceResultsTable results={RacesResultsMock} />);
+
+        const constructorLink = getByRole('link', { name: constructor_entity.name });
+
+        expect(constructorLink).toBeInTheDocument();
+        expect(constructorLink).toHaveAttribute('href', `/constructors/${constructor_entity.ref}`);
     });
 });
