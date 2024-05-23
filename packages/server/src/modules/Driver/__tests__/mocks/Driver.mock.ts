@@ -4,6 +4,7 @@ import type { QualifyingType } from '~f1-app/shared/types/Qualifying/Qualifying.
 import type { ConstructorType } from '~f1-app/shared/types/Constructor/Constructor.type';
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 import type { CircuitType } from '~f1-app/shared/types/Circuit/Circuit.type';
+import type { StatusType } from '~f1-app/shared/types/Status/Status.type';
 
 export const DriverConstructorMock: ConstructorType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -46,7 +47,12 @@ export const DriverMocks: Omit<DriverType, 'constructor_entity'>[] = [
     },
 ];
 
-export const DriverResultsMock: ResultType[] = [
+export const DriverStatusesMock: StatusType[] = new Array(2).fill(null).map((_, index) => ({
+    id: index + 1,
+    status: `driver_status_${index + 1}`,
+}));
+
+export const DriverResultsMock: Omit<ResultType, 'driver' | 'constructor_entity' | 'status'>[] = [
     {
         id: 1,
         race_id: 1,

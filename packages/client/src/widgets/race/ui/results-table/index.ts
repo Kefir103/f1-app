@@ -1,0 +1,1 @@
+export { RaceResultsTable } from './RaceResultsTable';

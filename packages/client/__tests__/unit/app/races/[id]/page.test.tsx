@@ -20,6 +20,11 @@ describe('<RacePage />', () => {
 
         MockAdapter.onGet(RACE_URLS.id(raceMock.id)).replyOnce(200, raceMock);
 
+        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+            data: [],
+            count: 0,
+        });
+
         const { getByRole } = await render(
             await RouterMock({
                 children: await RacePage({ params: { id: raceMock.id } }),
@@ -27,12 +32,17 @@ describe('<RacePage />', () => {
         );
 
         expect(getByRole('heading', { name: raceMock.name })).toBeInTheDocument();
+        expect(getByRole('heading', { name: 'Race results' })).toBeInTheDocument();
     });
 
     it('should render breadcrumbs correctly', async () => {
         const raceMock = RacesMock[0];
 
         MockAdapter.onGet(RACE_URLS.id(raceMock.id)).replyOnce(200, raceMock);
+        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+            data: [],
+            count: 0,
+        });
 
         const { getByTitle } = await render(
             await RouterMock({

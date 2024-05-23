@@ -1,8 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { ResultType } from '~f1-app/shared/types/Result/Result.type';
+import type { ResultType } from '~f1-app/shared/types/Result/Result.type';
 
 import { Race } from '~entities/Race/Race.entity';
+import { Driver } from '~entities/Driver/Driver.entity';
+import { Constructor } from '~entities/Constructor/Constructor.entity';
+import { Status } from '~entities/Status/Status.entity';
 
 @Entity({ name: 'results' })
 export class Result implements ResultType {
@@ -22,8 +25,16 @@ export class Result implements ResultType {
     @Column('integer')
     driver_id: number;
 
+    @OneToOne(() => Driver, { nullable: false, createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'driver_id', referencedColumnName: 'id' })
+    driver: Driver;
+
     @Column('integer')
     constructor_id: number;
+
+    @OneToOne(() => Constructor, { nullable: false, createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'constructor_id', referencedColumnName: 'id' })
+    constructor_entity: Constructor;
 
     @Column('integer', { nullable: true })
     driver_number: number;
@@ -66,4 +77,8 @@ export class Result implements ResultType {
 
     @Column('integer', { default: 0 })
     status_id: number;
+
+    @OneToOne(() => Status, { nullable: true, createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'status_id', referencedColumnName: 'id' })
+    status: Status;
 }
