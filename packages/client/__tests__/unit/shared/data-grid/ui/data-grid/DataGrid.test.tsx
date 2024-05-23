@@ -100,4 +100,18 @@ describe('<DataGrid />', () => {
 
         expect(getAllByRole('row')[1].querySelector('td')).toHaveClass(additionalClassName);
     });
+
+    it('should render empty component if DataGrid data is empty', () => {
+        const tableData: { some_field: any }[] = new Array(0);
+
+        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
+            { field: 'some_field', title: 'Some title' },
+        ];
+
+        const { getByText } = render(
+            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
+        );
+
+        expect(getByText('No data')).toBeInTheDocument();
+    });
 });

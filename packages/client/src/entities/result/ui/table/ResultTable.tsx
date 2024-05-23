@@ -6,11 +6,9 @@ import type { StatusType } from '~entities/status';
 import { ResultPosition } from '~entities/result/model';
 import { ResultTableFastestLapFormatter } from '~entities/result/ui';
 
-import type { DataGridColumn } from '~shared/ui/data-grid/types/Column.type';
-
 interface IResultTableProps {
     results: ResultType[];
-    entityColumns: DataGridColumn<ResultType>[];
+    entityColumns: DataGridColumnType<ResultType>[];
 }
 
 export function ResultTable({ results, entityColumns }: IResultTableProps) {

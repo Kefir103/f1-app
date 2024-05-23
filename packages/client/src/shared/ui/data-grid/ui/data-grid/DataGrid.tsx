@@ -11,7 +11,11 @@ import {
     TableRow,
 } from '@mui/material';
 
-import type { DataGridColumnType, DataGridColumnRowCellOptionsType } from '~shared/ui/data-grid';
+import {
+    DataGridColumnType,
+    DataGridColumnRowCellOptionsType,
+    DataGridEmpty,
+} from '~shared/ui/data-grid';
 
 interface IDataGridProps<T extends object = {}> {
     data: T[];
@@ -72,28 +76,32 @@ export function DataGrid<T extends object = {}>({
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((entity, entityIndex) => (
-                        <TableRow key={rowKey(entity, entityIndex)}>
-                            {columns.map((column) => {
-                                return (
-                                    <TableCell
-                                        key={`table_row_${rowKey(entity, entityIndex)}_${String(
-                                            column.field,
-                                        )}`}
-                                        align={column.align || 'inherit'}
-                                        {...getTableBodyCellProps(
-                                            column?.rowOptions?.cellOptions,
-                                            entity[column.field],
-                                            entity,
-                                            entityIndex,
-                                        )}
-                                    >
-                                        {getTableCellValue(column, entity, entityIndex)}
-                                    </TableCell>
-                                );
-                            })}
-                        </TableRow>
-                    ))}
+                    {data?.length ? (
+                        data.map((entity, entityIndex) => (
+                            <TableRow key={rowKey(entity, entityIndex)}>
+                                {columns.map((column) => {
+                                    return (
+                                        <TableCell
+                                            key={`table_row_${rowKey(entity, entityIndex)}_${String(
+                                                column.field,
+                                            )}`}
+                                            align={column.align || 'inherit'}
+                                            {...getTableBodyCellProps(
+                                                column?.rowOptions?.cellOptions,
+                                                entity[column.field],
+                                                entity,
+                                                entityIndex,
+                                            )}
+                                        >
+                                            {getTableCellValue(column, entity, entityIndex)}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        ))
+                    ) : (
+                        <DataGridEmpty colSpan={columns.length} />
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>
