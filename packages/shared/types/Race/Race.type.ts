@@ -1,11 +1,13 @@
-import { CircuitType } from '../Circuit/Circuit.type';
-import { ResultType } from '../Result/Result.type';
+import type { CircuitType } from '../Circuit/Circuit.type';
+import type { ResultType } from '../Result/Result.type';
+import type { SeasonType } from '../Season/Season.type';
 
 export interface RaceType {
     id: number;
     circuit_id: number;
     circuit: CircuitType;
     year: number;
+    season: SeasonType;
     round: number;
     name: string;
     date: Date;

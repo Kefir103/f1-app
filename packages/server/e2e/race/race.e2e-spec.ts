@@ -18,6 +18,7 @@ import { Driver } from '~entities/Driver/Driver.entity';
 import { Constructor } from '~entities/Constructor/Constructor.entity';
 import { Qualifying } from '~entities/Qualifying/Qualifying.entity';
 import { Status } from '~entities/Status/Status.entity';
+import { Season } from '~entities/Season/Season.entity';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
@@ -29,9 +30,10 @@ import {
     RacesConstructorsMock,
     RacesQualifyingsMock,
     RacesStatusesMock,
+    RacesSeasonsMock,
 } from '~modules/Race/__tests__/mocks/Race.mock';
 
-function formatRaceResponse(race: RaceType) {
+function formatRaceResponse(race: Omit<RaceType, 'season'>) {
     return {
         ...race,
         date: moment.isDate(race.date) ? moment(race.date).format('YYYY-MM-DD') : null,
@@ -83,6 +85,10 @@ describe('Race e2e', () => {
                     {
                         entitySchema: Status,
                         data: RacesStatusesMock,
+                    },
+                    {
+                        entitySchema: Season,
+                        data: RacesSeasonsMock,
                     },
                 ]),
             ],

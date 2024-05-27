@@ -12,7 +12,7 @@ export class RaceController {
 
     @Get()
     public async getAll(@Query() { page = 1, perPage = 10 }) {
-        return await this.raceService.getAll(page, perPage);
+        return await this.raceService.getAll({ page, perPage });
     }
 
     @Get(':id')

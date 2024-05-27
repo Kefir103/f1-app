@@ -7,6 +7,7 @@ import type { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
 import type { ConstructorType } from '~f1-app/shared/types/Constructor/Constructor.type';
 import type { QualifyingType } from '~f1-app/shared/types/Qualifying/Qualifying.type';
 import type { StatusType } from '~f1-app/shared/types/Status/Status.type';
+import type { SeasonType } from '~f1-app/shared/types/Season/Season.type';
 
 export const RacesCircuitsMock: CircuitType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -20,7 +21,13 @@ export const RacesCircuitsMock: CircuitType[] = new Array(2).fill(null).map((_, 
     location: `location_${index + 1}`,
 }));
 
-export const RacesMock: Omit<RaceType, 'circuit' | 'results'>[] = new Array(2)
+export const RacesSeasonsMock: SeasonType[] = new Array(2).fill(null).map((_, index) => ({
+    id: index + 1,
+    year: index + 1,
+    wiki_url: `races_seasons_wiki_${index + 1}`,
+}));
+
+export const RacesMock: Omit<RaceType, 'circuit' | 'results' | 'season'>[] = new Array(2)
     .fill(null)
     .map((_, index) => ({
         id: index + 1,
@@ -80,10 +87,10 @@ export const RacesQualifyingsMock: QualifyingType[] = new Array(2).fill(null).ma
     q3_time: '',
 }));
 
-export const RacesStatusesMock: StatusType[] = new Array(2).fill(null).map((_ ,index) => ({
+export const RacesStatusesMock: StatusType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     status: `races_status_${index + 1}`,
-}))
+}));
 
 export const RacesResultsMock: Omit<ResultType, 'race'>[] = new Array(2)
     .fill(null)
@@ -93,7 +100,9 @@ export const RacesResultsMock: Omit<ResultType, 'race'>[] = new Array(2)
         driver_id: index + 1,
         driver: RacesDriversMock.find((driver) => driver.id === index + 1) as DriverType,
         constructor_id: index + 1,
-        constructor_entity: RacesConstructorsMock.find((constructor) => constructor.id === index + 1),
+        constructor_entity: RacesConstructorsMock.find(
+            (constructor) => constructor.id === index + 1,
+        ),
         driver_number: index + 1,
         position_start_grid: index + 1,
         position: 99,

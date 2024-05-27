@@ -6,8 +6,10 @@ import { SeasonController } from '~modules/Season/season.controller';
 
 import { Season } from '~entities/Season/Season.entity';
 
+import { RaceModule } from '~modules/Race/race.module';
+
 @Module({
-    imports: [TypeOrmModule.forFeature([Season])],
+    imports: [TypeOrmModule.forFeature([Season]), RaceModule],
     providers: [SeasonService],
     controllers: [SeasonController],
 })

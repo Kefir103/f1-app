@@ -50,7 +50,7 @@ describe('RaceService', () => {
         const page = 1;
         const perPage = 10;
 
-        const races = await service.getAll(page, perPage);
+        const races = await service.getAll({ page, perPage });
 
         const expectedRaces = {
             data: lodash.orderBy(

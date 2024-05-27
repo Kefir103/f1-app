@@ -4,12 +4,19 @@ import { NotFoundException } from '@nestjs/common';
 import { SeasonController } from '~modules/Season/season.controller';
 import { SeasonService } from '~modules/Season/season.service';
 
+import { RaceService } from '~modules/Race/race.service';
+
 describe('SeasonsController', () => {
     let controller: SeasonController;
 
     const mockService = {
         getAll: jest.fn(),
         getOne: jest.fn().mockReturnValue({}),
+    };
+
+    const mockRaceService = {
+        getAll: jest.fn(),
+        getCount: jest.fn().mockReturnValue(1),
     };
 
     beforeEach(async () => {
@@ -19,6 +26,10 @@ describe('SeasonsController', () => {
                 {
                     provide: SeasonService,
                     useValue: mockService,
+                },
+                {
+                    provide: RaceService,
+                    useValue: mockRaceService,
                 },
             ],
         }).compile();
@@ -62,5 +73,30 @@ describe('SeasonsController', () => {
         await expect(async () => {
             await controller.getOne(-1);
         }).rejects.toThrow(NotFoundException);
+    });
+
+    it('should call Race Service with year', async () => {
+        const year = 1;
+        const count = 1;
+
+        jest.spyOn(mockRaceService, 'getCount').mockReturnValueOnce(count);
+
+        await controller.getRaces(year);
+
+        expect(mockRaceService.getCount).toHaveBeenCalledWith({
+            where: {
+                year,
+            },
+        });
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({
+            page: 1,
+            perPage: count,
+            where: {
+                year,
+            },
+            order: {
+                round: 'ASC',
+            },
+        });
     });
 });

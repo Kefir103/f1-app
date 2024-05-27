@@ -45,7 +45,7 @@ describe('RaceController', () => {
 
         await controller.getAll({ page, perPage });
 
-        expect(mockRaceService.getAll).toHaveBeenCalledWith(page, perPage);
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({ page, perPage });
     });
 
     it('should call service with default pagination', async () => {
@@ -54,7 +54,10 @@ describe('RaceController', () => {
 
         await controller.getAll({});
 
-        expect(mockRaceService.getAll).toHaveBeenCalledWith(pageDefault, perPageDefault);
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({
+            page: pageDefault,
+            perPage: perPageDefault,
+        });
     });
 
     it('should call service getOne with id', async () => {

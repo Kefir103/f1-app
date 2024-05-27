@@ -12,5 +12,6 @@ import { ResultsModule } from '~modules/Results/results.module';
     imports: [TypeOrmModule.forFeature([Race]), ResultsModule],
     controllers: [RaceController],
     providers: [RaceService],
+    exports: [TypeOrmModule.forFeature([Race]), RaceService],
 })
 export class RaceModule {}

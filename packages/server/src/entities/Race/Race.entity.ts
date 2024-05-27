@@ -1,9 +1,18 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
 import { Circuit } from '~entities/Circuit/Circuit.entity';
 import { Result } from '~entities/Result/Result.entity';
+import { Season } from '~entities/Season/Season.entity';
 
 @Entity({ name: 'races' })
 export class Race implements Required<RaceType> {
@@ -19,6 +28,13 @@ export class Race implements Required<RaceType> {
 
     @Column('integer')
     year: number;
+
+    @ManyToOne(() => Season, (season) => season.races, {
+        nullable: false,
+        createForeignKeyConstraints: false,
+    })
+    @JoinColumn({ name: 'year', referencedColumnName: 'year' })
+    season: Season;
 
     @Column('integer')
     round: number;

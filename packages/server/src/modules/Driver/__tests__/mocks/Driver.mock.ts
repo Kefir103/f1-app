@@ -5,6 +5,7 @@ import type { ConstructorType } from '~f1-app/shared/types/Constructor/Construct
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 import type { CircuitType } from '~f1-app/shared/types/Circuit/Circuit.type';
 import type { StatusType } from '~f1-app/shared/types/Status/Status.type';
+import type { SeasonType } from '~f1-app/shared/types/Season/Season.type';
 
 export const DriverConstructorMock: ConstructorType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -122,7 +123,7 @@ export const DriverQualifyingMock: QualifyingType[] = [
     },
 ];
 
-export const DriverRacesMock: Omit<RaceType, 'circuit'>[] = new Array(2)
+export const DriverRacesMock: Omit<RaceType, 'circuit' | 'season'>[] = new Array(2)
     .fill(null)
     .map((_, index) => ({
         id: index + 1,
@@ -144,6 +145,12 @@ export const DriverRacesMock: Omit<RaceType, 'circuit'>[] = new Array(2)
         sprint_date: new Date(),
         sprint_time: '',
     }));
+
+export const DriverSeasonsMock: SeasonType[] = new Array(2).fill(null).map((_, index) => ({
+    id: index + 1,
+    year: index + 1,
+    wiki_url: `drivers_season_wiki_${index + 1}`,
+}));
 
 export const DriverCircuitsMock: CircuitType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
