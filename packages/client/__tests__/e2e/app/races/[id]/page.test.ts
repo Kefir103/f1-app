@@ -8,10 +8,19 @@ import { RACE_URLS } from '~entities/race/api';
 import { SEASON_URLS } from '~entities/season/api';
 import { CIRCUIT_URLS } from '~entities/circuit/api';
 
-import { RacesMock } from '~mocks/entities/race/Race.mock';
+import { RacesMock, RacesResultsMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
+
+const getRaceResultsMocks = (raceId: number) => {
+    const raceResultsMockFiltered = RacesResultsMock.filter((result) => result.race_id === raceId);
+
+    return {
+        data: raceResultsMockFiltered,
+        count: raceResultsMockFiltered.length,
+    };
+};
 
 test.afterEach(async ({ server }) => {
     await closeServer(server);
@@ -20,13 +29,23 @@ test.afterEach(async ({ server }) => {
 test('render race page', async ({ page, server }) => {
     const raceMock = RacesMock[0];
 
-    await setupServer(server, {
-        url: RACE_URLS.id(raceMock.id),
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send(raceMock);
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
         },
-    });
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(getRaceResultsMocks(raceMock.id));
+            },
+        },
+    );
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -89,6 +108,13 @@ test('should go to season page after year click', async ({ page, server }) => {
                 reply.send(seasonMock);
             },
         },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(getRaceResultsMocks(raceMock.id));
+            },
+        },
     );
 
     await page.goto(`/races/${raceMock.id}`);
@@ -118,6 +144,13 @@ test("should go to circuit page after circuit's name click", async ({ page, serv
                 reply.send(circuitMock);
             },
         },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(getRaceResultsMocks(raceMock.id));
+            },
+        },
     );
 
     await page.goto(`/races/${raceMock.id}`);
@@ -130,13 +163,23 @@ test("should go to circuit page after circuit's name click", async ({ page, serv
 test('should render breadcrumbs correctly', async ({ page, server }) => {
     const raceMock = RacesMock[0];
 
-    await setupServer(server, {
-        url: RACE_URLS.id(raceMock.id),
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send(raceMock);
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
         },
-    });
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(getRaceResultsMocks(raceMock.id));
+            },
+        },
+    );
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -152,4 +195,118 @@ test('should render breadcrumbs correctly', async ({ page, server }) => {
 
     await expect(breadcrumbRaceView).toBeVisible();
     await expect(breadcrumbRaceView).toHaveAttribute('href', `/races/${raceMock.id}`);
+});
+
+test('should render results table', async ({ page, server }) => {
+    const raceMock = RacesMock[0];
+
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
+        },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(getRaceResultsMocks(raceMock.id));
+            },
+        },
+    );
+
+    await page.goto(`/races/${raceMock.id}`);
+
+    await expect(page.getByRole('columnheader', { name: 'Position' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Driver' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Constructor' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Fastest lap time' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Fastest lap rank' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Fastest lap number' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Points' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Laps' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Status' })).toBeVisible();
+});
+
+test("should open driver page in new tab after result's table driver's name click", async ({
+    page,
+    server,
+    context,
+}) => {
+    const raceMock = RacesMock[0];
+
+    const resultsMock = getRaceResultsMocks(raceMock.id);
+    const driverMock = resultsMock.data[0].driver;
+
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
+        },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(resultsMock);
+            },
+        },
+    );
+
+    await page.goto(`/races/${raceMock.id}`);
+
+    const newPagePromise = context.waitForEvent('page');
+
+    await page
+        .getByRole('link', { name: `${driverMock.first_name} ${driverMock.last_name}` })
+        .click();
+
+    const newPage = await newPagePromise;
+
+    await expect(newPage).toHaveURL(`/drivers/${driverMock.ref}`);
+});
+
+test("should open constructor page in new tab after result's table constructor's name click", async ({
+    page,
+    server,
+    context,
+}) => {
+    const raceMock = RacesMock[0];
+
+    const resultsMock = getRaceResultsMocks(raceMock.id);
+    const constructorMock = resultsMock.data[0].constructor_entity;
+
+    await setupServer(
+        server,
+        {
+            url: RACE_URLS.id(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceMock);
+            },
+        },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(resultsMock);
+            },
+        },
+    );
+
+    await page.goto(`/races/${raceMock.id}`);
+
+    const newPagePromise = context.waitForEvent('page');
+
+    await page.getByRole('link', { name: constructorMock.name }).click();
+
+    const newPage = await newPagePromise;
+
+    await expect(newPage).toHaveURL(`/constructors/${constructorMock.ref}`);
 });

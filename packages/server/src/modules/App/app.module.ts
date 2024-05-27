@@ -14,6 +14,7 @@ import { QualifyingModule } from '~modules/Qualifying/qualifying.module';
 import { RaceModule } from '~modules/Race/race.module';
 import { SeasonModule } from '~modules/Season/season.module';
 import { ResultsModule } from '~modules/Results/results.module';
+import { StatusModule } from '~modules/Status/status.module';
 
 @Module({
     imports: [
@@ -36,7 +37,8 @@ import { ResultsModule } from '~modules/Results/results.module';
         QualifyingModule,
         RaceModule,
         SeasonModule,
-        ResultsModule
+        ResultsModule,
+        StatusModule
     ],
     controllers: [AppController],
     providers: [AppService],

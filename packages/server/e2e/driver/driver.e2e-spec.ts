@@ -15,6 +15,7 @@ import { Qualifying } from '~entities/Qualifying/Qualifying.entity';
 import { Race } from '~entities/Race/Race.entity';
 import { Circuit } from '~entities/Circuit/Circuit.entity';
 import { Constructor } from '~entities/Constructor/Constructor.entity';
+import { Status } from '~entities/Status/Status.entity';
 
 import {
     DriverCircuitsMock,
@@ -23,6 +24,7 @@ import {
     DriverRacesMock,
     DriverResultsMock,
     DriverConstructorMock,
+    DriverStatusesMock,
 } from '~modules/Driver/__tests__/mocks/Driver.mock';
 
 function formatDriverResponse(driver: DriverType) {
@@ -63,6 +65,10 @@ describe('Driver e2e', () => {
                     {
                         entitySchema: Constructor,
                         data: DriverConstructorMock,
+                    },
+                    {
+                        entitySchema: Status,
+                        data: DriverStatusesMock,
                     },
                 ]),
             ],

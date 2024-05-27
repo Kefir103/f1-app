@@ -80,6 +80,12 @@ describe('RaceController', () => {
 
         await controller.getResults(id);
 
-        expect(mockResultsService.getAll).toHaveBeenCalledWith({ where: { race_id: id } });
+        expect(mockResultsService.getAll).toHaveBeenCalledWith({
+            where: { race_id: id },
+            relations: {
+                driver: true,
+                constructor_entity: true,
+            },
+        });
     });
 });
