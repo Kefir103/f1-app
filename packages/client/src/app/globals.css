@@ -24,7 +24,7 @@ body {
 }
 
 .card {
-    @apply bg-slate-100 hover:cursor-pointer dark:bg-slate-900 dark:text-blue-100;
+    @apply bg-slate-100 dark:bg-slate-900 dark:text-blue-100;
 }
 
 .link {

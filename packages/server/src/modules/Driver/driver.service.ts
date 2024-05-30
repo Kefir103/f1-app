@@ -1,20 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, Model } from 'mongoose';
+import { Repository } from 'typeorm';
 
-import { Driver } from '~schemas/Driver/Driver.schema';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { Driver } from '~entities/Driver/Driver.entity';
 
 @Injectable()
 export class DriverService {
-    constructor(@InjectModel(Driver.name) private driverModel: Model<Driver>) {}
+    constructor(@InjectRepository(Driver) private driverRepository: Repository<Driver>) {}
 
     public async getAll(page: number, perPage: number) {
-        const drivers = await this.driverModel
-            .find()
-            .populate(['winsCount', 'polesCount'])
-            .skip((page - 1) * perPage)
-            .limit(perPage)
-            .exec();
+        const drivers = await this.driverRepository.find({
+            skip: (page - 1) * perPage,
+            take: perPage,
+            relations: {
+                constructor_entity: true,
+            },
+        });
 
         const count = await this.getCount();
 
@@ -24,11 +26,18 @@ export class DriverService {
         };
     }
 
-    public async get(id: string) {
-        return await this.driverModel.findById(id).populate(['winsCount', 'polesCount']).exec();
+    public async getOne(ref: string) {
+        return await this.driverRepository.findOne({
+            where: {
+                ref: ref,
+            },
+            relations: {
+                constructor_entity: true,
+            },
+        });
     }
 
     public async getCount() {
-        return await this.driverModel.countDocuments().exec();
+        return await this.driverRepository.count();
     }
 }

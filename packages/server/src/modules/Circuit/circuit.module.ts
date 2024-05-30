@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CircuitService } from '~modules/Circuit/circuit.service';
-import { CircuitModelParseService } from '~modules/Circuit/circuit.modelParseService';
 import { CircuitController } from '~modules/Circuit/circuit.controller';
 
-import { Circuit, CircuitSchema } from '~schemas/Circuit/Circuit.schema';
+import { Circuit } from '~entities/Circuit/Circuit.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: Circuit.name, schema: CircuitSchema }])],
-    exports: [CircuitModelParseService],
+    imports: [TypeOrmModule.forFeature([Circuit])],
     controllers: [CircuitController],
-    providers: [CircuitService, CircuitModelParseService],
+    providers: [CircuitService],
 })
 export class CircuitModule {}

@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { RaceController } from '~modules/Race/race.controller';
 import { RaceService } from '~modules/Race/race.service';
-import { RaceModelParseService } from '~modules/Race/race.modelParseService';
 
-import { Race, RaceSchema } from '~schemas/Race/Race.schema';
+import { Race } from '~entities/Race/Race.entity';
+
+import { ResultsModule } from '~modules/Results/results.module';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: Race.name, schema: RaceSchema }])],
-    exports: [RaceModelParseService],
+    imports: [TypeOrmModule.forFeature([Race]), ResultsModule],
     controllers: [RaceController],
-    providers: [RaceService, RaceModelParseService],
+    providers: [RaceService],
 })
 export class RaceModule {}

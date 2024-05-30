@@ -1,4 +1,5 @@
 export interface SeasonType {
+    id: number;
     year: number;
-    wikiUrl: string;
+    wiki_url: string;
 }

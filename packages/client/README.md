@@ -1,41 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped
-with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# F1 App Client package
 
-## Getting Started
+### Architecture principle
 
-First, run the development server:
+- Client written in FSD methodology ([Feature Sliced Design](https://feature-sliced.design/docs))
+  - `app` folder is used by NextJS App router
+  - FSD `pages` slice is renamed to `views` slice (because `pages` folder is used by NextJS Page router)
+
+### Stack
+
+- [TypeScript](https://www.typescriptlang.org/)
+- Frontend platform - [NextJS](https://nextjs.org/)
+- Styling - [Tailwind CSS](https://tailwindcss.com/)
+- Components Library - [Material UI](https://mui.com/material-ui/)
+- API Fetch - [axios](https://axios-http.com/)
+- Unit testing - [Jest](https://jestjs.io/)
+- e2e testing - [Playwright](https://playwright.dev/), [Fastify](https://fastify.dev/) (for API mocking)
+
+### Environments
+
+<b>Use .env.local file instead of .env file</b>
+
+- NEXT_PUBLIC_URL_BASEPATH=base URL for API fetching (default - http://server:4000 (server - backend service name from docker-compose.yml))
+- MOCK_SERVER_PORT=server port for Fastify server (default - 4000, but usage is in .env.test file). Mock server is used in e2e tests API mocking 
+
+## Scripts
+
+### Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ npm run dev
+
+Starts an application in dev mode with files watcher on 3000 port
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Testing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+$ npm run test
+Run unit tests with coverage
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and
-load Inter, a custom Google Font.
+$ npm run test:watch
+Run unit tests in watch mode with coverage
 
-## Learn More
+$ npm run test:e2e
+Run playwright e2e tests
 
-To learn more about Next.js, take a look at the following resources:
+$ npm run test:e2e:ui
+Run playwright e2e tests in UI mode
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions
-are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+$ npm run dev:test
+Run next dev server on 3010 port (used in e2e tests)
+```

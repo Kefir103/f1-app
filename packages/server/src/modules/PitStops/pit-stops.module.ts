@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { PitStopsController } from '~modules/PitStops/pit-stops.controller';
 import { PitStopsService } from '~modules/PitStops/pit-stops.service';
-import { PitStopsModelParseService } from '~modules/PitStops/pit-stops.modelParseService';
 
-import { PitStops, PitStopsSchema } from '~schemas/PitStops/PitStops.schema';
+import { PitStops } from '~entities/PitStops/PitStops.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: PitStops.name, schema: PitStopsSchema }])],
-    exports: [PitStopsModelParseService],
+    imports: [TypeOrmModule.forFeature([PitStops])],
     controllers: [PitStopsController],
-    providers: [PitStopsService, PitStopsModelParseService],
+    providers: [PitStopsService],
 })
 export class PitStopsModule {}
