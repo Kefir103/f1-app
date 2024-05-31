@@ -1,14 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import type { ResultType } from '~entities/result';
-import { ResultTable } from '~entities/result/ui/table/ResultTable';
+import { ResultTable } from '~entities/result/ui';
 
 import { ResultsMock } from '~mocks/entities/result/Result.mock';
 
-const getTableCellIndex = (headerText: string) =>
-    screen
-        .getAllByRole('columnheader')
-        .findIndex((colHeader) => colHeader.textContent === headerText);
+import { getTableCellIndex } from '~tests-utils/shared/data-grid/getTableCellIndex';
 
 describe('<ResultTable />', () => {
     it('should render correctly', () => {

@@ -4,6 +4,7 @@ import type { ResultType } from '~entities/result';
 import type { DriverType } from '~entities/driver';
 import type { Constructor } from '~entities/constructor';
 import type { StatusType } from '~entities/status';
+import type { SeasonType } from '~entities/season';
 
 const RacesCircuitMock: CircuitType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -17,11 +18,18 @@ const RacesCircuitMock: CircuitType[] = new Array(2).fill(null).map((_, index) =
     latitude: 1,
 }));
 
+const RacesSeasonsMock: SeasonType[] = new Array(2).fill(null).map((_, index) => ({
+    id: index + 1,
+    year: index + 1,
+    wiki_url: `races_season_wiki_url_${index + 1}`,
+}));
+
 export const RacesMock: Race[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     circuit_id: 1,
     circuit: RacesCircuitMock.find((circuit) => circuit.id === index + 1)!,
     year: index + 1,
+    season: RacesSeasonsMock.find((season) => season.year === index + 1)!,
     round: 1,
     name: `name_${index + 1}`,
     date: new Date(),

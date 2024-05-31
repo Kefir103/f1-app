@@ -7,7 +7,8 @@ import SeasonPage from '~app/seasons/[year]/page';
 
 import { SEASON_URLS } from '~entities/season/api';
 
-import { SeasonsMock } from '~mocks/entities/season/Season.mock';
+import { SeasonsMock, SeasonsRacesMock } from '~mocks/entities/season/Season.mock';
+
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
@@ -17,8 +18,13 @@ const MockAdapter = new axiosMockAdapter(axios);
 describe('<SeasonPage />', () => {
     it('should render correctly', async () => {
         const seasonMock = SeasonsMock[0];
+        const seasonRaces = SeasonsRacesMock.filter((race) => race.year === seasonMock.year);
 
         MockAdapter.onGet(SEASON_URLS.year(seasonMock.year)).reply(200, seasonMock);
+        MockAdapter.onGet(SEASON_URLS.races(seasonMock.year)).reply(200, {
+            data: seasonRaces,
+            count: seasonRaces.length,
+        });
 
         const { getByRole } = await render(
             await RouterMock({
@@ -29,6 +35,7 @@ describe('<SeasonPage />', () => {
         );
 
         expect(getByRole('heading', { name: `Season ${seasonMock.year}` })).toBeInTheDocument();
+        expect(getByRole('heading', { name: 'Season races' })).toBeInTheDocument();
     });
 
     it('should render breadcrumbs correctly', async () => {

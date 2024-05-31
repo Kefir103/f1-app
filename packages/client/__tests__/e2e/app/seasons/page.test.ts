@@ -53,6 +53,16 @@ test('should navigate to season page after season name click', async ({ page, se
                 reply.send(season);
             },
         },
+        {
+            url: SEASON_URLS.races(season.year),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send({
+                    data: [],
+                    count: [].length,
+                });
+            },
+        },
     );
 
     await page.goto('/seasons');
