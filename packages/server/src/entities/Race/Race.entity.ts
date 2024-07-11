@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, VirtualColumn } from 'typeorm';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
 import { Circuit } from '~entities/Circuit/Circuit.entity';
 import { Result } from '~entities/Result/Result.entity';
+import { Driver } from '~entities/Driver/Driver.entity';
 
 @Entity({ name: 'races' })
 export class Race implements Required<RaceType> {
@@ -40,6 +41,18 @@ export class Race implements Required<RaceType> {
         createForeignKeyConstraints: false,
     })
     results: Result[];
+
+    @VirtualColumn({
+        query: (alias) => `
+            SELECT driver.id FROM drivers driver
+            INNER JOIN results r ON r.driver_id = driver.id AND r.position = 1
+            WHERE r.race_id = ${alias}.id
+        `,
+        type: 'int',
+    })
+    winner_id: number;
+
+    winner: Driver;
 
     @Column('date', { nullable: true })
     fp1_date: Date;

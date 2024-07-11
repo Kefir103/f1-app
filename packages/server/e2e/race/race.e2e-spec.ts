@@ -159,6 +159,7 @@ describe('Race e2e', () => {
                 driver: {
                     ...result.driver,
                     date_of_birth: moment(result.driver.date_of_birth).format('YYYY-MM-DD'),
+                    wins_count: result.position === 1 ? 1 : 0,
                 },
             }),
         );

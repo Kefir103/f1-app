@@ -1,4 +1,5 @@
 import * as lodash from 'lodash';
+import { FindOperator, FindOptionsSelect, FindOptionsWhere } from 'typeorm';
 
 interface IRelations {
     name: string;
@@ -25,8 +26,43 @@ const getRelations = (entity: object, relationsOptions: object, relations: IRela
     }, {});
 };
 
+const filterEntities = (entities: object[], where: FindOptionsWhere<object>) => {
+    return entities.filter((entity) => {
+        return Object.entries(where).every(([key, value]) => {
+            if (value instanceof FindOperator) {
+                if (value.type === 'in') {
+                    return value.value.includes(entity[key]);
+                }
+            }
+
+            return entity[key] === value;
+        });
+    });
+};
+
+const selectEntitiesFields = (entities: object[], select: FindOptionsSelect<object>) => {
+    const getSelectedFields = (entity, selectOptions) => {
+        let resultEntity = {};
+
+        for (const [entityKey, option] of Object.entries(selectOptions)) {
+            if (option === true) {
+                resultEntity[entityKey] = entity[entityKey];
+            } else if (typeof option === 'object') {
+                resultEntity = {
+                    ...resultEntity,
+                    [entityKey]: { ...getSelectedFields(entity[entityKey], option) },
+                };
+            }
+        }
+
+        return resultEntity;
+    };
+
+    return entities.map((entity) => getSelectedFields(entity, select));
+};
+
 export const UnitMockRepository = (entities: object[], relations: IRelations[] = []) => ({
-    find: ({ take, skip, order, relations: relationsOptions, where }) => {
+    find: ({ take, skip, order, relations: relationsOptions, where, select }) => {
         let resultEntities = [...entities];
 
         if (lodash.isPlainObject(order)) {
@@ -51,20 +87,24 @@ export const UnitMockRepository = (entities: object[], relations: IRelations[] =
         }
 
         if (where) {
-            resultEntities = resultEntities.filter((entity) => {
-                return Object.entries(where).every(([key, value]) => entity[key] === value);
-            });
+            resultEntities = filterEntities(resultEntities, where);
+        }
+
+        if (select) {
+            resultEntities = selectEntitiesFields(resultEntities, select);
         }
 
         return resultEntities.slice(skip, take);
     },
     findOneBy: (whereCondition: object) => {
-        return entities.find((entity) => {
-            return Object.entries(whereCondition).every(([key, value]) => entity[key] === value);
-        });
+        return filterEntities(entities, whereCondition)?.[0] || null;
     },
     findOne: ({ where, relations: relationOptions }) => {
         let entity = UnitMockRepository(entities, relations).findOneBy(where);
+
+        if (!entity) {
+            return null;
+        }
 
         if (relationOptions) {
             entity = {

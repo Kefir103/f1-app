@@ -1,3 +1,4 @@
+import * as lodash from 'lodash';
 import { faker } from '@faker-js/faker';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
@@ -19,29 +20,6 @@ export const RacesCircuitsMock: CircuitType[] = new Array(2).fill(null).map((_, 
     longitude: 1,
     location: `location_${index + 1}`,
 }));
-
-export const RacesMock: Omit<RaceType, 'circuit' | 'results'>[] = new Array(2)
-    .fill(null)
-    .map((_, index) => ({
-        id: index + 1,
-        circuit_id: 1,
-        year: index + 1,
-        round: index + 1,
-        name: `name_${index + 1}`,
-        date: new Date(),
-        start_time: '',
-        wiki_url: `wiki_${index + 1}`,
-        fp1_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
-        fp1_time: '',
-        fp2_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
-        fp2_time: '',
-        fp3_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
-        fp3_time: '',
-        qualifying_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
-        qualifying_time: '',
-        sprint_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
-        sprint_time: '',
-    }));
 
 export const RacesConstructorsMock: ConstructorType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -80,10 +58,10 @@ export const RacesQualifyingsMock: QualifyingType[] = new Array(2).fill(null).ma
     q3_time: '',
 }));
 
-export const RacesStatusesMock: StatusType[] = new Array(2).fill(null).map((_ ,index) => ({
+export const RacesStatusesMock: StatusType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
     status: `races_status_${index + 1}`,
-}))
+}));
 
 export const RacesResultsMock: Omit<ResultType, 'race'>[] = new Array(2)
     .fill(null)
@@ -93,10 +71,12 @@ export const RacesResultsMock: Omit<ResultType, 'race'>[] = new Array(2)
         driver_id: index + 1,
         driver: RacesDriversMock.find((driver) => driver.id === index + 1) as DriverType,
         constructor_id: index + 1,
-        constructor_entity: RacesConstructorsMock.find((constructor) => constructor.id === index + 1),
+        constructor_entity: RacesConstructorsMock.find(
+            (constructor) => constructor.id === index + 1,
+        ),
         driver_number: index + 1,
         position_start_grid: index + 1,
-        position: 99,
+        position: index + 1,
         position_text: `${index + 1}`,
         position_order: index + 1,
         points: 1,
@@ -110,3 +90,50 @@ export const RacesResultsMock: Omit<ResultType, 'race'>[] = new Array(2)
         status_id: 1,
         status: RacesStatusesMock.find((status) => status.id === 1),
     }));
+
+export const RacesMock: Omit<RaceType, 'circuit' | 'results'>[] = new Array(2)
+    .fill(null)
+    .map((_, index) => {
+        const result = RacesResultsMock.find((result) => result.race_id === index + 1);
+
+        let winner = null;
+
+        if (result?.position === 1) {
+            winner = lodash.pick(
+                RacesDriversMock.find((driver) => driver.id === result.driver_id) || {},
+                ['id', 'ref', 'first_name', 'last_name', 'constructor_id'],
+            );
+
+            winner.constructor_entity = lodash.pick(
+                RacesConstructorsMock.find(
+                    (constructor) => constructor.id === winner.constructor_id,
+                ) || {},
+                ['id', 'ref', 'name'],
+            );
+
+            delete winner.constructor_id;
+        }
+
+        return {
+            id: index + 1,
+            circuit_id: 1,
+            year: index + 1,
+            round: index + 1,
+            name: `name_${index + 1}`,
+            date: new Date(),
+            start_time: '',
+            wiki_url: `wiki_${index + 1}`,
+            fp1_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
+            fp1_time: '',
+            fp2_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
+            fp2_time: '',
+            fp3_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
+            fp3_time: '',
+            qualifying_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
+            qualifying_time: '',
+            sprint_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
+            sprint_time: '',
+            winner_id: winner?.id || null,
+            winner: winner,
+        };
+    });
