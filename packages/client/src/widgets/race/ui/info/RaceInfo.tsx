@@ -38,9 +38,32 @@ export function RaceInfo({ race }: IRaceInfoProps) {
             <Typography className={'mb-2'}>
                 Race date: {moment(race.date).format('DD.MM.YYYY')}
             </Typography>
-            <Link className={'link'} href={race.wiki_url} title={'Wiki'}>
+            <Link className={'link mb-2'} href={race.wiki_url} title={'Wiki'}>
                 Wiki
             </Link>
+            {race.winner && (
+                <Typography className={'my-2'}>
+                    Winner:{' '}
+                    <NextLink
+                        className={'link'}
+                        href={`/drivers/${race.winner.ref}`}
+                        title={`Winner: ${race.winner.first_name} ${race.winner.last_name}`}
+                        target={'_blank'}
+                    >
+                        {race.winner.first_name} {race.winner.last_name}
+                    </NextLink>
+                    {' ('}
+                    <NextLink
+                        className={'link'}
+                        href={`/constructors/${race.winner.constructor_entity.ref}`}
+                        title={`Winner Constructor: ${race.winner.constructor_entity.name}`}
+                        target={'_blank'}
+                    >
+                        {race.winner.constructor_entity.name}
+                    </NextLink>
+                    )
+                </Typography>
+            )}
             <Typography className={'my-2'}>
                 FP1 Date:{' '}
                 {moment(race.fp1_date).isValid()

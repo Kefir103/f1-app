@@ -50,6 +50,29 @@ export function RaceListCard({ race }: IRaceListCard) {
                 >
                     Wiki
                 </Link>
+                {race.winner && (
+                    <Typography>
+                        Winner:{' '}
+                        <NextLink
+                            className={'link'}
+                            href={`/drivers/${race.winner.ref}`}
+                            title={`Winner: ${race.winner.first_name} ${race.winner.last_name}`}
+                            target={'_blank'}
+                        >
+                            {race.winner.first_name} {race.winner.last_name}
+                        </NextLink>
+                        {' ('}
+                        <NextLink
+                            className={'link'}
+                            href={`/constructors/${race.winner.constructor_entity.ref}`}
+                            title={`Winner Constructor: ${race.winner.constructor_entity.name}`}
+                            target={'_blank'}
+                        >
+                            {race.winner.constructor_entity.name}
+                        </NextLink>
+                        )
+                    </Typography>
+                )}
             </CardContent>
         </Card>
     );
