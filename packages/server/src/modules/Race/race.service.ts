@@ -1,15 +1,19 @@
-import { Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
 import { Race } from '~entities/Race/Race.entity';
+import { Driver } from '~entities/Driver/Driver.entity';
 
 @Injectable()
 export class RaceService {
-    constructor(@InjectRepository(Race) private readonly raceRepository: Repository<Race>) {}
+    constructor(
+        @InjectRepository(Race) private readonly raceRepository: Repository<Race>,
+        @InjectDataSource() private readonly dataSource: DataSource,
+    ) {}
 
     public async getAll(page: number, perPage: number) {
-        const races = await this.raceRepository.find({
+        let races = await this.raceRepository.find({
             skip: (page - 1) * perPage,
             take: perPage,
             order: {
@@ -23,6 +27,13 @@ export class RaceService {
 
         const count = await this.getCount();
 
+        const winners = await this.getWinners(races.map(({ winner_id }) => winner_id));
+
+        races = races.map((race) => ({
+            ...race,
+            winner: winners?.find((driver) => driver.id === race.winner_id) || null,
+        }));
+
         return {
             data: races,
             count: count,
@@ -30,7 +41,7 @@ export class RaceService {
     }
 
     public async getOne(id: number) {
-        return await this.raceRepository.findOne({
+        const race = await this.raceRepository.findOne({
             where: {
                 id: id,
             },
@@ -38,9 +49,41 @@ export class RaceService {
                 circuit: true,
             },
         });
+
+        if (!race) {
+            return null;
+        }
+
+        const [winner] = await this.getWinners([race.winner_id]);
+
+        race.winner = winner || null;
+
+        return race;
     }
 
     public async getCount() {
         return await this.raceRepository.count();
+    }
+
+    public async getWinners(winnersIds: number[]) {
+        return await this.dataSource.getRepository(Driver).find({
+            select: {
+                id: true,
+                ref: true,
+                first_name: true,
+                last_name: true,
+                constructor_entity: {
+                    id: true,
+                    ref: true,
+                    name: true,
+                },
+            },
+            where: {
+                id: In(winnersIds),
+            },
+            relations: {
+                constructor_entity: true,
+            },
+        });
     }
 }

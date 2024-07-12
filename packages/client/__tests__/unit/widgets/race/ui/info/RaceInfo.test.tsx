@@ -49,6 +49,25 @@ describe('<RaceInfo />', () => {
         expect(
             getByText(`Sprint date: ${moment(raceMock.sprint_date).format('DD.MM.YYYY')}`),
         ).toBeInTheDocument();
+
+        const { winner } = raceMock;
+        const { constructor_entity: winnerConstructor } = winner!;
+
+        const winnerLink = getByRole('link', {
+            name: `${winner?.first_name} ${winner?.last_name}`,
+        });
+
+        expect(getByText('Winner', { exact: false })).toBeInTheDocument();
+        expect(winnerLink).toBeInTheDocument();
+        expect(winnerLink).toHaveAttribute('href', `/drivers/${winner?.ref}`);
+
+        const winnerConstructorLink = getByRole('link', { name: winnerConstructor.name });
+
+        expect(winnerConstructorLink).toBeInTheDocument();
+        expect(winnerConstructorLink).toHaveAttribute(
+            'href',
+            `/constructors/${winnerConstructor?.ref}`,
+        );
     });
 
     it('should render "Unknown" if dates are null', async () => {
@@ -70,5 +89,16 @@ describe('<RaceInfo />', () => {
         expect(getByText('Qualifying date: Unknown')).toBeInTheDocument();
 
         expect(getByText('Sprint date: Unknown')).toBeInTheDocument();
+    });
+
+    it("shouldn't render winner row if winner is null", () => {
+        const raceMock = {
+            ...RacesMock[0],
+            winner: null,
+        };
+
+        const { queryByText } = render(<RaceInfo race={raceMock} />);
+
+        expect(queryByText('Winner', { exact: false })).toBeNull();
     });
 });

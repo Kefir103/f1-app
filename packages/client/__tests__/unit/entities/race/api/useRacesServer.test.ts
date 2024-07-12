@@ -7,6 +7,8 @@ import { RACE_URLS } from '~entities/race/api';
 
 import { useRacesServer } from '~entities/race/api';
 
+import type { DriverType } from '~entities/driver';
+
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 
 // @ts-ignore
@@ -16,11 +18,23 @@ function formatRaceResponse(race: Race) {
     return {
         ...race,
         date: race.date.toString(),
-        fp1_date: race.fp1_date.toString(),
-        fp2_date: race.fp2_date.toString(),
-        fp3_date: race.fp3_date.toString(),
-        qualifying_date: race.qualifying_date.toString(),
-        sprint_date: race.sprint_date.toString(),
+        fp1_date: race.fp1_date!.toString(),
+        fp2_date: race.fp2_date!.toString(),
+        fp3_date: race.fp3_date!.toString(),
+        qualifying_date: race.qualifying_date!.toString(),
+        sprint_date: race.sprint_date!.toString(),
+        winner: formatDriverResponse(race.winner || undefined),
+    };
+}
+
+function formatDriverResponse(driver?: DriverType) {
+    if (!driver) {
+        return null;
+    }
+
+    return {
+        ...driver,
+        date_of_birth: driver?.date_of_birth.toString(),
     };
 }
 

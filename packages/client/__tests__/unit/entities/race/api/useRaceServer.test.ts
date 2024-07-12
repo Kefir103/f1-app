@@ -5,6 +5,8 @@ import type { Race } from '~entities/race';
 import { RACE_URLS } from '~entities/race/api';
 import { useRaceServer } from '~entities/race/api';
 
+import type { DriverType } from '~entities/driver';
+
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 
 // @ts-ignore
@@ -14,12 +16,24 @@ function formatRace(race: Race) {
     return {
         ...race,
         date: race.date.toString(),
-        fp1_date: race.fp1_date.toString(),
-        fp2_date: race.fp2_date.toString(),
-        fp3_date: race.fp3_date.toString(),
-        qualifying_date: race.qualifying_date.toString(),
-        sprint_date: race.sprint_date.toString(),
+        fp1_date: race.fp1_date?.toString(),
+        fp2_date: race.fp2_date?.toString(),
+        fp3_date: race.fp3_date?.toString(),
+        qualifying_date: race.qualifying_date?.toString(),
+        sprint_date: race.sprint_date?.toString(),
+        winner: formatWinner(race.winner || undefined)
     };
+}
+
+function formatWinner(winner?: DriverType) {
+    if (!winner) {
+        return null;
+    }
+
+    return {
+        ...winner,
+        date_of_birth: winner.date_of_birth.toString(),
+    }
 }
 
 describe('useRaceServer', () => {

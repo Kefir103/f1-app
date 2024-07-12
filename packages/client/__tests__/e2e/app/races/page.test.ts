@@ -7,10 +7,19 @@ import { RACE_URLS } from '~entities/race/api';
 import { SEASON_URLS } from '~entities/season/api';
 import { CIRCUIT_URLS } from '~entities/circuit/api';
 
-import { RacesMock } from '~mocks/entities/race/Race.mock';
+import { RacesMock, RacesResultsMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
+
+const getRaceResultsMocks = (raceId: number) => {
+    const raceResultsMockFiltered = RacesResultsMock.filter((result) => result.race_id === raceId);
+
+    return {
+        data: raceResultsMockFiltered,
+        count: raceResultsMockFiltered.length,
+    };
+};
 
 test.afterEach(async ({ server }) => {
     await closeServer(server);
@@ -34,7 +43,8 @@ test('render races list', async ({ page, server }) => {
 });
 
 test("should go to race page after race's name click", async ({ page, server }) => {
-    const raceMock = RacesMock[0];
+    const raceMock = structuredClone(RacesMock[0]);
+    const raceResultsMock = getRaceResultsMocks(raceMock.id);
 
     await setupServer(
         server,
@@ -53,6 +63,13 @@ test("should go to race page after race's name click", async ({ page, server }) 
             method: 'GET',
             handler: function (_, reply) {
                 reply.send(raceMock);
+            },
+        },
+        {
+            url: RACE_URLS.results(raceMock.id),
+            method: 'GET',
+            handler: function (_, reply) {
+                reply.send(raceResultsMock);
             },
         },
     );
@@ -131,12 +148,12 @@ test('should render breadcrumbs correctly', async ({ page, server }) => {
     await setupServer(server, {
         url: RACE_URLS.index,
         method: 'GET',
-        handler: function(_, reply) {
+        handler: function (_, reply) {
             reply.send({
                 data: [],
                 count: 0,
-            })
-        }
+            });
+        },
     });
 
     await page.goto('/races');
