@@ -2,7 +2,7 @@ FROM node:20-alpine3.19 AS base
 
 RUN set -eux; \
     apk add --no-cache --virtual build-dependencies wget unzip gnupg; \
-    apk add --no-cache git python3 py-pip bash shellcheck openjdk11-jre curl musl-locales musl-locales-lang;
+    apk add --no-cache build-base git python3 py-pip bash shellcheck openjdk11-jre curl musl-locales musl-locales-lang;
 
 WORKDIR /app
 
