@@ -1,4 +1,5 @@
 CREATE SCHEMA IF NOT EXISTS directory;
+CREATE SCHEMA IF NOT EXISTS records;
 
 DROP TABLE IF EXISTS circuits CASCADE; -- Complete
 DROP TABLE IF EXISTS constructor_results CASCADE; -- Complete

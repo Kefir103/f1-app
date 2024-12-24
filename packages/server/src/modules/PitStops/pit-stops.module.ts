@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PitStopsController } from '~modules/PitStops/pit-stops.controller';
 import { PitStopsService } from '~modules/PitStops/pit-stops.service';
 
-import { PitStops } from '~entities/PitStops/PitStops.entity';
+import { PitStops } from '~entities/Public/PitStops/PitStops.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([PitStops])],

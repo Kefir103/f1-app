@@ -2,10 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn
 
 import type { ResultType } from '~f1-app/shared/types/Result/Result.type';
 
-import { Race } from '~entities/Race/Race.entity';
-import { Driver } from '~entities/Driver/Driver.entity';
-import { Constructor } from '~entities/Constructor/Constructor.entity';
-import { Status } from '~entities/Status/Status.entity';
+import { Race } from '~entities/Public/Race/Race.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
+import { Status } from '~entities/Directory/Status/Status.entity';
 
 @Entity({ name: 'results' })
 export class Result implements ResultType {

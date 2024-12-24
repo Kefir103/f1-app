@@ -9,13 +9,13 @@ import { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
 
 import { DriverModule } from '~modules/Driver/driver.module';
 
-import { Driver } from '~entities/Driver/Driver.entity';
-import { Result } from '~entities/Result/Result.entity';
-import { Qualifying } from '~entities/Qualifying/Qualifying.entity';
-import { Race } from '~entities/Race/Race.entity';
-import { Circuit } from '~entities/Circuit/Circuit.entity';
-import { Constructor } from '~entities/Constructor/Constructor.entity';
-import { Status } from '~entities/Status/Status.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
+import { Result } from '~entities/Public/Result/Result.entity';
+import { Qualifying } from '~entities/Public/Qualifying/Qualifying.entity';
+import { Race } from '~entities/Public/Race/Race.entity';
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
+import { Status } from '~entities/Directory/Status/Status.entity';
 
 import {
     DriverCircuitsMock,

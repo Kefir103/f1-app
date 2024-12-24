@@ -2,7 +2,7 @@ import { FindManyOptions, FindOptionsRelations, FindOptionsWhere, Repository } f
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Result } from '~entities/Result/Result.entity';
+import { Result } from '~entities/Public/Result/Result.entity';
 
 @Injectable()
 export class ResultsService {

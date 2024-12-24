@@ -4,7 +4,7 @@ import * as lodash from 'lodash';
 
 import { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
-import { Race } from '~entities/Race/Race.entity';
+import { Race } from '~entities/Public/Race/Race.entity';
 import { RaceService } from '~modules/Race/race.service';
 
 import {

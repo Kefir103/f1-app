@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Driver } from '~entities/Driver/Driver.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
 
 @Injectable()
 export class DriverService {

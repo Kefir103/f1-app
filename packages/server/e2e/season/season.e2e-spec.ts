@@ -7,7 +7,7 @@ import { TestDbConnection } from '~test-utils/db/DbConnection';
 
 import { SeasonModule } from '~modules/Season/season.module';
 
-import { Season } from '~entities/Season/Season.entity';
+import { Season } from '~entities/Public/Season/Season.entity';
 
 import { SeasonsMock } from '~modules/Season/__tests__/mock/season.mock';
 

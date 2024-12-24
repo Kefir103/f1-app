@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DriverStandingsService } from '~modules/DriverStandings/driver-standings.service';
 import { DriverStandingsController } from '~modules/DriverStandings/driver-standings.controller';
 
-import { DriverStandings } from '~entities/DriverStandings/DriverStandings.entity';
+import { DriverStandings } from '~entities/Public/DriverStandings/DriverStandings.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([DriverStandings])],

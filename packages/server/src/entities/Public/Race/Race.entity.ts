@@ -2,9 +2,9 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
-import { Circuit } from '~entities/Circuit/Circuit.entity';
-import { Result } from '~entities/Result/Result.entity';
-import { Driver } from '~entities/Driver/Driver.entity';
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
+import { Result } from '~entities/Public/Result/Result.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
 
 @Entity({ name: 'races' })
 export class Race implements Required<RaceType> {

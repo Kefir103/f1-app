@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { Constructor } from '~entities/Constructor/Constructor.entity';
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
 import { ConstructorService } from '~modules/Constructor/constructor.service';
 
 import { ConstructorsMock } from '~modules/Constructor/__tests__/mock/Constructor.mock';

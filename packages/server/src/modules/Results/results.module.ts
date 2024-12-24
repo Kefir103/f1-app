@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ResultsController } from '~modules/Results/results.controller';
 import { ResultsService } from '~modules/Results/results.service';
 
-import { Result } from '~entities/Result/Result.entity';
+import { Result } from '~entities/Public/Result/Result.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Result])],

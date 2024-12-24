@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConstructorStandingsService } from '~modules/ConstructorStandings/constructor-standings.service';
 import { ConstructorStandingsController } from '~modules/ConstructorStandings/constructor-standings.controller';
 
-import { ConstructorStandings } from '~entities/ConstructorStandings/ConstructorStandings.entity';
+import { ConstructorStandings } from '~entities/Public/ConstructorStandings/ConstructorStandings.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ConstructorStandings])],

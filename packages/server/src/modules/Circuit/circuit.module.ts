@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CircuitService } from '~modules/Circuit/circuit.service';
 import { CircuitController } from '~modules/Circuit/circuit.controller';
 
-import { Circuit } from '~entities/Circuit/Circuit.entity';
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Circuit])],

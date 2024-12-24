@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { TestDbConnection } from '~test-utils/db/DbConnection';
 
-import { Circuit } from '~entities/Circuit/Circuit.entity';
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 import { CircuitModule } from '~modules/Circuit/circuit.module';
 
 import { CircuitMocks } from '~modules/Circuit/__tests__/mocks/Circuit.mock';

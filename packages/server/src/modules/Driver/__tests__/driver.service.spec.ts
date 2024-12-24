@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { DriverService } from '~modules/Driver/driver.service';
-import { Driver } from '~entities/Driver/Driver.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
 
 import { DriverConstructorMock, DriverMocks } from '~modules/Driver/__tests__/mocks/Driver.mock';
 
