@@ -7,17 +7,17 @@ import * as lodash from 'lodash';
 import { TestDbConnection } from '~test-utils/db/DbConnection';
 
 import { RaceModule } from '~modules/Race/race.module';
-import { Race } from '~entities/Race/Race.entity';
+import { Race } from '~entities/Public/Race/Race.entity';
 
 import { ResultsModule } from '~modules/Results/results.module';
-import { Result } from '~entities/Result/Result.entity';
+import { Result } from '~entities/Public/Result/Result.entity';
 
-import { Circuit } from '~entities/Circuit/Circuit.entity';
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 
-import { Driver } from '~entities/Driver/Driver.entity';
-import { Constructor } from '~entities/Constructor/Constructor.entity';
-import { Qualifying } from '~entities/Qualifying/Qualifying.entity';
-import { Status } from '~entities/Status/Status.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
+import { Qualifying } from '~entities/Public/Qualifying/Qualifying.entity';
+import { Status } from '~entities/Directory/Status/Status.entity';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 

@@ -2,8 +2,8 @@ import { DataSource, In, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
-import { Race } from '~entities/Race/Race.entity';
-import { Driver } from '~entities/Driver/Driver.entity';
+import { Race } from '~entities/Public/Race/Race.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
 
 @Injectable()
 export class RaceService {

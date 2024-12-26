@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Circuit } from '~entities/Circuit/Circuit.entity';
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 
 @Injectable()
 export class CircuitService {

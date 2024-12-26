@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RaceController } from '~modules/Race/race.controller';
 import { RaceService } from '~modules/Race/race.service';
 
-import { Race } from '~entities/Race/Race.entity';
+import { Race } from '~entities/Public/Race/Race.entity';
 
 import { ResultsModule } from '~modules/Results/results.module';
 

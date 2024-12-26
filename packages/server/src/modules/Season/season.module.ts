@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SeasonService } from '~modules/Season/season.service';
 import { SeasonController } from '~modules/Season/season.controller';
 
-import { Season } from '~entities/Season/Season.entity';
+import { Season } from '~entities/Public/Season/Season.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Season])],

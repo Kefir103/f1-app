@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConstructorService } from '~modules/Constructor/constructor.service';
 import { ConstructorController } from '~modules/Constructor/constructor.controller';
 
-import { Constructor } from '~entities/Constructor/Constructor.entity';
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Constructor])],

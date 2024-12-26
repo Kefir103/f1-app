@@ -10,7 +10,7 @@ import {
 import type { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
 import type { ConstructorType } from '~f1-app/shared/types/Constructor/Constructor.type';
 
-import { Constructor } from '~entities/Constructor/Constructor.entity';
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
 
 @Entity({ name: 'drivers' })
 export class Driver implements DriverType {

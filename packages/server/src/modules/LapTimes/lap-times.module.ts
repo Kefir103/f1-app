@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LapTimesService } from '~modules/LapTimes/lap-times.service';
 import { LapTimesController } from '~modules/LapTimes/lap-times.controller';
 
-import { LapTimes } from '~entities/LapTimes/LapTimes.entity';
+import { LapTimes } from '~entities/Public/LapTimes/LapTimes.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([LapTimes])],

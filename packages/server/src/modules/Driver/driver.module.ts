@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DriverController } from '~modules/Driver/driver.controller';
 import { DriverService } from '~modules/Driver/driver.service';
 
-import { Driver } from '~entities/Driver/Driver.entity';
+import { Driver } from '~entities/Public/Driver/Driver.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Driver])],

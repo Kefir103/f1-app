@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { TestDbConnection } from '~test-utils/db/DbConnection';
 
-import { Constructor } from '~entities/Constructor/Constructor.entity';
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
 import { ConstructorModule } from '~modules/Constructor/constructor.module';
 
 import { ConstructorsMock } from '~modules/Constructor/__tests__/mock/Constructor.mock';

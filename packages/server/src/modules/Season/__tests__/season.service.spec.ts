@@ -2,7 +2,7 @@ import * as lodash from 'lodash';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { Season } from '~entities/Season/Season.entity';
+import { Season } from '~entities/Public/Season/Season.entity';
 import { SeasonService } from '~modules/Season/season.service';
 
 import { SeasonsMock } from '~modules/Season/__tests__/mock/season.mock';

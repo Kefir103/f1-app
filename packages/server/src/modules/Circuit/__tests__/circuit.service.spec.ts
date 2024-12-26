@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { CircuitService } from '~modules/Circuit/circuit.service';
-import { Circuit } from '~entities/Circuit/Circuit.entity';
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 
 import { CircuitMocks } from '~modules/Circuit/__tests__/mocks/Circuit.mock';
 
