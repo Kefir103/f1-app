@@ -18,6 +18,8 @@ import { Driver } from '~entities/Public/Driver/Driver.entity';
 import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
 import { Qualifying } from '~entities/Public/Qualifying/Qualifying.entity';
 import { Status } from '~entities/Directory/Status/Status.entity';
+import { DriverWinsCount } from '~entities/Records/DriverWinsCount/DriverWinsCount.entity';
+import { DriverPolesCount } from '~entities/Records/DriverPolesCount/DriverPolesCount.entity';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
@@ -83,6 +85,12 @@ describe('Race e2e', () => {
                     {
                         entitySchema: Status,
                         data: RacesStatusesMock,
+                    },
+                    {
+                        entitySchema: DriverWinsCount,
+                    },
+                    {
+                        entitySchema: DriverPolesCount,
                     },
                 ]),
             ],
@@ -154,14 +162,18 @@ describe('Race e2e', () => {
     it('/race/:id/results (GET, 200)', () => {
         const entity = RacesMock[0];
         const entityResults = RacesResultsMock.filter((result) => result.race_id === entity.id).map(
-            (result) => ({
-                ...result,
-                driver: {
-                    ...result.driver,
-                    date_of_birth: moment(result.driver.date_of_birth).format('YYYY-MM-DD'),
-                    wins_count: result.position === 1 ? 1 : 0,
-                },
-            }),
+            (result) => {
+                return {
+                    ...result,
+                    driver: lodash.omit(
+                        {
+                            ...result.driver,
+                            date_of_birth: moment(result.driver.date_of_birth).format('YYYY-MM-DD'),
+                        },
+                        ['wins_count', 'poles_count'],
+                    ),
+                };
+            },
         );
 
         return request(app.getHttpServer()).get(`/race/${entity.id}/results`).expect(200).expect({

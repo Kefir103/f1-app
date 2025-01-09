@@ -40,10 +40,10 @@ describe('<DriverInfo />', () => {
         expect(getByText(`Nationality: ${driverMock.nationality}`)).toBeInTheDocument();
 
         // Driver wins count
-        expect(getByText(`Wins: ${driverMock.wins_count}`)).toBeInTheDocument();
+        expect(getByText(`Wins: ${driverMock.wins_count.wins_count}`)).toBeInTheDocument();
 
         // Driver poles count
-        expect(getByText(`Poles: ${driverMock.poles_count}`)).toBeInTheDocument();
+        expect(getByText(`Poles: ${driverMock.poles_count.poles_count}`)).toBeInTheDocument();
     });
     it('should render driver without code correctly', () => {
         const driverMock = {

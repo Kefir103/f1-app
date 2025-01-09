@@ -1,16 +1,11 @@
-import {
-    Column,
-    Entity,
-    JoinColumn,
-    OneToOne,
-    PrimaryGeneratedColumn,
-    VirtualColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import type { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
 import type { ConstructorType } from '~f1-app/shared/types/Constructor/Constructor.type';
 
 import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
+import { DriverWinsCount } from '~entities/Records/DriverWinsCount/DriverWinsCount.entity';
+import { DriverPolesCount } from '~entities/Records/DriverPolesCount/DriverPolesCount.entity';
 
 @Entity({ name: 'drivers' })
 export class Driver implements DriverType {
@@ -48,16 +43,21 @@ export class Driver implements DriverType {
     @Column('varchar', { length: 255, unique: true })
     wiki_url: string;
 
-    @VirtualColumn('integer', {
-        query: (alias) =>
-            `SELECT COUNT(id) FROM results WHERE driver_id = ${alias}.id AND position = 1`,
-        type: 'integer',
+    @OneToOne(() => DriverWinsCount, {
+        createForeignKeyConstraints: false,
     })
-    wins_count: number;
+    @JoinColumn({
+        name: 'id',
+        referencedColumnName: 'driver_id',
+    })
+    wins_count: DriverWinsCount;
 
-    @VirtualColumn('integer', {
-        query: (alias) =>
-            `SELECT count(id) FROM qualifying WHERE driver_id = ${alias}.id AND driver_position = 1`,
+    @OneToOne(() => DriverPolesCount, {
+        createForeignKeyConstraints: false,
     })
-    poles_count: number;
+    @JoinColumn({
+        name: 'id',
+        referencedColumnName: 'driver_id',
+    })
+    poles_count: DriverPolesCount;
 }

@@ -15,6 +15,7 @@ import { RaceModule } from '~modules/Race/race.module';
 import { SeasonModule } from '~modules/Season/season.module';
 import { ResultsModule } from '~modules/Results/results.module';
 import { StatusModule } from '~modules/Status/status.module';
+import { RecordsModule } from '~modules/Records/records.module';
 
 @Module({
     imports: [
@@ -38,7 +39,8 @@ import { StatusModule } from '~modules/Status/status.module';
         RaceModule,
         SeasonModule,
         ResultsModule,
-        StatusModule
+        StatusModule,
+        RecordsModule,
     ],
     controllers: [AppController],
     providers: [AppService],
