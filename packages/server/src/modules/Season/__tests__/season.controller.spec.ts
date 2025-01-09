@@ -41,7 +41,7 @@ describe('SeasonsController', () => {
 
     it('should call service with default pagination', async () => {
         const pageDefault = 1;
-        const perPageDefault = 10;
+        const perPageDefault = 50;
 
         await controller.getAll({});
 
