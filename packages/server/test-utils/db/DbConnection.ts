@@ -4,12 +4,11 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 
 export type SeedObject = {
     entitySchema: EntityClassOrSchema;
-    data: object[] | object;
+    data?: object[] | object;
 };
 
 export const TestDbConnection = (dump: SeedObject[]) => {
     const entities = dump.map(({ entitySchema }) => entitySchema);
-
     return [
         TypeOrmModule.forRootAsync({
             useFactory: async () => {
@@ -36,6 +35,8 @@ export async function seedDatabase(dataSource: DataSource, seedObjects: Array<Se
     for (const seedObject of seedObjects) {
         const repository = dataSource.getRepository(seedObject.entitySchema);
 
-        await repository.insert(seedObject.data);
+        if (seedObject.data) {
+            await repository.insert(seedObject.data);
+        }
     }
 }

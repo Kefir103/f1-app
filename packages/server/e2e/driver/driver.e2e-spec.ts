@@ -16,6 +16,8 @@ import { Race } from '~entities/Public/Race/Race.entity';
 import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
 import { Status } from '~entities/Directory/Status/Status.entity';
+import { DriverWinsCount } from '~entities/Records/DriverWinsCount/DriverWinsCount.entity';
+import { DriverPolesCount } from '~entities/Records/DriverPolesCount/DriverPolesCount.entity';
 
 import {
     DriverCircuitsMock,
@@ -69,6 +71,12 @@ describe('Driver e2e', () => {
                     {
                         entitySchema: Status,
                         data: DriverStatusesMock,
+                    },
+                    {
+                        entitySchema: DriverWinsCount,
+                    },
+                    {
+                        entitySchema: DriverPolesCount,
                     },
                 ]),
             ],

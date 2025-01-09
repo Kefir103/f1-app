@@ -1,4 +1,6 @@
 import type { ConstructorType } from '../Constructor/Constructor.type';
+import type { DriverWinsCountType } from '../Records/DriverWinsCount/DriverWinsCount';
+import type { DriverPolesCountType } from '../Records/DriverPolesCount/DriverPolesCount';
 
 export interface DriverType {
     id: number;
@@ -13,6 +15,6 @@ export interface DriverType {
     nationality: string;
     wiki_url: string;
 
-    wins_count: number;
-    poles_count: number;
+    wins_count: Omit<DriverWinsCountType, 'driver'>;
+    poles_count: Omit<DriverPolesCountType, 'driver'>;
 }

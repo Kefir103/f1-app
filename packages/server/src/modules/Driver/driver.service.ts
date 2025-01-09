@@ -15,6 +15,8 @@ export class DriverService {
             take: perPage,
             relations: {
                 constructor_entity: true,
+                wins_count: true,
+                poles_count: true,
             },
         });
 
@@ -33,6 +35,8 @@ export class DriverService {
             },
             relations: {
                 constructor_entity: true,
+                wins_count: true,
+                poles_count: true,
             },
         });
     }

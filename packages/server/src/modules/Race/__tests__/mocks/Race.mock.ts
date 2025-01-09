@@ -42,8 +42,18 @@ export const RacesDriversMock: Omit<DriverType, 'constructor_entity'>[] = new Ar
         number: 0,
         date_of_birth: new Date(),
         nationality: `driver_nationality_${index + 1}`,
-        poles_count: 0,
-        wins_count: 0,
+
+        poles_count: {
+            driver_id: index + 1,
+            poles_count: 0,
+            rank: 1,
+        },
+
+        wins_count: {
+            driver_id: index + 1,
+            wins_count: 0,
+            rank: 1,
+        },
     }));
 
 export const RacesQualifyingsMock: QualifyingType[] = new Array(2).fill(null).map((_, index) => ({
