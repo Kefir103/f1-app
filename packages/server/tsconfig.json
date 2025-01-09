@@ -20,6 +20,7 @@
         "paths": {
             "~f1-app/*": ["../*"],
             "~config/*": ["src/config/*"],
+            "~decorators/*": ["src/decorators/*"],
             "~modules/*": ["src/modules/*"],
             "~entities/*": ["src/entities/*"],
             "~lib/*": ["src/lib/*"],

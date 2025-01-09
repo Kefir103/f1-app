@@ -42,7 +42,7 @@ describe('CircuitController', () => {
 
     it('should call service getAll with pagination default params', async () => {
         const pageDefault = 1;
-        const perPageDefault = 10;
+        const perPageDefault = 50;
 
         await controller.getAll({});
 

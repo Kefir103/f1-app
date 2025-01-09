@@ -1,4 +1,6 @@
-import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+
+import { IPaginationParams, PaginationParams } from '~decorators/pagination/Pagination.decorator';
 
 import { SeasonService } from '~modules/Season/season.service';
 
@@ -7,7 +9,7 @@ export class SeasonController {
     constructor(private readonly seasonService: SeasonService) {}
 
     @Get()
-    public async getAll(@Query() { page = 1, perPage = 10 }) {
+    public async getAll(@PaginationParams() { page = 1, perPage = 50 }: IPaginationParams) {
         return await this.seasonService.getAll(page, perPage);
     }
 

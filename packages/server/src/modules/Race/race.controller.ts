@@ -1,4 +1,6 @@
-import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+
+import { IPaginationParams, PaginationParams } from '~decorators/pagination/Pagination.decorator';
 
 import { RaceService } from '~modules/Race/race.service';
 import { ResultsService } from '~modules/Results/results.service';
@@ -11,7 +13,7 @@ export class RaceController {
     ) {}
 
     @Get()
-    public async getAll(@Query() { page = 1, perPage = 10 }) {
+    public async getAll(@PaginationParams() { page = 1, perPage = 50 }: IPaginationParams) {
         return await this.raceService.getAll(page, perPage);
     }
 

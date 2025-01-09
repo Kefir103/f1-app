@@ -41,7 +41,7 @@ describe('ConstructorsController', () => {
 
     it('should find with pagination default params', async () => {
         const defaultPage = 1;
-        const defaultPerPage = 10;
+        const defaultPerPage = 50;
 
         await controller.getAll({});
 

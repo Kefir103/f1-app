@@ -1,4 +1,6 @@
-import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+
+import { IPaginationParams, PaginationParams } from '~decorators/pagination/Pagination.decorator';
 
 import { DriverService } from '~modules/Driver/driver.service';
 
@@ -7,7 +9,7 @@ export class DriverController {
     constructor(private driverService: DriverService) {}
 
     @Get()
-    public async getAll(@Query() { page = 1, perPage = 10 }) {
+    public async getAll(@PaginationParams() { page = 1, perPage = 50 }: IPaginationParams) {
         return await this.driverService.getAll(page, perPage);
     }
 
