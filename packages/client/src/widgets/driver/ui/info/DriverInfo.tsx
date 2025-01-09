@@ -31,8 +31,8 @@ export function DriverInfo({ driver }: IDriverInfoProps) {
                 Date of birth: {moment(driver.date_of_birth).format('DD.MM.YYYY')}
             </Typography>
             <Typography className={'my-2'}>Nationality: {driver.nationality}</Typography>
-            <Typography className={'my-2'}>Wins: {driver.wins_count}</Typography>
-            <Typography className={'my-2'}>Poles: {driver.poles_count}</Typography>
+            <Typography className={'my-2'}>Wins: {driver.wins_count.wins_count}</Typography>
+            <Typography className={'my-2'}>Poles: {driver.poles_count.poles_count}</Typography>
         </>
     );
 }

@@ -55,10 +55,10 @@ test('should render driver page', async ({ page, server }) => {
     await expect(page.getByText(`Nationality: ${driver.nationality}`)).toBeVisible();
 
     // Driver wins count
-    await expect(page.getByText(`Wins: ${driver.wins_count}`)).toBeVisible();
+    await expect(page.getByText(`Wins: ${driver.wins_count.wins_count}`)).toBeVisible();
 
     // Driver poles count
-    await expect(page.getByText(`Poles: ${driver.poles_count}`)).toBeVisible();
+    await expect(page.getByText(`Poles: ${driver.poles_count.poles_count}`)).toBeVisible();
 });
 
 test("should go to constructor page after constructor's name click", async ({ page, server }) => {

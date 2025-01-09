@@ -39,8 +39,8 @@ export function DriverListCard({ driver }: IDriverListCard) {
                     {moment(Date.now()).diff(driver.date_of_birth, 'years')})
                 </Typography>
                 <Typography>Nationality: {driver.nationality}</Typography>
-                <Typography>Wins: {driver.wins_count}</Typography>
-                <Typography>Pole positions: {driver.poles_count}</Typography>
+                <Typography>Wins: {driver.wins_count.wins_count}</Typography>
+                <Typography>Pole positions: {driver.poles_count.poles_count}</Typography>
                 <Link
                     href={driver.wiki_url}
                     target={'_blank'}

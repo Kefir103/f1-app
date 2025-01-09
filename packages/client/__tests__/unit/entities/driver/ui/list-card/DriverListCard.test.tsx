@@ -31,7 +31,9 @@ describe('<DriverListCard />', () => {
         // Driver date of birth
         expect(
             getByText(
-                `Date of birth: ${moment(driver.date_of_birth).format('DD.MM.YYYY')} (age 0)`,
+                `Date of birth: ${moment(driver.date_of_birth).format(
+                    'DD.MM.YYYY',
+                )} (age ${moment().diff(driver.date_of_birth, 'years')})`,
             ),
         ).toBeInTheDocument();
 
@@ -39,10 +41,10 @@ describe('<DriverListCard />', () => {
         expect(getByText(`Nationality: ${driver.nationality}`)).toBeInTheDocument();
 
         // Driver Wins count
-        expect(getByText(`Wins: ${driver.wins_count}`)).toBeInTheDocument();
+        expect(getByText(`Wins: ${driver.wins_count.wins_count}`)).toBeInTheDocument();
 
         // Driver Poles count
-        expect(getByText(`Pole positions: ${driver.poles_count}`)).toBeInTheDocument();
+        expect(getByText(`Pole positions: ${driver.poles_count.poles_count}`)).toBeInTheDocument();
 
         // Driver wiki
         expect(getByRole('link', { name: 'Wiki' })).toBeInTheDocument();
