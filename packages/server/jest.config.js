@@ -11,7 +11,7 @@ module.exports = {
     },
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
     collectCoverageFrom: ['**/*.(t|j)s', '!<rootDir>/*.(t|j)s'],
-    coveragePathIgnorePatterns: ['node_modules', 'e2e'],
+    coveragePathIgnorePatterns: ['node_modules', 'e2e', 'dist'],
     coverageDirectory: '../coverage',
     testEnvironment: 'node',
 };
