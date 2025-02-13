@@ -29,7 +29,7 @@ import {
     DriverStatusesMock,
 } from '~modules/Driver/__tests__/mocks/Driver.mock';
 
-function formatDriverResponse(driver: DriverType) {
+function formatDriverResponse(driver: Partial<DriverType>) {
     return {
         ...driver,
         date_of_birth: moment(driver.date_of_birth).format('YYYY-MM-DD'),
@@ -91,12 +91,7 @@ describe('Driver e2e', () => {
             .get('/driver')
             .expect(200)
             .expect({
-                data: DriverMocks.map(formatDriverResponse).map((driver) => ({
-                    ...driver,
-                    constructor_entity: DriverConstructorMock.find(
-                        (constructor) => constructor.id === driver.constructor_id,
-                    ),
-                })),
+                data: DriverMocks.map(formatDriverResponse),
                 count: DriverMocks.length,
             });
     });
@@ -107,11 +102,26 @@ describe('Driver e2e', () => {
             .query({ page: 1, perPage: 1 })
             .expect(200)
             .expect({
+                data: [formatDriverResponse(DriverMocks[0])],
+                count: DriverMocks.length,
+            });
+    });
+
+    it('/driver with pagination and expand constructor_entity param (GET)', () => {
+        return request(app.getHttpServer())
+            .get('/driver')
+            .query({
+                page: 1,
+                perPage: 1,
+                expand: 'constructor_entity',
+            })
+            .expect(200)
+            .expect({
                 data: [
                     formatDriverResponse({
                         ...DriverMocks[0],
                         constructor_entity: DriverConstructorMock.find(
-                            (constructor) => constructor.id === DriverMocks[0].constructor_id,
+                            ({ id }) => id === DriverMocks[0].constructor_id,
                         ),
                     }),
                 ],
@@ -120,6 +130,16 @@ describe('Driver e2e', () => {
     });
 
     it('/driver/:ref (GET, 200)', () => {
+        const entity = formatDriverResponse(DriverMocks[0]);
+
+        return request(app.getHttpServer()).get(`/driver/${entity.ref}`).expect(200).expect(entity);
+    });
+
+    it('/driver/:not-existed-ref (GET, 404)', () => {
+        return request(app.getHttpServer()).get('/driver/not-found-ref').expect(404);
+    });
+
+    it('/driver/:ref?expand=constructor_entity (GET, 200)', () => {
         const entity = formatDriverResponse({
             ...DriverMocks[0],
             constructor_entity: DriverConstructorMock.find(
@@ -127,10 +147,12 @@ describe('Driver e2e', () => {
             ),
         });
 
-        return request(app.getHttpServer()).get(`/driver/${entity.ref}`).expect(200).expect(entity);
-    });
-
-    it('/driver/:not-existed-ref (GET, 404)', () => {
-        return request(app.getHttpServer()).get('/driver/not-found-ref').expect(404);
+        return request(app.getHttpServer())
+            .get(`/driver/${entity.ref}`)
+            .query({
+                expand: 'constructor_entity',
+            })
+            .expect(200)
+            .expect(entity);
     });
 });

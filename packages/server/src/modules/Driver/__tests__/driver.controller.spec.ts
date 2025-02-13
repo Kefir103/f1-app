@@ -30,30 +30,59 @@ describe('DriverController', () => {
         expect(controller).toBeDefined();
     });
 
-    it('should call service getAll with pagination', async () => {
+    it('should call service getAll with pagination and empty relations', async () => {
         const page = 1;
         const perPage = 10;
 
         await controller.getAll({ page, perPage });
 
-        expect(mockService.getAll).toHaveBeenCalledWith(page, perPage);
+        expect(mockService.getAll).toHaveBeenCalledWith({ page, perPage, relations: {} });
     });
 
-    it('should call service getAll with pagination default params', async () => {
+    it('should call service getAll with pagination default params and empty relations', async () => {
         const pageDefault = 1;
         const perPageDefault = 50;
 
         await controller.getAll({});
 
-        expect(mockService.getAll).toHaveBeenCalledWith(pageDefault, perPageDefault);
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: pageDefault,
+            perPage: perPageDefault,
+            relations: {},
+        });
     });
 
-    it('should call service getOne with ref', async () => {
+    it('should call service getAll with pagination and relations', async () => {
+        const page = 1;
+        const perPage = 10;
+        const relations = {
+            constructor_entity: true,
+        };
+
+        await controller.getAll({ page, perPage }, relations);
+
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: page,
+            perPage: perPage,
+            relations: relations,
+        });
+    });
+
+    it('should call service getOne with ref and empty relations', async () => {
         const ref = 'ref';
 
         await controller.getOne(ref);
 
-        expect(mockService.getOne).toHaveBeenCalledWith(ref);
+        expect(mockService.getOne).toHaveBeenCalledWith(ref, { relations: {} });
+    });
+
+    it('should call service getOne with ref and relations', async () => {
+        const ref = 'ref';
+        const driverRelations = {
+            constructor_entity: true,
+        };
+
+        await controller.getOne(ref, driverRelations);
     });
 
     it('should throw NotFoundException if driver is falsy', async () => {

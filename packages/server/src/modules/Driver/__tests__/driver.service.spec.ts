@@ -48,17 +48,10 @@ describe('DriverService', () => {
         const page = 1;
         const perPage = 1;
 
-        const driversWithCount = await service.getAll(page, perPage);
+        const driversWithCount = await service.getAll({ page, perPage });
 
         const expectedDriversWithCount = {
-            data: [
-                {
-                    ...DriverMocks[0],
-                    constructor_entity: DriverConstructorMock.find(
-                        (constructor) => constructor.id === DriverMocks[0].constructor_id,
-                    ),
-                },
-            ],
+            data: [DriverMocks[0]],
             count: DriverMocks.length,
         };
 
@@ -70,12 +63,7 @@ describe('DriverService', () => {
 
         const driver = await service.getOne(ref);
 
-        const expectedDriver = {
-            ...DriverMocks[0],
-            constructor_entity: DriverConstructorMock.find(
-                (constructor) => constructor.id === DriverMocks[0].constructor_id,
-            ),
-        };
+        const expectedDriver = DriverMocks[0];
 
         expect(driver).toEqual(expectedDriver);
     });
