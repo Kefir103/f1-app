@@ -76,13 +76,12 @@ export const expandFactory = (
 
     const expandQuery = request.query?.expand;
 
-    if (expandQuery?.length === 0) {
+    if (!expandQuery?.length) {
         return {};
     }
 
     if (
-        getMetadataArgsStorage().filterRelations(entityClass as () => EntityClassOrSchema)
-            ?.length === 0
+        !getMetadataArgsStorage().filterRelations(entityClass as () => EntityClassOrSchema)?.length
     ) {
         return {};
     }
