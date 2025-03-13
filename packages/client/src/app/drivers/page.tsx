@@ -18,6 +18,7 @@ export default async function DriversPage({ searchParams }: IDriversPage) {
     const { data, count } = await useDriversServer({
         page: Number(searchParams.page) || 1,
         perPage: Number(searchParams.perPage) || 12,
+        expandFields: ['constructor_entity'],
     });
 
     return (
