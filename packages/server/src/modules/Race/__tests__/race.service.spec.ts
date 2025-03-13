@@ -12,6 +12,7 @@ import {
     RacesConstructorsMock,
     RacesDriversMock,
     RacesMock,
+    RacesResultsMock,
 } from '~modules/Race/__tests__/mocks/Race.mock';
 
 import { UnitMockRepository } from '~test-utils/unit/mock-repository/UnitMockRepository';
@@ -26,6 +27,13 @@ describe('RaceService', () => {
             foreign_key: 'id',
             multiple: false,
             entities: RacesCircuitsMock,
+        },
+        {
+            name: 'results',
+            key: 'id',
+            foreign_key: 'race_id',
+            multiple: true,
+            entities: RacesResultsMock,
         },
     ]);
 
@@ -77,13 +85,38 @@ describe('RaceService', () => {
         const page = 1;
         const perPage = 10;
 
-        const races = await service.getAll(page, perPage);
+        const races = await service.getAll({ page, perPage });
 
         const expectedRaces = {
             data: lodash.orderBy(
                 RacesMock.map((race) => ({
                     ...race,
                     circuit: RacesCircuitsMock.find((circuit) => race.circuit_id === circuit.id),
+                })),
+                ['year', 'round'],
+                ['desc', 'desc'],
+            ),
+            count: RacesMock.length,
+        };
+
+        expect(races).toEqual(expectedRaces);
+    });
+
+    it('should return races with pagination and results from relations param', async () => {
+        const page = 1;
+        const perPage = 10;
+        const relations = {
+            results: true,
+        };
+
+        const races = await service.getAll({ page, perPage, relations });
+
+        const expectedRaces = {
+            data: lodash.orderBy(
+                RacesMock.map((race) => ({
+                    ...race,
+                    circuit: RacesCircuitsMock.find((circuit) => circuit.id === race.circuit_id),
+                    results: RacesResultsMock.filter((result) => result.race_id === race.id),
                 })),
                 ['year', 'round'],
                 ['desc', 'desc'],
@@ -101,6 +134,22 @@ describe('RaceService', () => {
         };
 
         const race = await service.getOne(raceMock.id);
+
+        expect(race).toEqual(raceMock);
+    });
+
+    it('should return race by id with results from relations param', async () => {
+        const raceMock = {
+            ...RacesMock[0],
+            circuit: RacesCircuitsMock.find((circuit) => circuit.id === RacesMock[0].circuit_id),
+            results: RacesResultsMock.filter((result) => result.race_id === RacesMock[0].id),
+        };
+
+        const race = await service.getOne(raceMock.id, {
+            relations: {
+                results: true,
+            },
+        });
 
         expect(race).toEqual(raceMock);
     });

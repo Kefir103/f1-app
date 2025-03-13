@@ -8,12 +8,12 @@ import { ResultsService } from '~modules/Results/results.service';
 describe('RaceController', () => {
     let controller: RaceController;
 
-    let mockRaceService = {
+    const mockRaceService = {
         getAll: jest.fn(),
         getOne: jest.fn().mockReturnValue({}),
     };
 
-    let mockResultsService = {
+    const mockResultsService = {
         getAll: jest.fn(),
     };
 
@@ -39,30 +39,61 @@ describe('RaceController', () => {
         expect(controller).toBeDefined();
     });
 
-    it('should call service with pagination', async () => {
+    it('should call service with pagination and empty relations', async () => {
         const page = 1;
         const perPage = 10;
 
         await controller.getAll({ page, perPage });
 
-        expect(mockRaceService.getAll).toHaveBeenCalledWith(page, perPage);
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({ page, perPage, relations: {} });
     });
 
-    it('should call service with default pagination', async () => {
+    it('should call service getAll with default pagination and emptyRelations', async () => {
         const pageDefault = 1;
         const perPageDefault = 50;
 
         await controller.getAll({});
 
-        expect(mockRaceService.getAll).toHaveBeenCalledWith(pageDefault, perPageDefault);
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({
+            page: pageDefault,
+            perPage: perPageDefault,
+            relations: {},
+        });
     });
 
-    it('should call service getOne with id', async () => {
+    it('should call service getAll with pagination and relations', async () => {
+        const page = 1;
+        const perPage = 10;
+        const relations = {
+            results: true,
+        };
+
+        await controller.getAll({ page, perPage }, relations);
+
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({
+            page: page,
+            perPage: perPage,
+            relations: relations,
+        });
+    });
+
+    it('should call service getOne with id and empty relations', async () => {
         const id = 1;
 
         await controller.getOne(id);
 
-        expect(mockRaceService.getOne).toHaveBeenCalledWith(id);
+        expect(mockRaceService.getOne).toHaveBeenCalledWith(id, { relations: {} });
+    });
+
+    it('should call service getOne with id and relations', async () => {
+        const id = 1;
+        const relations = {
+            results: true,
+        };
+
+        await controller.getOne(id, relations);
+
+        expect(mockRaceService.getOne).toHaveBeenCalledWith(id, { relations });
     });
 
     it('should return NotFoundException if race is falsy', async () => {
