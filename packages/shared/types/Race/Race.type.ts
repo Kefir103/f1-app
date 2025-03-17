@@ -1,6 +1,6 @@
 import type { CircuitType } from '../Circuit/Circuit.type';
 import type { ResultType } from '../Result/Result.type';
-import type { DriverType } from '../Driver/Driver.type';
+import type { RaceWinnerType } from './Winner/RaceWinner.type';
 
 export interface RaceType {
     id: number;
@@ -13,8 +13,7 @@ export interface RaceType {
     start_time?: string | null;
     wiki_url: string;
     results?: ResultType[];
-    winner_id?: number | null;
-    winner?: DriverType | null;
+    winner?: RaceWinnerType | null;
     fp1_date?: Date | null;
     fp1_time?: string | null;
     fp2_date?: Date | null;

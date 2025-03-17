@@ -3,8 +3,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as lodash from 'lodash';
 
 import { RaceType } from '~f1-app/shared/types/Race/Race.type';
+import { DriverType } from '~f1-app/shared/types/Driver/Driver.type';
+import { CircuitType } from '~f1-app/shared/types/Circuit/Circuit.type';
+import { ResultType } from '~f1-app/shared/types/Result/Result.type';
 
 import { Race } from '~entities/Public/Race/Race.entity';
+
 import { RaceService } from '~modules/Race/race.service';
 
 import {
@@ -34,6 +38,28 @@ describe('RaceService', () => {
             foreign_key: 'race_id',
             multiple: true,
             entities: RacesResultsMock,
+        },
+        {
+            name: 'winner',
+            key: 'id',
+            foreign_key: 'race_id',
+            multiple: false,
+            entities: {
+                drivers: RacesDriversMock,
+                results: RacesResultsMock,
+            },
+            relationFn: (
+                race: RaceType,
+                { drivers, results }: { drivers: DriverType[]; results: ResultType[] },
+            ) => {
+                const raceWinResult = results.find((result) => result.race_id === race.id);
+
+                if (!raceWinResult) {
+                    return null;
+                }
+
+                return drivers.find((driver) => driver.id === raceWinResult.driver_id);
+            },
         },
     ]);
 
@@ -154,22 +180,35 @@ describe('RaceService', () => {
         expect(race).toEqual(raceMock);
     });
 
+    it('should return race by id with winner from relations param', async () => {
+        type RaceMockType = Omit<RaceType, 'circuit' | 'winner'> & {
+            circuit: CircuitType;
+            winner: Omit<DriverType, 'constructor_entity'>;
+        };
+
+        const raceWinResult = RacesResultsMock.find((result) => result.position === 1);
+
+        const raceMock = {
+            ...RacesMock.find((race) => race.id === raceWinResult.race_id),
+            circuit: null,
+            winner: null,
+        } as RaceMockType;
+
+        raceMock.circuit = RacesCircuitsMock.find((circuit) => circuit.id === raceMock.circuit_id);
+        raceMock.winner = RacesDriversMock.find((driver) => driver.id === raceWinResult.driver_id);
+
+        const race = await service.getOne(raceMock.id, {
+            relations: {
+                winner: true,
+            },
+        });
+
+        expect(race).toEqual(raceMock);
+    });
+
     it('should return null if race is not found by id', async () => {
         const race = await service.getOne(-1);
 
         expect(race).toBeNull();
-    });
-
-    it('should return race without winner', async () => {
-        let raceMock = RacesMock.find((race) => !race.winner_id) as Omit<RaceType, 'result'>;
-
-        raceMock = {
-            ...raceMock,
-            circuit: RacesCircuitsMock.find((circuit) => circuit.id === RacesMock[0].circuit_id),
-        };
-
-        const race = await service.getOne(raceMock.id);
-
-        expect(race).toEqual(raceMock);
     });
 });
