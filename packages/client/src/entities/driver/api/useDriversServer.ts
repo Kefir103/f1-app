@@ -11,14 +11,18 @@ interface IDriversResponse {
 interface IUseDriverServer {
     page: number;
     perPage: number;
+    expandFields?: string[];
 }
 
-export async function useDriversServer({ page, perPage }: IUseDriverServer) {
+export async function useDriversServer({ page, perPage, expandFields = [] }: IUseDriverServer) {
     try {
         const { data } = await axios.get<IDriversResponse>(DRIVER_URLS.index, {
             params: {
                 page,
                 perPage,
+                ...(expandFields.length && {
+                    expand: expandFields.join(','),
+                }),
             },
         });
 

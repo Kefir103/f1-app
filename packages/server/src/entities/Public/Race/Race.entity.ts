@@ -1,4 +1,12 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, VirtualColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    VirtualColumn,
+} from 'typeorm';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 

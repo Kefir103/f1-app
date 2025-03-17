@@ -7,7 +7,7 @@ import { DRIVER_URLS } from '~entities/driver/api';
 
 import DriversPage from '~app/drivers/page';
 
-import { DriversMock } from '~mocks/entities/driver/Driver.mock';
+import { DriversConstructorsMock, DriversMock } from '~mocks/entities/driver/Driver.mock';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
@@ -20,7 +20,12 @@ describe('DriversPage', () => {
         const firstDriver = DriversMock[0];
 
         MockAdapter.onGet(DRIVER_URLS.index).replyOnce(200, {
-            data: DriversMock,
+            data: DriversMock.map((driver) => ({
+                ...driver,
+                constructor_entity: DriversConstructorsMock.find(
+                    ({ id }) => id === driver.constructor_id,
+                ),
+            })),
             count: DriversMock.length,
         });
 

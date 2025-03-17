@@ -100,7 +100,7 @@ describe('Race e2e', () => {
         await app.init();
     });
 
-    it('/race (GET)', () => {
+    it('/race (GET, 200)', () => {
         return request(app.getHttpServer())
             .get('/race')
             .expect(200)
@@ -119,7 +119,7 @@ describe('Race e2e', () => {
             });
     });
 
-    it('/race with pagination (GET)', () => {
+    it('/race with pagination (GET, 200)', () => {
         return request(app.getHttpServer())
             .get('/race')
             .query({ page: 1, perPage: 1 })
@@ -141,6 +141,31 @@ describe('Race e2e', () => {
             });
     });
 
+    it('/race with pagination and expand (GET, 200)', () => {
+        return request(app.getHttpServer())
+            .get('/race')
+            .query({ page: 1, perPage: 1, expand: ['results'].join(',') })
+            .expect(200)
+            .expect({
+                data: [
+                    lodash.orderBy(
+                        RacesMock.map(formatRaceResponse).map((race) => ({
+                            ...race,
+                            circuit: RacesCircuitsMock.find(
+                                (circuit) => circuit.id === race.circuit_id,
+                            ),
+                            results: RacesResultsMock.filter(
+                                (result) => result.race_id === race.id,
+                            ),
+                        })),
+                        ['year', 'round'],
+                        ['desc', 'desc'],
+                    )[0],
+                ],
+                count: RacesMock.length,
+            });
+    });
+
     it('/race/:id (GET, 200)', () => {
         const entity = RacesMock[0];
 
@@ -152,6 +177,24 @@ describe('Race e2e', () => {
                     ...entity,
                     circuit: RacesCircuitsMock.find((circuit) => circuit.id === entity.circuit_id),
                 }),
+            );
+    });
+
+    it('/race/:id?expand=results (GET, 200)', () => {
+        const entity = RacesMock[0];
+
+        return request(app.getHttpServer())
+            .get(`/race/${entity.id}`)
+            .query({ expand: ['results'].join(',') })
+            .expect(200)
+            .expect(
+                formatRaceResponse({
+                    ...entity,
+                    circuit: RacesCircuitsMock.find((circuit) => circuit.id === entity.circuit_id),
+                    results: RacesResultsMock.filter((result) => result.race_id === entity.id).map(
+                        (result) => lodash.omit(result, ['status', 'driver', 'constructor_entity']),
+                    ),
+                } as RaceType),
             );
     });
 
