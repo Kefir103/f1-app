@@ -6,7 +6,8 @@ interface IRelations {
     key: string;
     foreign_key: string;
     multiple: boolean;
-    entities: object[];
+    entities: object | object[];
+    relationFn?: (entity: object, entities: object) => object | object[];
 }
 
 const getRelations = (entity: object, relationsOptions: object, relations: IRelations[]) => {
@@ -15,6 +16,13 @@ const getRelations = (entity: object, relationsOptions: object, relations: IRela
 
         if (!relation) {
             return acc;
+        }
+
+        if (typeof relation.relationFn !== 'undefined') {
+            return {
+                ...acc,
+                [relation.name]: relation.relationFn(entity, relation.entities),
+            };
         }
 
         return {
