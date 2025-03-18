@@ -4,6 +4,7 @@ import type { ResultType } from '~entities/result';
 import type { DriverType } from '~entities/driver';
 import type { Constructor } from '~entities/constructor';
 import type { StatusType } from '~entities/status';
+import type { RaceWinner } from '~entities/race-winner';
 
 const RacesCircuitMock: CircuitType[] = new Array(2).fill(null).map((_, index) => ({
     id: index + 1,
@@ -41,8 +42,16 @@ export const RacesResultsDriversMock: DriverType[] = new Array(2).fill(null).map
     date_of_birth: new Date(),
     nationality: `results_driver_nationality_${index + 1}`,
     wiki_url: `results_driver_wiki_url_${index + 1}`,
-    wins_count: 1,
-    poles_count: 1,
+    wins_count: {
+        wins_count: 1,
+        driver_id: index + 1,
+        rank: 1,
+    },
+    poles_count: {
+        poles_count: 1,
+        driver_id: index + 1,
+        rank: 1,
+    },
 }));
 
 export const RacesMock: Race[] = new Array(2).fill(null).map((_, index) => ({
@@ -65,9 +74,6 @@ export const RacesMock: Race[] = new Array(2).fill(null).map((_, index) => ({
     qualifying_time: '',
     sprint_date: new Date(),
     sprint_time: '',
-    winner_id: index === 0 ? 1 : null,
-    winner:
-        RacesResultsDriversMock.find((driver) => driver.id === (index === 0 ? 1 : null)) || null,
 }));
 
 export const RacesResultsStatusesMock: StatusType[] = new Array(2).fill(null).map((_, index) => ({
@@ -101,3 +107,17 @@ export const RacesResultsMock: ResultType[] = new Array(2).fill(null).map((_, in
     status_id: 1,
     status: RacesResultsStatusesMock.find((status) => status.id === 1) as StatusType,
 }));
+
+export function getRaceWinner(race: Race): RaceWinner | undefined {
+    const raceWinResult = RacesResultsMock.find(
+        (result) => result.race_id === race.id && result.position === 1,
+    );
+
+    if (!raceWinResult) {
+        return undefined;
+    }
+
+    return RacesResultsDriversMock.find((driver) => driver.id === raceWinResult.driver_id) as
+        | RaceWinner
+        | undefined;
+}

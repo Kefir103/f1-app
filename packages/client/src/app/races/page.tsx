@@ -18,6 +18,7 @@ export default async function RacesPage({ searchParams }: IRacesPage) {
     const { data, count } = await useRacesServer({
         page: Number(searchParams.page) || 1,
         perPage: Number(searchParams.perPage) || 12,
+        expandFields: ['winner.constructor_entity'],
     });
 
     return (

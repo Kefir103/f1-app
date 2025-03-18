@@ -10,7 +10,7 @@ import { CIRCUIT_URLS } from '~entities/circuit/api';
 import { DRIVER_URLS } from '~entities/driver/api';
 import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
-import { RacesMock, RacesResultsMock } from '~mocks/entities/race/Race.mock';
+import { getRaceWinner, RacesMock, RacesResultsMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
@@ -29,7 +29,10 @@ test.afterEach(async ({ server }) => {
 });
 
 test('render race page', async ({ page, server }) => {
-    const raceMock = structuredClone(RacesMock[0]);
+    const raceMock = structuredClone({
+        ...RacesMock[0],
+        winner: getRaceWinner(RacesMock[0]),
+    });
 
     await setupServer(
         server,
@@ -347,7 +350,10 @@ test("should open winner driver page after winner driver's name click", async ({
     server,
     context,
 }) => {
-    const raceMock = structuredClone(RacesMock[0]);
+    const raceMock = structuredClone({
+        ...RacesMock[0],
+        winner: getRaceWinner(RacesMock[0]),
+    });
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
     const winner = raceMock.winner!;
 
@@ -392,7 +398,10 @@ test("should open winner constructor page after winner constructor's name click"
     server,
     context,
 }) => {
-    const raceMock = structuredClone(RacesMock[0]);
+    const raceMock = structuredClone({
+        ...RacesMock[0],
+        winner: getRaceWinner(RacesMock[0]),
+    });
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
     const winnerConstructor = raceMock.winner!.constructor_entity;
 

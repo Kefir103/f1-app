@@ -1,4 +1,3 @@
-import * as lodash from 'lodash';
 import { faker } from '@faker-js/faker';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
@@ -101,29 +100,9 @@ export const RacesResultsMock: Omit<ResultType, 'race'>[] = new Array(2)
         status: RacesStatusesMock.find((status) => status.id === 1),
     }));
 
-export const RacesMock: Omit<RaceType, 'circuit' | 'results'>[] = new Array(2)
+export const RacesMock: Omit<RaceType, 'circuit' | 'results' | 'winner'>[] = new Array(2)
     .fill(null)
     .map((_, index) => {
-        const result = RacesResultsMock.find((result) => result.race_id === index + 1);
-
-        let winner = null;
-
-        if (result?.position === 1) {
-            winner = lodash.pick(
-                RacesDriversMock.find((driver) => driver.id === result.driver_id) || {},
-                ['id', 'ref', 'first_name', 'last_name', 'constructor_id'],
-            );
-
-            winner.constructor_entity = lodash.pick(
-                RacesConstructorsMock.find(
-                    (constructor) => constructor.id === winner.constructor_id,
-                ) || {},
-                ['id', 'ref', 'name'],
-            );
-
-            delete winner.constructor_id;
-        }
-
         return {
             id: index + 1,
             circuit_id: 1,
@@ -143,7 +122,5 @@ export const RacesMock: Omit<RaceType, 'circuit' | 'results'>[] = new Array(2)
             qualifying_time: '',
             sprint_date: faker.helpers.maybe(() => new Date(), { probability: 0.5 }) || null,
             sprint_time: '',
-            winner_id: winner?.id || null,
-            winner: winner,
         };
     });

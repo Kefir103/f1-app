@@ -20,6 +20,7 @@ import { Qualifying } from '~entities/Public/Qualifying/Qualifying.entity';
 import { Status } from '~entities/Directory/Status/Status.entity';
 import { DriverWinsCount } from '~entities/Records/DriverWinsCount/DriverWinsCount.entity';
 import { DriverPolesCount } from '~entities/Records/DriverPolesCount/DriverPolesCount.entity';
+import { RaceWinner } from '~entities/Public/Race/Winner/RaceWinner.entity';
 
 import type { RaceType } from '~f1-app/shared/types/Race/Race.type';
 
@@ -91,6 +92,9 @@ describe('Race e2e', () => {
                     },
                     {
                         entitySchema: DriverPolesCount,
+                    },
+                    {
+                        entitySchema: RaceWinner,
                     },
                 ]),
             ],
@@ -196,6 +200,33 @@ describe('Race e2e', () => {
                     ),
                 } as RaceType),
             );
+    });
+
+    it('/race/:id?expand=winner (GET, 200)', () => {
+        const raceWinResult = RacesResultsMock.find((result) => result.position === 1);
+
+        const entity = formatRaceResponse({
+            ...RacesMock.find((race) => race.id === raceWinResult.race_id),
+            circuit: null,
+        });
+
+        const raceWinner = RacesDriversMock.find((driver) => driver.id === raceWinResult.driver_id);
+
+        return request(app.getHttpServer())
+            .get(`/race/${entity.id}`)
+            .query({ expand: ['winner'].join(',') })
+            .expect(200)
+            .expect({
+                ...entity,
+                circuit: RacesCircuitsMock.find((circuit) => circuit.id === entity.circuit_id),
+                winner: lodash.omit(
+                    {
+                        ...raceWinner,
+                        date_of_birth: moment(raceWinner.date_of_birth).format('YYYY-MM-DD'),
+                    },
+                    ['wins_count', 'poles_count'],
+                ),
+            });
     });
 
     it('/race/:not-existed-id (GET, 404)', () => {
