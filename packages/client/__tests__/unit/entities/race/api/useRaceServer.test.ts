@@ -5,9 +5,8 @@ import type { Race } from '~entities/race';
 import { RACE_URLS } from '~entities/race/api';
 import { useRaceServer } from '~entities/race/api';
 
-import type { DriverType } from '~entities/driver';
-
-import { RacesMock } from '~mocks/entities/race/Race.mock';
+import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
+import { RaceWinnerType } from '~f1-app/shared/types/Race/Winner/RaceWinner.type';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -21,11 +20,10 @@ function formatRace(race: Race) {
         fp3_date: race.fp3_date?.toString(),
         qualifying_date: race.qualifying_date?.toString(),
         sprint_date: race.sprint_date?.toString(),
-        winner: formatWinner(race.winner || undefined)
     };
 }
 
-function formatWinner(winner?: DriverType) {
+function formatWinner(winner?: RaceWinnerType) {
     if (!winner) {
         return null;
     }
@@ -33,7 +31,7 @@ function formatWinner(winner?: DriverType) {
     return {
         ...winner,
         date_of_birth: winner.date_of_birth.toString(),
-    }
+    };
 }
 
 describe('useRaceServer', () => {
@@ -55,5 +53,24 @@ describe('useRaceServer', () => {
         await expect(async () => {
             await useRaceServer(errorId);
         }).rejects.toThrow(Error);
+    });
+
+    it('should return race with winner from expand query', async () => {
+        const raceMock = {
+            ...formatRace(RacesMock[0]),
+            winner: formatWinner(getRaceWinner(RacesMock[0])),
+        };
+
+        MockAdapter.onGet(RACE_URLS.id(raceMock.id), {
+            params: {
+                expand: 'winner.constructor_entity',
+            },
+        }).replyOnce(200, raceMock);
+
+        const { race } = await useRaceServer(raceMock.id, {
+            expandFields: ['winner.constructor_entity'],
+        });
+
+        expect(race).toEqual(raceMock);
     });
 });

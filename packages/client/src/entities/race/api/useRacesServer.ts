@@ -6,6 +6,7 @@ import { URLS } from '~entities/race/api/urls';
 interface IUseRacesServer {
     page: number;
     perPage: number;
+    expandFields?: string[];
 }
 
 interface IUseRacesServerResponse {
@@ -13,12 +14,15 @@ interface IUseRacesServerResponse {
     count: number;
 }
 
-export async function useRacesServer({ page, perPage }: IUseRacesServer) {
+export async function useRacesServer({ page, perPage, expandFields = [] }: IUseRacesServer) {
     try {
         const { data } = await axios.get<IUseRacesServerResponse>(URLS.index, {
             params: {
                 page,
                 perPage,
+                ...(expandFields.length && {
+                    expand: expandFields.join(','),
+                }),
             },
         });
 

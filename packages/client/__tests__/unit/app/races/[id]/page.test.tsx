@@ -7,7 +7,7 @@ import RacePage from '~app/races/[id]/page';
 
 import { RACE_URLS } from '~entities/race/api';
 
-import { RacesMock } from '~mocks/entities/race/Race.mock';
+import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
@@ -53,5 +53,72 @@ describe('<RacePage />', () => {
         expect(getByTitle(getBreadcrumbTitle('Home'))).toBeInTheDocument();
         expect(getByTitle(getBreadcrumbTitle('Races'))).toBeInTheDocument();
         expect(getByTitle(getBreadcrumbTitle(raceMock.name))).toBeInTheDocument();
+    });
+
+    it('should render race winner from expand query if winner is defined', async () => {
+        const raceMock = {
+            ...RacesMock[0],
+            winner: getRaceWinner(RacesMock[0]),
+        };
+
+        MockAdapter.onGet(RACE_URLS.id(raceMock.id), {
+            params: {
+                expand: 'winner.constructor_entity',
+            },
+        }).replyOnce(200, raceMock);
+        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+            data: [],
+            count: 0,
+        });
+
+        const { getByRole, getByText } = await render(
+            await RouterMock({
+                children: await RacePage({ params: { id: raceMock.id } }),
+            }),
+        );
+
+        const { winner } = raceMock;
+        const { constructor_entity: winnerConstructor } = winner!;
+
+        const winnerLink = getByRole('link', {
+            name: `${winner?.first_name} ${winner?.last_name}`,
+        });
+
+        expect(getByText('Winner', { exact: false })).toBeInTheDocument();
+        expect(winnerLink).toBeInTheDocument();
+        expect(winnerLink).toHaveAttribute('href', `/drivers/${winner?.ref}`);
+
+        const winnerConstructorLink = getByRole('link', { name: winnerConstructor.name });
+
+        expect(winnerConstructorLink).toBeInTheDocument();
+        expect(winnerConstructorLink).toHaveAttribute(
+            'href',
+            `/constructors/${winnerConstructor?.ref}`,
+        );
+    });
+
+    it("shouldn't render winner if winner is null", async () => {
+        const raceMock = {
+            ...RacesMock[0],
+            winner: null,
+        };
+
+        MockAdapter.onGet(RACE_URLS.id(raceMock.id), {
+            params: {
+                expand: 'winner.constructor_entity',
+            },
+        }).replyOnce(200, raceMock);
+        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+            data: [],
+            count: 0,
+        });
+
+        const { queryByText } = await render(
+            await RouterMock({
+                children: await RacePage({ params: { id: raceMock.id } }),
+            }),
+        );
+
+        expect(queryByText('Winner', { exact: false })).toBeNull();
     });
 });

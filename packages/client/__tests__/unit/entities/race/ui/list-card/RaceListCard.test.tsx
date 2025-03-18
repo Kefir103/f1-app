@@ -4,11 +4,14 @@ import moment from 'moment';
 
 import { RaceListCard } from '~entities/race/ui';
 
-import { RacesMock } from '~mocks/entities/race/Race.mock';
+import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
 
 describe('<RaceListCard />', () => {
     it('should render correctly', () => {
-        const raceMock = RacesMock[0];
+        const raceMock = {
+            ...RacesMock[0],
+            winner: getRaceWinner(RacesMock[0]),
+        };
 
         const { getByRole, getByText, getByTitle } = render(<RaceListCard race={raceMock} />);
 
