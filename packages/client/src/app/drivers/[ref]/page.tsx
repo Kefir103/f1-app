@@ -13,7 +13,9 @@ interface IDriverPage {
 }
 
 export default async function DriverPage({ params }: IDriverPage) {
-    const { driver } = await useDriverServer(params.ref);
+    const { driver } = await useDriverServer(params.ref, {
+        expandFields: ['constructor_entity'],
+    });
 
     return (
         <>

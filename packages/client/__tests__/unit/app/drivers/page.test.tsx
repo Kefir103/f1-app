@@ -19,7 +19,13 @@ describe('DriversPage', () => {
     it('should render drivers page correctly', async () => {
         const firstDriver = DriversMock[0];
 
-        MockAdapter.onGet(DRIVER_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(DRIVER_URLS.index, {
+            params: {
+                page: 1,
+                perPage: 12,
+                expand: ['constructor_entity'].join(','),
+            },
+        }).replyOnce(200, {
             data: DriversMock.map((driver) => ({
                 ...driver,
                 constructor_entity: DriversConstructorsMock.find(

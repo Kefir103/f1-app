@@ -18,7 +18,11 @@ describe('<DriverPage />', () => {
     it('should render correctly', async () => {
         const driver = DriversMock[0];
 
-        MockAdapter.onGet(DRIVER_URLS.ref(driver.ref)).replyOnce(200, driver);
+        MockAdapter.onGet(DRIVER_URLS.ref(driver.ref), {
+            params: {
+                expand: ['constructor_entity'].join(','),
+            }
+        }).replyOnce(200, driver);
 
         const { getByRole } = await render(
             await RouterMock({
@@ -37,7 +41,11 @@ describe('<DriverPage />', () => {
     it('should render breadcrumbs correctly', async () => {
         const driverMock = DriversMock[0];
 
-        MockAdapter.onGet(DRIVER_URLS.ref(driverMock.ref)).replyOnce(200, driverMock);
+        MockAdapter.onGet(DRIVER_URLS.ref(driverMock.ref), {
+            params: {
+                expand: ['constructor_entity'].join(','),
+            }
+        }).replyOnce(200, driverMock);
 
         const { getByTitle } = await render(
             await RouterMock({
