@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
 import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
@@ -8,20 +7,10 @@ import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
-
-test('should renders correctly', async ({ page, server }) => {
+test('should renders correctly', async ({ page, nextContext }) => {
     const constructorMock = ConstructorsMock[0];
 
-    await setupServer(server, {
-        url: CONSTRUCTOR_URLS.ref(constructorMock.ref),
-        method: 'GET',
-        handler: (_, reply) => {
-            reply.send(constructorMock);
-        },
-    });
+    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
 
     await page.goto(`/constructors/${constructorMock.ref}`);
 
@@ -30,16 +19,10 @@ test('should renders correctly', async ({ page, server }) => {
     await expect(page.getByText(`Nationality: ${constructorMock.nationality}`)).toBeVisible();
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const constructorMock = ConstructorsMock[0];
 
-    await setupServer(server, {
-        url: CONSTRUCTOR_URLS.ref(constructorMock.ref),
-        method: 'GET',
-        handler: (_, reply) => {
-            reply.send(constructorMock);
-        },
-    });
+    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
 
     await page.goto(`/constructors/${constructorMock.ref}`);
 

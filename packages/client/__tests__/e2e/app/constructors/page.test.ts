@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
 import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
@@ -8,50 +7,43 @@ import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
+const CONSTRUCTORS_REQUEST_DEFAULT_PARAMS = {
+    page: 1,
+    perPage: 12,
+};
 
-test('should renders correctly', async ({ page, server }) => {
-    await setupServer(server, {
-        url: CONSTRUCTOR_URLS.index,
-        method: 'GET',
-        handler: (_, reply) => {
-            reply.send({
-                data: ConstructorsMock,
-                count: ConstructorsMock.length,
-            });
+test('should renders correctly', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        CONSTRUCTOR_URLS.index,
+        {
+            data: ConstructorsMock,
+            count: ConstructorsMock.length,
         },
-    });
+        {
+            params: CONSTRUCTORS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/constructors');
 
     await expect(page.getByRole('link', { name: ConstructorsMock[0].name })).toBeVisible();
 });
 
-test('should navigate to constructor page after name click', async ({ page, server }) => {
+test('should navigate to constructor page after name click', async ({ page, nextContext }) => {
     const constructorMock = ConstructorsMock[0];
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        CONSTRUCTOR_URLS.index,
         {
-            url: CONSTRUCTOR_URLS.index,
-            method: 'GET',
-            handler: (_, reply) => {
-                reply.send({
-                    data: ConstructorsMock,
-                    count: ConstructorsMock.length,
-                });
-            },
+            data: ConstructorsMock,
+            count: ConstructorsMock.length,
         },
         {
-            url: CONSTRUCTOR_URLS.ref(constructorMock.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(constructorMock);
-            },
+            params: CONSTRUCTORS_REQUEST_DEFAULT_PARAMS,
         },
     );
+
+    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
 
     await page.goto('/constructors');
 
@@ -60,17 +52,17 @@ test('should navigate to constructor page after name click', async ({ page, serv
     await expect(page).toHaveURL(`/constructors/${constructorMock.ref}`);
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
-    await setupServer(server, {
-        url: CONSTRUCTOR_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: [],
-                count: 0,
-            });
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        CONSTRUCTOR_URLS.index,
+        {
+            data: [],
+            count: 0,
         },
-    });
+        {
+            params: CONSTRUCTORS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/constructors');
 

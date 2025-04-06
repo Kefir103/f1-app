@@ -1,8 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
-
 import { RACE_URLS } from '~entities/race/api';
 import { SEASON_URLS } from '~entities/season/api';
 import { CIRCUIT_URLS } from '~entities/circuit/api';
@@ -21,58 +19,50 @@ const getRaceResultsMocks = (raceId: number) => {
     };
 };
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
+const RACES_REQUEST_DEFAULT_PARAMS = {
+    page: 1,
+    perPage: 12,
+    expand: ['winner.constructor_entity'].join(','),
+};
 
-test('render races list', async ({ page, server }) => {
-    await setupServer(server, {
-        url: RACE_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: RacesMock,
-                count: RacesMock.length,
-            });
+test('render races list', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        RACE_URLS.index,
+        {
+            data: RacesMock,
+            count: RacesMock.length,
         },
-    });
+        {
+            params: RACES_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/races');
 
     await expect(page.getByRole('link', { name: RacesMock[0].name, exact: true })).toBeVisible();
 });
 
-test("should go to race page after race's name click", async ({ page, server }) => {
+test("should go to race page after race's name click", async ({ page, nextContext }) => {
     const raceMock = structuredClone(RacesMock[0]);
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        RACE_URLS.index,
         {
-            url: RACE_URLS.index,
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send({
-                    data: RacesMock,
-                    count: RacesMock.length,
-                });
-            },
+            data: RacesMock,
+            count: RacesMock.length,
         },
         {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceResultsMock);
-            },
+            params: RACES_REQUEST_DEFAULT_PARAMS,
         },
     );
+
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: {
+            expand: ['winner.constructor_entity'].join(','),
+        },
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), raceResultsMock);
 
     await page.goto('/races');
 
@@ -81,30 +71,21 @@ test("should go to race page after race's name click", async ({ page, server }) 
     await expect(page).toHaveURL(`/races/${raceMock.id}`);
 });
 
-test('should go to season page after year click', async ({ page, server }) => {
+test('should go to season page after year click', async ({ page, nextContext }) => {
     const seasonMock = { ...SeasonsMock[0] };
     seasonMock.year = RacesMock[0].year;
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        RACE_URLS.index,
         {
-            url: RACE_URLS.index,
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send({
-                    data: RacesMock,
-                    count: RacesMock.length,
-                });
-            },
+            data: RacesMock,
+            count: RacesMock.length,
         },
         {
-            url: SEASON_URLS.year(seasonMock.year),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(seasonMock);
-            },
+            params: RACES_REQUEST_DEFAULT_PARAMS,
         },
     );
+    await nextContext.mockApi.get(SEASON_URLS.year(seasonMock.year), seasonMock);
 
     await page.goto('/races');
 
@@ -113,29 +94,21 @@ test('should go to season page after year click', async ({ page, server }) => {
     await expect(page).toHaveURL(`/seasons/${RacesMock[0].year}`);
 });
 
-test("should go to circuit page after circuit's name click", async ({ page, server }) => {
+test("should go to circuit page after circuit's name click", async ({ page, nextContext }) => {
     const circuitMock = RacesMock[0].circuit;
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        RACE_URLS.index,
         {
-            url: RACE_URLS.index,
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send({
-                    data: RacesMock,
-                    count: RacesMock.length,
-                });
-            },
+            data: RacesMock,
+            count: RacesMock.length,
         },
         {
-            url: CIRCUIT_URLS.ref(circuitMock.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(circuitMock);
-            },
+            params: RACES_REQUEST_DEFAULT_PARAMS,
         },
     );
+
+    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
 
     await page.goto('/races');
 
@@ -144,17 +117,17 @@ test("should go to circuit page after circuit's name click", async ({ page, serv
     await expect(page).toHaveURL(`/circuits/${circuitMock.ref}`);
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
-    await setupServer(server, {
-        url: RACE_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: [],
-                count: 0,
-            });
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        RACE_URLS.index,
+        {
+            data: [],
+            count: 0,
         },
-    });
+        {
+            params: RACES_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/races');
 

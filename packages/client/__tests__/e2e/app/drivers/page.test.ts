@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
 import { DRIVER_URLS } from '~entities/driver/api';
 import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
@@ -9,21 +8,23 @@ import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
+const DRIVERS_REQUEST_DEFAULT_PARAMS = {
+    page: 1,
+    perPage: 12,
+    expand: ['constructor_entity'].join(','),
+};
 
-test('render drivers list', async ({ page, server }) => {
-    await setupServer(server, {
-        url: DRIVER_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: DriversMock,
-                count: DriversMock.length,
-            });
+test('render drivers list', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        DRIVER_URLS.index,
+        {
+            data: DriversMock,
+            count: DriversMock.length,
         },
-    });
+        {
+            params: DRIVERS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     const driver = DriversMock[0];
 
@@ -37,29 +38,25 @@ test('render drivers list', async ({ page, server }) => {
     ).toBeVisible();
 });
 
-test("should go to driver page after driver's name click", async ({ page, server }) => {
+test("should go to driver page after driver's name click", async ({ page, nextContext }) => {
     const driver = DriversMock[0];
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        DRIVER_URLS.index,
         {
-            url: DRIVER_URLS.index,
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send({
-                    data: DriversMock,
-                    count: DriversMock.length,
-                });
-            },
+            data: DriversMock,
+            count: DriversMock.length,
         },
         {
-            url: DRIVER_URLS.ref(driver.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(driver);
-            },
+            params: DRIVERS_REQUEST_DEFAULT_PARAMS,
         },
     );
+
+    await nextContext.mockApi.get(DRIVER_URLS.ref(driver.ref), driver, {
+        params: {
+            expand: ['constructor_entity'].join(','),
+        },
+    });
 
     await page.goto('/drivers');
 
@@ -73,30 +70,25 @@ test("should go to driver page after driver's name click", async ({ page, server
     await expect(page).toHaveURL(`/drivers/${driver.ref}`);
 });
 
-test("should go to constructor page after constructor's name click", async ({ page, server }) => {
+test("should go to constructor page after constructor's name click", async ({
+    page,
+    nextContext,
+}) => {
     const driver = DriversMock[0];
     const constructor = driver.constructor_entity;
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        DRIVER_URLS.index,
         {
-            url: DRIVER_URLS.index,
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send({
-                    data: [driver],
-                    count: DriversMock.length,
-                });
-            },
+            data: [driver],
+            count: DriversMock.length,
         },
         {
-            url: CONSTRUCTOR_URLS.ref(constructor.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(constructor);
-            },
+            params: DRIVERS_REQUEST_DEFAULT_PARAMS,
         },
     );
+
+    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructor.ref), constructor);
 
     await page.goto('/drivers');
 
@@ -105,17 +97,17 @@ test("should go to constructor page after constructor's name click", async ({ pa
     await expect(page).toHaveURL(`/constructors/${constructor.ref}`);
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
-    await setupServer(server, {
-        url: DRIVER_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: [],
-                count: 0,
-            });
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        DRIVER_URLS.index,
+        {
+            data: [],
+            count: 0,
         },
-    });
+        {
+            params: DRIVERS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/drivers');
 
