@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
 import { CIRCUIT_URLS } from '~entities/circuit/api';
 
@@ -8,20 +7,10 @@ import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
-
-test('render circuit', async ({ page, server }) => {
+test('render circuit', async ({ page, nextContext }) => {
     const circuitMock = CircuitsMock[0];
 
-    await setupServer(server, {
-        url: CIRCUIT_URLS.ref(circuitMock.ref),
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send(circuitMock);
-        },
-    });
+    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
 
     await page.goto(`/circuits/${circuitMock.ref}`);
 
@@ -42,16 +31,10 @@ test('render circuit', async ({ page, server }) => {
     ).toBeVisible();
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const circuitMock = CircuitsMock[0];
 
-    await setupServer(server, {
-        url: CIRCUIT_URLS.ref(circuitMock.ref),
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send(circuitMock);
-        },
-    });
+    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
 
     await page.goto(`/circuits/${circuitMock.ref}`);
 

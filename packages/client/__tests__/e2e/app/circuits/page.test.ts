@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
 import { CIRCUIT_URLS } from '~entities/circuit/api';
 
@@ -8,50 +7,43 @@ import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
+const CIRCUITS_REQUEST_DEFAULT_PARAMS = {
+    page: 1,
+    perPage: 12,
+};
 
-test('render circuits list', async ({ page, server }) => {
-    await setupServer(server, {
-        url: CIRCUIT_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: CircuitsMock,
-                count: CircuitsMock.length,
-            });
+test('render circuits list', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        CIRCUIT_URLS.index,
+        {
+            data: CircuitsMock,
+            count: CircuitsMock.length,
         },
-    });
+        {
+            params: CIRCUITS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/circuits');
 
     await expect(page.getByRole('link', { name: CircuitsMock[0].name, exact: true })).toBeVisible();
 });
 
-test('should open circuit page after link click', async ({ page, server }) => {
+test('should open circuit page after link click', async ({ page, nextContext }) => {
     const circuit = CircuitsMock[0];
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        CIRCUIT_URLS.index,
         {
-            url: CIRCUIT_URLS.index,
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send({
-                    data: CircuitsMock,
-                    count: CircuitsMock.length,
-                });
-            },
+            data: CircuitsMock,
+            count: CircuitsMock.length,
         },
         {
-            url: CIRCUIT_URLS.ref(circuit.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(circuit);
-            },
+            params: CIRCUITS_REQUEST_DEFAULT_PARAMS,
         },
     );
+
+    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuit.ref), circuit);
 
     await page.goto('/circuits');
 
@@ -60,17 +52,17 @@ test('should open circuit page after link click', async ({ page, server }) => {
     await expect(page).toHaveURL(`/circuits/${circuit.ref}`);
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
-    await setupServer(server, {
-        url: CIRCUIT_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: [],
-                count: 0,
-            });
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        CIRCUIT_URLS.index,
+        {
+            data: [],
+            count: 0,
         },
-    });
+        {
+            params: CIRCUITS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/circuits');
 

@@ -2,8 +2,6 @@ import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 import moment from 'moment';
 
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
-
 import { RACE_URLS } from '~entities/race/api';
 import { SEASON_URLS } from '~entities/season/api';
 import { CIRCUIT_URLS } from '~entities/circuit/api';
@@ -15,6 +13,10 @@ import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
+const RACE_REQUEST_DEFAULT_PARAMS = {
+    expand: ['winner.constructor_entity'].join(','),
+};
+
 const getRaceResultsMocks = (raceId: number) => {
     const raceResultsMockFiltered = RacesResultsMock.filter((result) => result.race_id === raceId);
 
@@ -24,33 +26,16 @@ const getRaceResultsMocks = (raceId: number) => {
     };
 };
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
-
-test('render race page', async ({ page, server }) => {
+test('render race page', async ({ page, nextContext }) => {
     const raceMock = structuredClone({
         ...RacesMock[0],
         winner: getRaceWinner(RacesMock[0]),
     });
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(getRaceResultsMocks(raceMock.id));
-            },
-        },
-    );
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -110,34 +95,15 @@ test('render race page', async ({ page, server }) => {
     );
 });
 
-test('should go to season page after year click', async ({ page, server }) => {
+test('should go to season page after year click', async ({ page, nextContext }) => {
     const raceMock = structuredClone(RacesMock[0]);
     const seasonMock = { ...SeasonsMock[0], year: raceMock.year };
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: SEASON_URLS.year(raceMock.year),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(seasonMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(getRaceResultsMocks(raceMock.id));
-            },
-        },
-    );
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(SEASON_URLS.year(raceMock.year), seasonMock);
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -146,34 +112,15 @@ test('should go to season page after year click', async ({ page, server }) => {
     await expect(page).toHaveURL(`/seasons/${raceMock.year}`);
 });
 
-test("should go to circuit page after circuit's name click", async ({ page, server }) => {
+test("should go to circuit page after circuit's name click", async ({ page, nextContext }) => {
     const raceMock = structuredClone(RacesMock[0]);
     const circuitMock = raceMock.circuit;
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: CIRCUIT_URLS.ref(circuitMock.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(circuitMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(getRaceResultsMocks(raceMock.id));
-            },
-        },
-    );
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -182,26 +129,13 @@ test("should go to circuit page after circuit's name click", async ({ page, serv
     await expect(page).toHaveURL(`/circuits/${circuitMock.ref}`);
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const raceMock = structuredClone(RacesMock[0]);
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(getRaceResultsMocks(raceMock.id));
-            },
-        },
-    );
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -219,26 +153,13 @@ test('should render breadcrumbs correctly', async ({ page, server }) => {
     await expect(breadcrumbRaceView).toHaveAttribute('href', `/races/${raceMock.id}`);
 });
 
-test('should render results table', async ({ page, server }) => {
+test('should render results table', async ({ page, nextContext }) => {
     const raceMock = structuredClone(RacesMock[0]);
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(getRaceResultsMocks(raceMock.id));
-            },
-        },
-    );
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -255,7 +176,7 @@ test('should render results table', async ({ page, server }) => {
 
 test("should open driver page in new tab after result's table driver's name click", async ({
     page,
-    server,
+    nextContext,
     context,
 }) => {
     const raceMock = structuredClone(RacesMock[0]);
@@ -263,30 +184,15 @@ test("should open driver page in new tab after result's table driver's name clic
     const resultsMock = getRaceResultsMocks(raceMock.id);
     const driverMock = resultsMock.data[0].driver;
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), resultsMock);
+    await nextContext.mockApi.get(DRIVER_URLS.ref(driverMock.ref), driverMock, {
+        params: {
+            expand: ['constructor_entity'].join(','),
         },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(resultsMock);
-            },
-        },
-        {
-            url: DRIVER_URLS.ref(driverMock.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(driverMock);
-            },
-        },
-    );
+    });
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -301,7 +207,7 @@ test("should open driver page in new tab after result's table driver's name clic
 
 test("should open constructor page in new tab after result's table constructor's name click", async ({
     page,
-    server,
+    nextContext,
     context,
 }) => {
     const raceMock = structuredClone(RacesMock[0]);
@@ -309,30 +215,11 @@ test("should open constructor page in new tab after result's table constructor's
     const resultsMock = getRaceResultsMocks(raceMock.id);
     const constructorMock = resultsMock.data[0].constructor_entity;
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(resultsMock);
-            },
-        },
-        {
-            url: CONSTRUCTOR_URLS.ref(constructorMock.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(constructorMock);
-            },
-        },
-    );
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), resultsMock);
+    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -347,7 +234,7 @@ test("should open constructor page in new tab after result's table constructor's
 
 test("should open winner driver page after winner driver's name click", async ({
     page,
-    server,
+    nextContext,
     context,
 }) => {
     const raceMock = structuredClone({
@@ -357,30 +244,15 @@ test("should open winner driver page after winner driver's name click", async ({
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
     const winner = raceMock.winner!;
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), raceResultsMock);
+    await nextContext.mockApi.get(DRIVER_URLS.ref(winner.ref), winner, {
+        params: {
+            expand: ['constructor_entity'].join(','),
         },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceResultsMock);
-            },
-        },
-        {
-            url: DRIVER_URLS.ref(winner.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(winner);
-            },
-        },
-    );
+    });
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -395,7 +267,7 @@ test("should open winner driver page after winner driver's name click", async ({
 
 test("should open winner constructor page after winner constructor's name click", async ({
     page,
-    server,
+    nextContext,
     context,
 }) => {
     const raceMock = structuredClone({
@@ -405,30 +277,11 @@ test("should open winner constructor page after winner constructor's name click"
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
     const winnerConstructor = raceMock.winner!.constructor_entity;
 
-    await setupServer(
-        server,
-        {
-            url: RACE_URLS.id(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceMock);
-            },
-        },
-        {
-            url: RACE_URLS.results(raceMock.id),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(raceResultsMock);
-            },
-        },
-        {
-            url: CONSTRUCTOR_URLS.ref(winnerConstructor.ref),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(winnerConstructor);
-            },
-        },
-    );
+    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+        params: RACE_REQUEST_DEFAULT_PARAMS,
+    });
+    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), raceResultsMock);
+    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(winnerConstructor.ref), winnerConstructor);
 
     await page.goto(`/races/${raceMock.id}`);
 

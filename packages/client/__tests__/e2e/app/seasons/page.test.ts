@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
-import { setupServer, closeServer } from '~tests-utils/e2e/server/MockFastifyServer';
 
 import { SEASON_URLS } from '~entities/season/api';
 
@@ -8,21 +7,22 @@ import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';
 
-test.afterEach(async ({ server }) => {
-    await closeServer(server);
-});
+const SEASONS_REQUEST_DEFAULT_PARAMS = {
+    page: 1,
+    perPage: 12,
+};
 
-test('render seasons list', async ({ page, server }) => {
-    await setupServer(server, {
-        url: SEASON_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: SeasonsMock,
-                count: SeasonsMock.length,
-            });
+test('render seasons list', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        SEASON_URLS.index,
+        {
+            data: SeasonsMock,
+            count: SeasonsMock.length,
         },
-    });
+        {
+            params: SEASONS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/seasons');
 
@@ -31,29 +31,21 @@ test('render seasons list', async ({ page, server }) => {
     ).toBeVisible();
 });
 
-test('should navigate to season page after season name click', async ({ page, server }) => {
+test('should navigate to season page after season name click', async ({ page, nextContext }) => {
     const season = SeasonsMock[0];
 
-    await setupServer(
-        server,
+    await nextContext.mockApi.get(
+        SEASON_URLS.index,
         {
-            url: SEASON_URLS.index,
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send({
-                    data: SeasonsMock,
-                    count: SeasonsMock.length,
-                });
-            },
+            data: SeasonsMock,
+            count: SeasonsMock.length,
         },
         {
-            url: SEASON_URLS.year(season.year),
-            method: 'GET',
-            handler: function (_, reply) {
-                reply.send(season);
-            },
+            params: SEASONS_REQUEST_DEFAULT_PARAMS,
         },
     );
+
+    await nextContext.mockApi.get(SEASON_URLS.year(season.year), season);
 
     await page.goto('/seasons');
 
@@ -62,17 +54,17 @@ test('should navigate to season page after season name click', async ({ page, se
     await expect(page).toHaveURL(`/seasons/${season.year}`);
 });
 
-test('should render breadcrumbs correctly', async ({ page, server }) => {
-    await setupServer(server, {
-        url: SEASON_URLS.index,
-        method: 'GET',
-        handler: function (_, reply) {
-            reply.send({
-                data: [],
-                count: 0,
-            });
+test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
+    await nextContext.mockApi.get(
+        SEASON_URLS.index,
+        {
+            data: [],
+            count: 0,
         },
-    });
+        {
+            params: SEASONS_REQUEST_DEFAULT_PARAMS,
+        },
+    );
 
     await page.goto('/seasons');
 
