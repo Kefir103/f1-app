@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import CircuitPage from '~app/circuits/[ref]/page';
+import { URLS } from '~shared/config/urls';
 
-import { CIRCUIT_URLS } from '~entities/circuit/api';
+import CircuitPage from '~app/circuits/[ref]/page';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
@@ -18,7 +18,7 @@ describe('Circuits Page', () => {
     it('should render correctly', async () => {
         const circuitMock = CircuitsMock[0];
 
-        MockAdapter.onGet(CIRCUIT_URLS.ref(circuitMock.ref)).replyOnce(
+        MockAdapter.onGet(URLS.circuit.ref(circuitMock.ref)).replyOnce(
             200,
             circuitMock,
         );
@@ -37,7 +37,7 @@ describe('Circuits Page', () => {
     it('should render breadcrumbs correctly', async () => {
         const circuitMock = CircuitsMock[0];
 
-        MockAdapter.onGet(CIRCUIT_URLS.ref(circuitMock.ref)).replyOnce(
+        MockAdapter.onGet(URLS.circuit.ref(circuitMock.ref)).replyOnce(
             200,
             circuitMock,
         );

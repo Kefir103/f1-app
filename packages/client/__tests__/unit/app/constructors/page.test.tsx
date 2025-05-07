@@ -3,11 +3,10 @@ import '@testing-library/jest-dom';
 import axiosMockAdapter from 'axios-mock-adapter';
 import { useSearchParams } from 'next/navigation';
 
+import { URLS } from '~shared/config/urls';
 import { axios } from '~shared/api/axios';
 
 import ConstructorsPage from '~app/constructors/page';
-
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
@@ -26,7 +25,7 @@ describe('<ConstructorsPage>', () => {
     });
 
     it('should renders correctly', async () => {
-        MockAdapter.onGet(CONSTRUCTOR_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.constructor.index).replyOnce(200, {
             data: ConstructorsMock,
             count: ConstructorsMock.length,
         });
@@ -47,7 +46,7 @@ describe('<ConstructorsPage>', () => {
     });
 
     it('should render breadcrumbs correctly', async () => {
-        MockAdapter.onGet(CONSTRUCTOR_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.constructor.index).replyOnce(200, {
             data: [],
             count: 0,
         });

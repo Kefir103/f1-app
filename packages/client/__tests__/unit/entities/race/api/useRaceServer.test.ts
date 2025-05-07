@@ -1,8 +1,8 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
+import { URLS } from '~shared/config/urls';
 
 import type { Race } from '~entities/race';
-import { RACE_URLS } from '~entities/race/api';
 import { useRaceServer } from '~entities/race/api';
 
 import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
@@ -38,7 +38,7 @@ describe('useRaceServer', () => {
     it('should return race', async () => {
         const raceMock = RacesMock[0];
 
-        MockAdapter.onGet(RACE_URLS.id(raceMock.id)).replyOnce(200, formatRace(raceMock));
+        MockAdapter.onGet(URLS.race.id(raceMock.id)).replyOnce(200, formatRace(raceMock));
 
         const { race } = await useRaceServer(raceMock.id);
 
@@ -48,7 +48,7 @@ describe('useRaceServer', () => {
     it('should throw an error next from response', async () => {
         const errorId = -1;
 
-        MockAdapter.onGet(RACE_URLS.id(errorId)).networkErrorOnce();
+        MockAdapter.onGet(URLS.race.id(errorId)).networkErrorOnce();
 
         await expect(async () => {
             await useRaceServer(errorId);
@@ -61,7 +61,7 @@ describe('useRaceServer', () => {
             winner: formatWinner(getRaceWinner(RacesMock[0])),
         };
 
-        MockAdapter.onGet(RACE_URLS.id(raceMock.id), {
+        MockAdapter.onGet(URLS.race.id(raceMock.id), {
             params: {
                 expand: 'winner.constructor_entity',
             },

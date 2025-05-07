@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { SEASON_URLS } from '~entities/season/api';
+import { URLS } from '~shared/config/urls';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
@@ -14,7 +14,7 @@ const SEASONS_REQUEST_DEFAULT_PARAMS = {
 
 test('render seasons list', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        SEASON_URLS.index,
+        URLS.season.index,
         {
             data: SeasonsMock,
             count: SeasonsMock.length,
@@ -35,7 +35,7 @@ test('should navigate to season page after season name click', async ({ page, ne
     const season = SeasonsMock[0];
 
     await nextContext.mockApi.get(
-        SEASON_URLS.index,
+        URLS.season.index,
         {
             data: SeasonsMock,
             count: SeasonsMock.length,
@@ -45,7 +45,7 @@ test('should navigate to season page after season name click', async ({ page, ne
         },
     );
 
-    await nextContext.mockApi.get(SEASON_URLS.year(season.year), season);
+    await nextContext.mockApi.get(URLS.season.year(season.year), season);
 
     await page.goto('/seasons');
 
@@ -56,7 +56,7 @@ test('should navigate to season page after season name click', async ({ page, ne
 
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        SEASON_URLS.index,
+        URLS.season.index,
         {
             data: [],
             count: 0,

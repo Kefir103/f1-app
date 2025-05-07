@@ -1,6 +1,7 @@
 import { axios } from '~shared/api/axios';
 
-import { CIRCUIT_URLS } from '~entities/circuit/api';
+import { URLS } from '~shared/config/urls';
+
 import type { CircuitType } from '~entities/circuit';
 
 interface IUseCircuitsServer {
@@ -15,7 +16,7 @@ interface ICircuitsResponse {
 
 export async function useCircuitsServer({ page, perPage }: IUseCircuitsServer) {
     try {
-        const { data } = await axios.get<ICircuitsResponse>(CIRCUIT_URLS.index, {
+        const { data } = await axios.get<ICircuitsResponse>(URLS.circuit.index, {
             params: {
                 page,
                 perPage,

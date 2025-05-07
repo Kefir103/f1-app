@@ -1,7 +1,6 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
-
-import { SEASON_URLS } from '~entities/season/api';
+import { URLS } from '~shared/config/urls';
 
 import { useSeasonServer } from '~entities/season/api';
 
@@ -14,7 +13,7 @@ describe('useSeasonServer', () => {
     it('should return season founded by year', async () => {
         const seasonMock = SeasonsMock[0];
 
-        MockAdapter.onGet(SEASON_URLS.year(seasonMock.year)).replyOnce(200, seasonMock);
+        MockAdapter.onGet(URLS.season.year(seasonMock.year)).replyOnce(200, seasonMock);
 
         const { season } = await useSeasonServer(seasonMock.year);
 
@@ -24,7 +23,7 @@ describe('useSeasonServer', () => {
     it('should throw an error next from response', async () => {
         const notExistedYear = -1;
 
-        MockAdapter.onGet(SEASON_URLS.year(notExistedYear)).networkErrorOnce();
+        MockAdapter.onGet(URLS.season.year(notExistedYear)).networkErrorOnce();
 
         await expect(async () => {
             await useSeasonServer(notExistedYear);

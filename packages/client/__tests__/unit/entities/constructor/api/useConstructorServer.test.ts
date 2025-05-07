@@ -1,9 +1,9 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import { useConstructorServer } from '~entities/constructor/api';
+import { URLS } from '~shared/config/urls';
 
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
+import { useConstructorServer } from '~entities/constructor/api';
 
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 
@@ -14,7 +14,7 @@ describe('useConstructorServer', () => {
     it('should return constructor from server correctly', async () => {
         const constructorMock = ConstructorsMock[0];
 
-        MockAdapter.onGet(CONSTRUCTOR_URLS.ref(constructorMock.ref)).replyOnce(
+        MockAdapter.onGet(URLS.constructor.ref(constructorMock.ref)).replyOnce(
             200,
             constructorMock,
         );
@@ -24,7 +24,7 @@ describe('useConstructorServer', () => {
         expect(constructor).toEqual(constructorMock);
     });
     it('should throw error if response failed', async () => {
-        MockAdapter.onGet(CONSTRUCTOR_URLS.ref('')).networkErrorOnce();
+        MockAdapter.onGet(URLS.constructor.ref('')).networkErrorOnce();
 
         await expect(async () => {
             await useConstructorServer('');

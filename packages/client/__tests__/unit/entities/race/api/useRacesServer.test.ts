@@ -2,14 +2,13 @@ import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 import lodash from 'lodash';
 
-import type { Race } from '~entities/race';
-import { RACE_URLS } from '~entities/race/api';
+import { URLS } from '~shared/config/urls';
 
+import type { Race } from '~entities/race';
 import { useRacesServer } from '~entities/race/api';
 
-import type { DriverType } from '~entities/driver';
-
 import { RacesMock } from '~mocks/entities/race/Race.mock';
+import { RaceWinnerType } from '~f1-app/shared/types/Race/Winner/RaceWinner.type';
 
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
@@ -27,7 +26,7 @@ function formatRaceResponse(race: Race) {
     };
 }
 
-function formatDriverResponse(driver?: DriverType) {
+function formatDriverResponse(driver?: RaceWinnerType) {
     if (!driver) {
         return null;
     }
@@ -40,7 +39,7 @@ function formatDriverResponse(driver?: DriverType) {
 
 describe('useRacesServer', () => {
     it('should return races', async () => {
-        MockAdapter.onGet(RACE_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.index).replyOnce(200, {
             data: lodash.orderBy(RacesMock.map(formatRaceResponse), ['year'], ['desc']),
             count: RacesMock.length,
         });
@@ -58,7 +57,7 @@ describe('useRacesServer', () => {
         expect({ data, count }).toEqual(expectedRaces);
     });
     it('should throw an error next from response', async () => {
-        MockAdapter.onGet(RACE_URLS.index).networkErrorOnce();
+        MockAdapter.onGet(URLS.race.index).networkErrorOnce();
 
         const page = 1;
         const perPage = 10;

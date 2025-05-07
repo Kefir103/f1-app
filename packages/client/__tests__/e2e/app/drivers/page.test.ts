@@ -1,8 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { DRIVER_URLS } from '~entities/driver/api';
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
+import { URLS } from '~shared/config/urls';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
@@ -16,7 +15,7 @@ const DRIVERS_REQUEST_DEFAULT_PARAMS = {
 
 test('render drivers list', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        DRIVER_URLS.index,
+        URLS.driver.index,
         {
             data: DriversMock,
             count: DriversMock.length,
@@ -42,7 +41,7 @@ test("should go to driver page after driver's name click", async ({ page, nextCo
     const driver = DriversMock[0];
 
     await nextContext.mockApi.get(
-        DRIVER_URLS.index,
+        URLS.driver.index,
         {
             data: DriversMock,
             count: DriversMock.length,
@@ -52,7 +51,7 @@ test("should go to driver page after driver's name click", async ({ page, nextCo
         },
     );
 
-    await nextContext.mockApi.get(DRIVER_URLS.ref(driver.ref), driver, {
+    await nextContext.mockApi.get(URLS.driver.ref(driver.ref), driver, {
         params: {
             expand: ['constructor_entity'].join(','),
         },
@@ -78,7 +77,7 @@ test("should go to constructor page after constructor's name click", async ({
     const constructor = driver.constructor_entity;
 
     await nextContext.mockApi.get(
-        DRIVER_URLS.index,
+        URLS.driver.index,
         {
             data: [driver],
             count: DriversMock.length,
@@ -88,7 +87,7 @@ test("should go to constructor page after constructor's name click", async ({
         },
     );
 
-    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructor.ref), constructor);
+    await nextContext.mockApi.get(URLS.constructor.ref(constructor.ref), constructor);
 
     await page.goto('/drivers');
 
@@ -99,7 +98,7 @@ test("should go to constructor page after constructor's name click", async ({
 
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        DRIVER_URLS.index,
+        URLS.driver.index,
         {
             data: [],
             count: 0,

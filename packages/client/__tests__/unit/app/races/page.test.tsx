@@ -4,8 +4,9 @@ import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 import { useSearchParams } from 'next/navigation';
 
+import { URLS } from '~shared/config/urls';
+
 import RacesPage from '~app/races/page';
-import { RACE_URLS } from '~entities/race/api';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 
@@ -25,7 +26,7 @@ describe('<RacesPage />', () => {
     });
 
     it('should renders correctly', async () => {
-        MockAdapter.onGet(RACE_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.index).replyOnce(200, {
             data: RacesMock,
             count: RacesMock.length,
         });
@@ -43,7 +44,7 @@ describe('<RacesPage />', () => {
     });
 
     it('should render breadcrumbs correctly', async () => {
-        MockAdapter.onGet(RACE_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.index).replyOnce(200, {
             data: [],
             count: 0,
         });

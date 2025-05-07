@@ -1,9 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { RACE_URLS } from '~entities/race/api';
-import { SEASON_URLS } from '~entities/season/api';
-import { CIRCUIT_URLS } from '~entities/circuit/api';
+import { URLS } from '~shared/config/urls';
 
 import { RacesMock, RacesResultsMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
@@ -27,7 +25,7 @@ const RACES_REQUEST_DEFAULT_PARAMS = {
 
 test('render races list', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        RACE_URLS.index,
+        URLS.race.index,
         {
             data: RacesMock,
             count: RacesMock.length,
@@ -47,7 +45,7 @@ test("should go to race page after race's name click", async ({ page, nextContex
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
 
     await nextContext.mockApi.get(
-        RACE_URLS.index,
+        URLS.race.index,
         {
             data: RacesMock,
             count: RacesMock.length,
@@ -57,12 +55,12 @@ test("should go to race page after race's name click", async ({ page, nextContex
         },
     );
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: {
             expand: ['winner.constructor_entity'].join(','),
         },
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), raceResultsMock);
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), raceResultsMock);
 
     await page.goto('/races');
 
@@ -76,7 +74,7 @@ test('should go to season page after year click', async ({ page, nextContext }) 
     seasonMock.year = RacesMock[0].year;
 
     await nextContext.mockApi.get(
-        RACE_URLS.index,
+        URLS.race.index,
         {
             data: RacesMock,
             count: RacesMock.length,
@@ -85,7 +83,7 @@ test('should go to season page after year click', async ({ page, nextContext }) 
             params: RACES_REQUEST_DEFAULT_PARAMS,
         },
     );
-    await nextContext.mockApi.get(SEASON_URLS.year(seasonMock.year), seasonMock);
+    await nextContext.mockApi.get(URLS.season.year(seasonMock.year), seasonMock);
 
     await page.goto('/races');
 
@@ -98,7 +96,7 @@ test("should go to circuit page after circuit's name click", async ({ page, next
     const circuitMock = RacesMock[0].circuit;
 
     await nextContext.mockApi.get(
-        RACE_URLS.index,
+        URLS.race.index,
         {
             data: RacesMock,
             count: RacesMock.length,
@@ -108,7 +106,7 @@ test("should go to circuit page after circuit's name click", async ({ page, next
         },
     );
 
-    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
+    await nextContext.mockApi.get(URLS.circuit.ref(circuitMock.ref), circuitMock);
 
     await page.goto('/races');
 
@@ -119,7 +117,7 @@ test("should go to circuit page after circuit's name click", async ({ page, next
 
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        RACE_URLS.index,
+        URLS.race.index,
         {
             data: [],
             count: 0,

@@ -4,7 +4,7 @@ import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 import { useSearchParams } from 'next/navigation';
 
-import { DRIVER_URLS } from '~entities/driver/api';
+import { URLS } from '~shared/config/urls';
 
 import DriversPage from '~app/drivers/page';
 
@@ -28,7 +28,7 @@ describe('DriversPage', () => {
     it('should render drivers page correctly', async () => {
         const firstDriver = DriversMock[0];
 
-        MockAdapter.onGet(DRIVER_URLS.index, {
+        MockAdapter.onGet(URLS.driver.index, {
             params: {
                 page: 1,
                 perPage: 12,
@@ -58,7 +58,7 @@ describe('DriversPage', () => {
     });
 
     it('should render breadcrumbs correctly', async () => {
-        MockAdapter.onGet(DRIVER_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.driver.index).replyOnce(200, {
             data: [],
             count: 0,
         });

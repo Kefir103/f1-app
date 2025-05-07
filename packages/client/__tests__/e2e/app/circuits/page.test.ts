@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { CIRCUIT_URLS } from '~entities/circuit/api';
+import { URLS } from '~shared/config/urls';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 
@@ -14,7 +14,7 @@ const CIRCUITS_REQUEST_DEFAULT_PARAMS = {
 
 test('render circuits list', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        CIRCUIT_URLS.index,
+        URLS.circuit.index,
         {
             data: CircuitsMock,
             count: CircuitsMock.length,
@@ -33,7 +33,7 @@ test('should open circuit page after link click', async ({ page, nextContext }) 
     const circuit = CircuitsMock[0];
 
     await nextContext.mockApi.get(
-        CIRCUIT_URLS.index,
+        URLS.circuit.index,
         {
             data: CircuitsMock,
             count: CircuitsMock.length,
@@ -43,7 +43,7 @@ test('should open circuit page after link click', async ({ page, nextContext }) 
         },
     );
 
-    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuit.ref), circuit);
+    await nextContext.mockApi.get(URLS.circuit.ref(circuit.ref), circuit);
 
     await page.goto('/circuits');
 
@@ -54,7 +54,7 @@ test('should open circuit page after link click', async ({ page, nextContext }) 
 
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        CIRCUIT_URLS.index,
+        URLS.circuit.index,
         {
             data: [],
             count: 0,

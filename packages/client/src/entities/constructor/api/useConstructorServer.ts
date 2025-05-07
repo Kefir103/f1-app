@@ -1,11 +1,11 @@
 import { axios } from '~shared/api/axios';
+import { URLS } from '~shared/config/urls';
 
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 import type { Constructor } from '~entities/constructor';
 
 export async function useConstructorServer(ref: string) {
     try {
-        const { data: constructor } = await axios.get<Constructor>(CONSTRUCTOR_URLS.ref(ref));
+        const { data: constructor } = await axios.get<Constructor>(URLS.constructor.ref(ref));
 
         return { constructor };
     } catch (error: unknown) {

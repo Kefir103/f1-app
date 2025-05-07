@@ -1,7 +1,8 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
+import { URLS } from '~shared/config/urls';
 
-import { DRIVER_URLS, useDriverServer } from '~entities/driver/api';
+import { useDriverServer } from '~entities/driver/api';
 import type { DriverType } from '~entities/driver';
 
 import { DriversConstructorsMock, DriversMock } from '~mocks/entities/driver/Driver.mock';
@@ -20,7 +21,7 @@ describe('useDriverServer', () => {
     it('should fetch driver by ref correct', async () => {
         const driverMock = formatDriver(DriversMock[0]);
 
-        MockAdapter.onGet(DRIVER_URLS.ref(driverMock.ref!)).replyOnce(200, driverMock);
+        MockAdapter.onGet(URLS.driver.ref(driverMock.ref!)).replyOnce(200, driverMock);
 
         const { driver } = await useDriverServer(driverMock.ref!);
 
@@ -37,7 +38,7 @@ describe('useDriverServer', () => {
             ),
         });
 
-        MockAdapter.onGet(DRIVER_URLS.ref(driverMock.ref!), {
+        MockAdapter.onGet(URLS.driver.ref(driverMock.ref!), {
             params: {
                 expand: expandFields.join(','),
             },
@@ -51,7 +52,7 @@ describe('useDriverServer', () => {
     });
 
     it('should throw an error on error response', async () => {
-        MockAdapter.onGet(DRIVER_URLS.ref('')).networkErrorOnce();
+        MockAdapter.onGet(URLS.driver.ref('')).networkErrorOnce();
 
         await expect(async () => await useDriverServer('')).rejects.toThrow(Error);
     });

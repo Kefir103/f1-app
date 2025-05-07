@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { CIRCUIT_URLS } from '~entities/circuit/api';
+import { URLS } from '~shared/config/urls';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 
@@ -10,7 +10,7 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 test('render circuit', async ({ page, nextContext }) => {
     const circuitMock = CircuitsMock[0];
 
-    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
+    await nextContext.mockApi.get(URLS.circuit.ref(circuitMock.ref), circuitMock);
 
     await page.goto(`/circuits/${circuitMock.ref}`);
 
@@ -34,7 +34,7 @@ test('render circuit', async ({ page, nextContext }) => {
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const circuitMock = CircuitsMock[0];
 
-    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
+    await nextContext.mockApi.get(URLS.circuit.ref(circuitMock.ref), circuitMock);
 
     await page.goto(`/circuits/${circuitMock.ref}`);
 

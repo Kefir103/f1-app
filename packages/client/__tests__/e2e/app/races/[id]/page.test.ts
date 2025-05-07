@@ -2,11 +2,7 @@ import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 import moment from 'moment';
 
-import { RACE_URLS } from '~entities/race/api';
-import { SEASON_URLS } from '~entities/season/api';
-import { CIRCUIT_URLS } from '~entities/circuit/api';
-import { DRIVER_URLS } from '~entities/driver/api';
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
+import { URLS } from '~shared/config/urls';
 
 import { getRaceWinner, RacesMock, RacesResultsMock } from '~mocks/entities/race/Race.mock';
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
@@ -32,10 +28,10 @@ test('render race page', async ({ page, nextContext }) => {
         winner: getRaceWinner(RacesMock[0]),
     });
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -99,11 +95,11 @@ test('should go to season page after year click', async ({ page, nextContext }) 
     const raceMock = structuredClone(RacesMock[0]);
     const seasonMock = { ...SeasonsMock[0], year: raceMock.year };
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(SEASON_URLS.year(raceMock.year), seasonMock);
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
+    await nextContext.mockApi.get(URLS.season.year(raceMock.year), seasonMock);
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -116,11 +112,11 @@ test("should go to circuit page after circuit's name click", async ({ page, next
     const raceMock = structuredClone(RacesMock[0]);
     const circuitMock = raceMock.circuit;
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(CIRCUIT_URLS.ref(circuitMock.ref), circuitMock);
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
+    await nextContext.mockApi.get(URLS.circuit.ref(circuitMock.ref), circuitMock);
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -132,10 +128,10 @@ test("should go to circuit page after circuit's name click", async ({ page, next
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const raceMock = structuredClone(RacesMock[0]);
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -156,10 +152,10 @@ test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
 test('should render results table', async ({ page, nextContext }) => {
     const raceMock = structuredClone(RacesMock[0]);
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), getRaceResultsMocks(raceMock.id));
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), getRaceResultsMocks(raceMock.id));
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -184,11 +180,11 @@ test("should open driver page in new tab after result's table driver's name clic
     const resultsMock = getRaceResultsMocks(raceMock.id);
     const driverMock = resultsMock.data[0].driver;
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), resultsMock);
-    await nextContext.mockApi.get(DRIVER_URLS.ref(driverMock.ref), driverMock, {
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), resultsMock);
+    await nextContext.mockApi.get(URLS.driver.ref(driverMock.ref), driverMock, {
         params: {
             expand: ['constructor_entity'].join(','),
         },
@@ -215,11 +211,11 @@ test("should open constructor page in new tab after result's table constructor's
     const resultsMock = getRaceResultsMocks(raceMock.id);
     const constructorMock = resultsMock.data[0].constructor_entity;
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), resultsMock);
-    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), resultsMock);
+    await nextContext.mockApi.get(URLS.constructor.ref(constructorMock.ref), constructorMock);
 
     await page.goto(`/races/${raceMock.id}`);
 
@@ -244,11 +240,11 @@ test("should open winner driver page after winner driver's name click", async ({
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
     const winner = raceMock.winner!;
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), raceResultsMock);
-    await nextContext.mockApi.get(DRIVER_URLS.ref(winner.ref), winner, {
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), raceResultsMock);
+    await nextContext.mockApi.get(URLS.driver.ref(winner.ref), winner, {
         params: {
             expand: ['constructor_entity'].join(','),
         },
@@ -277,11 +273,11 @@ test("should open winner constructor page after winner constructor's name click"
     const raceResultsMock = getRaceResultsMocks(raceMock.id);
     const winnerConstructor = raceMock.winner!.constructor_entity;
 
-    await nextContext.mockApi.get(RACE_URLS.id(raceMock.id), raceMock, {
+    await nextContext.mockApi.get(URLS.race.id(raceMock.id), raceMock, {
         params: RACE_REQUEST_DEFAULT_PARAMS,
     });
-    await nextContext.mockApi.get(RACE_URLS.results(raceMock.id), raceResultsMock);
-    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(winnerConstructor.ref), winnerConstructor);
+    await nextContext.mockApi.get(URLS.race.results(raceMock.id), raceResultsMock);
+    await nextContext.mockApi.get(URLS.constructor.ref(winnerConstructor.ref), winnerConstructor);
 
     await page.goto(`/races/${raceMock.id}`);
 

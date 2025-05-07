@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
+import { URLS } from '~shared/config/urls';
 
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 
@@ -14,7 +14,7 @@ const CONSTRUCTORS_REQUEST_DEFAULT_PARAMS = {
 
 test('should renders correctly', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        CONSTRUCTOR_URLS.index,
+        URLS.constructor.index,
         {
             data: ConstructorsMock,
             count: ConstructorsMock.length,
@@ -33,7 +33,7 @@ test('should navigate to constructor page after name click', async ({ page, next
     const constructorMock = ConstructorsMock[0];
 
     await nextContext.mockApi.get(
-        CONSTRUCTOR_URLS.index,
+        URLS.constructor.index,
         {
             data: ConstructorsMock,
             count: ConstructorsMock.length,
@@ -43,7 +43,7 @@ test('should navigate to constructor page after name click', async ({ page, next
         },
     );
 
-    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
+    await nextContext.mockApi.get(URLS.constructor.ref(constructorMock.ref), constructorMock);
 
     await page.goto('/constructors');
 
@@ -54,7 +54,7 @@ test('should navigate to constructor page after name click', async ({ page, next
 
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     await nextContext.mockApi.get(
-        CONSTRUCTOR_URLS.index,
+        URLS.constructor.index,
         {
             data: [],
             count: 0,

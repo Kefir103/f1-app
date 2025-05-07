@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { SEASON_URLS } from '~entities/season/api';
+import { URLS } from '~shared/config/urls';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
@@ -10,7 +10,7 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 test('should renders correctly', async ({ page, nextContext }) => {
     const seasonMock = SeasonsMock[0];
 
-    await nextContext.mockApi.get(SEASON_URLS.year(seasonMock.year), seasonMock);
+    await nextContext.mockApi.get(URLS.season.year(seasonMock.year), seasonMock);
 
     await page.goto(`/seasons/${seasonMock.year}`);
 
@@ -23,7 +23,7 @@ test('should renders correctly', async ({ page, nextContext }) => {
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const seasonMock = SeasonsMock[0];
 
-    await nextContext.mockApi.get(SEASON_URLS.year(seasonMock.year), seasonMock);
+    await nextContext.mockApi.get(URLS.season.year(seasonMock.year), seasonMock);
 
     await page.goto(`/seasons/${seasonMock.year}`);
 

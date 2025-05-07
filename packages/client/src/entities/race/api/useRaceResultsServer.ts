@@ -1,7 +1,7 @@
 import { axios } from '~shared/api/axios';
+import { URLS } from '~shared/config/urls';
 
 import type { ResultType } from '~entities/result';
-import { RACE_URLS } from '~entities/race/api';
 
 interface IUseRaceResultsServer {
     raceId: number;
@@ -14,7 +14,7 @@ interface IUseRaceResultsServerResponse {
 
 export async function useRaceResultsServer({ raceId }: IUseRaceResultsServer) {
     try {
-        const { data } = await axios.get<IUseRaceResultsServerResponse>(RACE_URLS.results(raceId));
+        const { data } = await axios.get<IUseRaceResultsServerResponse>(URLS.race.results(raceId));
 
         return { data: data.data, count: data.count };
     } catch (error) {

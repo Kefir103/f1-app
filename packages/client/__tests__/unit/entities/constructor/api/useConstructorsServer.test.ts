@@ -1,7 +1,8 @@
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
+import { URLS } from '~shared/config/urls';
+
 import { useConstructorsServer } from '~entities/constructor/api';
 
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
@@ -14,7 +15,7 @@ describe('useConstructorsServer', () => {
         const page = 1;
         const perPage = 10;
 
-        MockAdapter.onGet(CONSTRUCTOR_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.constructor.index).replyOnce(200, {
             data: ConstructorsMock,
             count: ConstructorsMock.length,
         });
@@ -27,7 +28,7 @@ describe('useConstructorsServer', () => {
         const page = 1;
         const perPage = 10;
 
-        MockAdapter.onGet(CONSTRUCTOR_URLS.index).networkErrorOnce();
+        MockAdapter.onGet(URLS.constructor.index).networkErrorOnce();
 
         await expect(async () => {
             await useConstructorsServer({ page, perPage });

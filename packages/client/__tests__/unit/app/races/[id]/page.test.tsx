@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 
-import RacePage from '~app/races/[id]/page';
+import { URLS } from '~shared/config/urls';
 
-import { RACE_URLS } from '~entities/race/api';
+import RacePage from '~app/races/[id]/page';
 
 import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
@@ -18,9 +18,9 @@ describe('<RacePage />', () => {
     it('should renders correctly', async () => {
         const raceMock = RacesMock[0];
 
-        MockAdapter.onGet(RACE_URLS.id(raceMock.id)).replyOnce(200, raceMock);
+        MockAdapter.onGet(URLS.race.id(raceMock.id)).replyOnce(200, raceMock);
 
-        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.results(raceMock.id)).replyOnce(200, {
             data: [],
             count: 0,
         });
@@ -38,8 +38,8 @@ describe('<RacePage />', () => {
     it('should render breadcrumbs correctly', async () => {
         const raceMock = RacesMock[0];
 
-        MockAdapter.onGet(RACE_URLS.id(raceMock.id)).replyOnce(200, raceMock);
-        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.id(raceMock.id)).replyOnce(200, raceMock);
+        MockAdapter.onGet(URLS.race.results(raceMock.id)).replyOnce(200, {
             data: [],
             count: 0,
         });
@@ -61,12 +61,12 @@ describe('<RacePage />', () => {
             winner: getRaceWinner(RacesMock[0]),
         };
 
-        MockAdapter.onGet(RACE_URLS.id(raceMock.id), {
+        MockAdapter.onGet(URLS.race.id(raceMock.id), {
             params: {
                 expand: 'winner.constructor_entity',
             },
         }).replyOnce(200, raceMock);
-        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.results(raceMock.id)).replyOnce(200, {
             data: [],
             count: 0,
         });
@@ -103,12 +103,12 @@ describe('<RacePage />', () => {
             winner: null,
         };
 
-        MockAdapter.onGet(RACE_URLS.id(raceMock.id), {
+        MockAdapter.onGet(URLS.race.id(raceMock.id), {
             params: {
                 expand: 'winner.constructor_entity',
             },
         }).replyOnce(200, raceMock);
-        MockAdapter.onGet(RACE_URLS.results(raceMock.id)).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.results(raceMock.id)).replyOnce(200, {
             data: [],
             count: 0,
         });

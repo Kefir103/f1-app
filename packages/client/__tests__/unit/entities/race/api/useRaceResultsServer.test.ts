@@ -3,7 +3,9 @@ import axiosMockAdapter from 'axios-mock-adapter';
 import moment from 'moment';
 import lodash from 'lodash';
 
-import { RACE_URLS, useRaceResultsServer } from '~entities/race/api';
+import { URLS } from '~shared/config/urls';
+
+import { useRaceResultsServer } from '~entities/race/api';
 
 import { RacesResultsMock } from '~mocks/entities/race/Race.mock';
 
@@ -29,7 +31,7 @@ describe('useRaceResultsServer', () => {
             );
         });
 
-        MockAdapter.onGet(RACE_URLS.results(raceId)).replyOnce(200, {
+        MockAdapter.onGet(URLS.race.results(raceId)).replyOnce(200, {
             data: resultsMockFiltered,
             count: resultsMockFiltered.length,
         });
@@ -47,7 +49,7 @@ describe('useRaceResultsServer', () => {
     it('should throw an error next from response', async () => {
         const errorRaceId = -1;
 
-        MockAdapter.onGet(RACE_URLS.results(errorRaceId)).networkErrorOnce();
+        MockAdapter.onGet(URLS.race.results(errorRaceId)).networkErrorOnce();
 
         await expect(async () => {
             await useRaceResultsServer({ raceId: errorRaceId });

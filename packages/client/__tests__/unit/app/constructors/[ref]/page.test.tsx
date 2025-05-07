@@ -2,10 +2,10 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import axiosMockAdapter from 'axios-mock-adapter';
 
+import { URLS } from '~shared/config/urls';
 import { axios } from '~shared/api/axios';
 
 import ConstructorPage from '~app/constructors/[ref]/page';
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
@@ -18,7 +18,7 @@ describe('<ConstructorPage />', () => {
     it('should render correctly', async () => {
         const constructorMock = ConstructorsMock[0];
 
-        MockAdapter.onGet(CONSTRUCTOR_URLS.ref(constructorMock.ref)).replyOnce(
+        MockAdapter.onGet(URLS.constructor.ref(constructorMock.ref)).replyOnce(
             200,
             constructorMock,
         );
@@ -38,7 +38,7 @@ describe('<ConstructorPage />', () => {
     it('should render breadcrumbs correctly', async () => {
         const constructorMock = ConstructorsMock[0];
 
-        MockAdapter.onGet(CONSTRUCTOR_URLS.ref(constructorMock.ref)).replyOnce(
+        MockAdapter.onGet(URLS.constructor.ref(constructorMock.ref)).replyOnce(
             200,
             constructorMock,
         );

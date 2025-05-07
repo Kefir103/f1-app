@@ -2,8 +2,7 @@ import moment from 'moment';
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { DRIVER_URLS } from '~entities/driver/api';
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
+import { URLS } from '~shared/config/urls';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 
@@ -12,7 +11,7 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 test('should render driver page', async ({ page, nextContext }) => {
     const driver = DriversMock[0];
 
-    await nextContext.mockApi.get(DRIVER_URLS.ref(driver.ref), driver, {
+    await nextContext.mockApi.get(URLS.driver.ref(driver.ref), driver, {
         params: {
             expand: ['constructor_entity'].join(','),
         },
@@ -61,12 +60,12 @@ test("should go to constructor page after constructor's name click", async ({
     const driver = DriversMock[0];
     const constructor = driver.constructor_entity;
 
-    await nextContext.mockApi.get(DRIVER_URLS.ref(driver.ref), driver, {
+    await nextContext.mockApi.get(URLS.driver.ref(driver.ref), driver, {
         params: {
             expand: ['constructor_entity'].join(','),
         },
     });
-    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructor.ref), constructor);
+    await nextContext.mockApi.get(URLS.constructor.ref(constructor.ref), constructor);
 
     await page.goto(`/drivers/${driver.ref}`);
 
@@ -78,7 +77,7 @@ test("should go to constructor page after constructor's name click", async ({
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const driverMock = DriversMock[0];
 
-    await nextContext.mockApi.get(DRIVER_URLS.ref(driverMock.ref), driverMock, {
+    await nextContext.mockApi.get(URLS.driver.ref(driverMock.ref), driverMock, {
         params: {
             expand: ['constructor_entity'].join(','),
         },

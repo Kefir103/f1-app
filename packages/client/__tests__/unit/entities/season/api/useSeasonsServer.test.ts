@@ -2,7 +2,7 @@ import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 import * as lodash from 'lodash';
 
-import { SEASON_URLS } from '~entities/season/api';
+import { URLS } from '~shared/config/urls';
 
 import { useSeasonsServer } from '~entities/season/api';
 
@@ -18,7 +18,7 @@ describe('useSeasonsServer', () => {
 
         const seasonsMock = lodash.orderBy(SeasonsMock, ['year'], ['desc']);
 
-        MockAdapter.onGet(SEASON_URLS.index).replyOnce(200, {
+        MockAdapter.onGet(URLS.season.index).replyOnce(200, {
             data: seasonsMock,
             count: seasonsMock.length,
         });
@@ -31,7 +31,7 @@ describe('useSeasonsServer', () => {
         const page = 1;
         const perPage = 10;
 
-        MockAdapter.onGet(SEASON_URLS.index).networkErrorOnce();
+        MockAdapter.onGet(URLS.season.index).networkErrorOnce();
 
         await expect(async () => {
             await useSeasonsServer({ page, perPage });

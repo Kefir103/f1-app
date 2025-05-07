@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '~tests-utils/e2e/server/MockApiTest';
 
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
+import { URLS } from '~shared/config/urls';
 
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 
@@ -10,7 +10,7 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 test('should renders correctly', async ({ page, nextContext }) => {
     const constructorMock = ConstructorsMock[0];
 
-    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
+    await nextContext.mockApi.get(URLS.constructor.ref(constructorMock.ref), constructorMock);
 
     await page.goto(`/constructors/${constructorMock.ref}`);
 
@@ -22,7 +22,7 @@ test('should renders correctly', async ({ page, nextContext }) => {
 test('should render breadcrumbs correctly', async ({ page, nextContext }) => {
     const constructorMock = ConstructorsMock[0];
 
-    await nextContext.mockApi.get(CONSTRUCTOR_URLS.ref(constructorMock.ref), constructorMock);
+    await nextContext.mockApi.get(URLS.constructor.ref(constructorMock.ref), constructorMock);
 
     await page.goto(`/constructors/${constructorMock.ref}`);
 

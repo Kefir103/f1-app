@@ -4,9 +4,9 @@ import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 import { useSearchParams } from 'next/navigation';
 
-import SeasonsPage from '~app/seasons/page';
+import { URLS } from '~shared/config/urls';
 
-import { SEASON_URLS } from '~entities/season/api';
+import SeasonsPage from '~app/seasons/page';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';
@@ -25,7 +25,7 @@ describe('<SeasonsPage />', () => {
     });
 
     it('should render correctly', async () => {
-        MockAdapter.onGet(SEASON_URLS.index).reply(200, {
+        MockAdapter.onGet(URLS.season.index).reply(200, {
             data: SeasonsMock,
             count: SeasonsMock.length,
         });
@@ -40,7 +40,7 @@ describe('<SeasonsPage />', () => {
     });
 
     it('should render breadcrumbs correctly', async () => {
-        MockAdapter.onGet(SEASON_URLS.index).reply(200, {
+        MockAdapter.onGet(URLS.season.index).reply(200, {
             data: [],
             count: 0,
         });
