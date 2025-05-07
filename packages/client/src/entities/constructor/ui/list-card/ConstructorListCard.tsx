@@ -1,5 +1,7 @@
 import NextLink from 'next/link';
-import { Card, CardContent, CardHeader, Link, Typography } from '@mui/material';
+import { Card, CardHeader, CardTitle, CardContent } from '~shadcn/ui/card';
+
+import { Typography } from '~shared/ui/typography/Typography';
 
 import type { Constructor } from '~entities/constructor';
 
@@ -9,28 +11,32 @@ interface IConstructorListCard {
 
 export function ConstructorListCard({ constructorEntity }: IConstructorListCard) {
     return (
-        <Card className={'card'}>
-            <CardContent>
-                <CardHeader
-                    title={
+        <Card>
+            <CardHeader>
+                <CardTitle>
+                    <Typography.Title level={3}>
                         <NextLink
-                            className={'link'}
+                            className={'link-white'}
                             href={`/constructors/${constructorEntity.ref}`}
                             title={constructorEntity.name}
                         >
                             {constructorEntity.name}
                         </NextLink>
-                    }
-                />
+                    </Typography.Title>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <Typography>Nationality: {constructorEntity.nationality}</Typography>
-                <Link
-                    className={'text-blue-500 underline'}
-                    href={constructorEntity.wiki_url}
-                    target={'_blank'}
-                    rel={'noopener'}
-                >
-                    Wiki
-                </Link>
+                <Typography>
+                    <a
+                        className={'link'}
+                        href={constructorEntity.wiki_url}
+                        target={'_blank'}
+                        rel={'noopener'}
+                    >
+                        Wiki
+                    </a>
+                </Typography>
             </CardContent>
         </Card>
     );

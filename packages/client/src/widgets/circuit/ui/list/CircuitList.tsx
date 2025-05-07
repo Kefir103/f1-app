@@ -1,5 +1,3 @@
-import { Grid } from '@mui/material';
-
 import type { CircuitType } from '~entities/circuit';
 import { CircuitListCard } from '~entities/circuit/ui';
 
@@ -9,12 +7,10 @@ interface ICircuitList {
 
 export function CircuitList({ circuits }: ICircuitList) {
     return (
-        <Grid container spacing={2}>
+        <div className={'grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-4'}>
             {circuits.map((circuit) => (
-                <Grid item xs={12} md={6} lg={3} key={`circuit_${circuit.ref}`}>
-                    <CircuitListCard circuit={circuit} />
-                </Grid>
+                <CircuitListCard key={`circuit_${circuit.ref}`} circuit={circuit} />
             ))}
-        </Grid>
+        </div>
     );
 }

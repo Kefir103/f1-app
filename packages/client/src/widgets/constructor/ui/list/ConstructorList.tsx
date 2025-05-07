@@ -1,5 +1,3 @@
-import { Grid } from '@mui/material';
-
 import type { Constructor } from '~entities/constructor';
 import { ConstructorListCard } from '~entities/constructor/ui';
 
@@ -9,12 +7,13 @@ interface IConstructorList {
 
 export function ConstructorList({ constructors }: IConstructorList) {
     return (
-        <Grid container spacing={2}>
+        <div className={'grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-4'}>
             {constructors.map((constructor) => (
-                <Grid item xs={12} md={6} lg={3} key={`constructor_${constructor.id}`}>
-                    <ConstructorListCard constructorEntity={constructor} />
-                </Grid>
+                <ConstructorListCard
+                    key={`constructor_${constructor.id}`}
+                    constructorEntity={constructor}
+                />
             ))}
-        </Grid>
+        </div>
     );
 }

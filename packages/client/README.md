@@ -11,17 +11,16 @@
 - [TypeScript](https://www.typescriptlang.org/)
 - Frontend platform - [NextJS](https://nextjs.org/)
 - Styling - [Tailwind CSS](https://tailwindcss.com/)
-- Components Library - [Material UI](https://mui.com/material-ui/)
+- Components Library - [shadcn/ui](https://ui.shadcn.com/)
 - API Fetch - [axios](https://axios-http.com/)
 - Unit testing - [Jest](https://jestjs.io/)
-- e2e testing - [Playwright](https://playwright.dev/), [Fastify](https://fastify.dev/) (for API mocking)
+- e2e testing - [Playwright](https://playwright.dev/)
 
 ### Environments
 
 <b>Use .env.local file instead of .env file</b>
 
 - NEXT_PUBLIC_URL_BASEPATH=base URL for API fetching (default - http://server:4000 (server - backend service name from docker-compose.yml))
-- MOCK_SERVER_PORT=server port for Fastify server (default - 4000, but usage is in .env.test file). Mock server is used in e2e tests API mocking 
 
 ## Scripts
 

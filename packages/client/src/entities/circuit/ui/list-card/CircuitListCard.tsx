@@ -1,5 +1,7 @@
-import { Card, CardContent, CardHeader, Typography, Link } from '@mui/material';
 import NextLink from 'next/link';
+import { Card, CardHeader, CardContent, CardTitle } from '~shadcn/ui/card';
+
+import { Typography } from '~shared/ui/typography/Typography';
 
 import type { CircuitType } from '~entities/circuit';
 
@@ -9,25 +11,27 @@ interface ICircuitListCard {
 
 export function CircuitListCard({ circuit }: ICircuitListCard) {
     return (
-        <Card className={'card'}>
-            <CardContent>
-                <CardHeader
-                    title={
+        <Card>
+            <CardHeader>
+                <CardTitle>
+                    <Typography.Title level={3}>
                         <NextLink
-                            className={'link'}
+                            className={'link-white'}
                             href={`/circuits/${circuit.ref}`}
                             title={circuit.name}
                         >
                             {circuit.name}
                         </NextLink>
-                    }
-                />
+                    </Typography.Title>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <Typography>Country: {circuit.country}</Typography>
                 <Typography>Location: {circuit.location}</Typography>
                 <Typography>Latitude: {circuit.latitude}</Typography>
                 <Typography>Longitude: {circuit.longitude}</Typography>
                 <Typography>Altitude: {circuit.altitude}m</Typography>
-                <Link
+                <a
                     href={circuit.wiki_url}
                     target={'_blank'}
                     rel={'noopener'}
@@ -35,7 +39,7 @@ export function CircuitListCard({ circuit }: ICircuitListCard) {
                     title={'Wiki'}
                 >
                     Wiki
-                </Link>
+                </a>
             </CardContent>
         </Card>
     );

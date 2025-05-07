@@ -1,9 +1,11 @@
-import { CircularProgress } from '@mui/material';
+'use client';
+
+import { Bars } from 'react-loader-spinner';
 
 export default function Loading() {
     return (
         <section className={'fixed inset-2/4 size-full'}>
-            <CircularProgress />
+            <Bars height={72} width={72} color={'currentColor'} />
         </section>
     );
 }

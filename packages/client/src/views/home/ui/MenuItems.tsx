@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import {
     mdiRacingHelmet,
     mdiStadiumOutline,
@@ -45,9 +44,9 @@ const menuItems: IMenuItem[] = [
 
 export function MenuItems() {
     return (
-        <Grid container spacing={2}>
+        <div className={'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4'}>
             {menuItems.map(({ icon, link, title, description }) => (
-                <Grid xs={12} md={6} lg={3} item={true} key={`menu-item_${link}`}>
+                <div key={`menu-item_${link}`}>
                     <MenuItem
                         key={`menu-item${link}`}
                         icon={icon}
@@ -55,8 +54,8 @@ export function MenuItems() {
                         description={description}
                         link={link}
                     />
-                </Grid>
+                </div>
             ))}
-        </Grid>
+        </div>
     );
 }

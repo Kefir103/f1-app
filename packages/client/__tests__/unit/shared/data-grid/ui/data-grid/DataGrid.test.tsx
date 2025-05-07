@@ -1,20 +1,25 @@
 import { render } from '@testing-library/react';
+import { ColumnDef, getCoreRowModel } from '@tanstack/react-table';
 
-import { DataGrid, DataGridColumnType } from '~shared/ui/data-grid';
+import { DataGrid } from '~shared/ui/data-grid';
 
 describe('<DataGrid />', () => {
     it('should render column value by field name', () => {
         const tableData = [{ id: 1 }];
 
-        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
+        const tableColumns: ColumnDef<(typeof tableData)[0]>[] = [
             {
-                field: 'id',
-                title: 'Id',
+                accessorKey: 'id',
+                header: 'Id',
             },
         ];
 
         const { getAllByRole, getByRole } = render(
-            <DataGrid data={tableData} columns={tableColumns} rowKey={(entity) => entity.id} />,
+            <DataGrid
+                data={tableData}
+                columns={tableColumns}
+                getCoreRowModel={getCoreRowModel()}
+            />,
         );
 
         expect(getByRole('columnheader', { name: 'Id' })).toBeInTheDocument();
@@ -24,78 +29,48 @@ describe('<DataGrid />', () => {
     it('should render empty string if value is nullable', () => {
         const tableData = [{ someValue: null }];
 
-        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
+        const tableColumns: ColumnDef<(typeof tableData)[0]>[] = [
             {
-                field: 'someValue',
-                title: 'Some nullable value',
+                accessorKey: 'someValue',
+                header: 'Some nullable value',
             },
         ];
 
         const { getAllByRole } = render(
-            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
+            <DataGrid
+                data={tableData}
+                columns={tableColumns}
+                getCoreRowModel={getCoreRowModel()}
+            />,
         );
 
         expect(getAllByRole('row')[1].querySelector('td')).toHaveTextContent('');
     });
 
-    it('should render cell value via custom render function', () => {
-        const tableData = [{ name: 'name' }];
-
-        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
-            {
-                field: 'name',
-                title: 'Name',
-                render: (name) => name.toUpperCase(),
-            },
-        ];
-
-        const { getAllByRole } = render(
-            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
-        );
-
-        expect(getAllByRole('row')[1].querySelector('td')).toHaveTextContent(
-            tableData[0].name.toUpperCase(),
-        );
-    });
-
-    it('should render cell union value via custom render function', () => {
-        const tableData = [{ name: 'name', surname: 'surname' }];
-
-        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
-            {
-                field: 'name',
-                title: 'Name + Surname',
-                render: (_, entity) => `${entity.name} ${entity.surname}`,
-            },
-        ];
-
-        const { getAllByRole } = render(
-            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
-        );
-
-        expect(getAllByRole('row')[1].querySelector('td')).toHaveTextContent(
-            `${tableData[0].name} ${tableData[0].surname}`,
-        );
-    });
-
-    it('should add additional class to table body cells className via rowOptions.cellOptions without overriding default class', () => {
+    it('should add additional class to table body cells className via meta.props.cell without overriding default class', () => {
         const tableData = [{ name: 'name' }];
         const additionalClassName = 'some-additional-class';
 
-        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
+        const tableColumns: ColumnDef<(typeof tableData)[0]>[] = [
             {
-                field: 'name',
-                title: 'Name',
-                rowOptions: {
-                    cellOptions: {
-                        className: () => additionalClassName,
+                accessorKey: 'name',
+                header: 'Name',
+                meta: {
+                    props: {
+                        cell: () => ({
+                            className: additionalClassName,
+                        }),
                     },
                 },
             },
         ];
 
         const { getAllByRole } = render(
-            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
+            <DataGrid
+                data={tableData}
+                columns={tableColumns}
+                getCoreRowModel={getCoreRowModel()}
+            />,
         );
 
         expect(getAllByRole('row')[1].querySelector('td')).toHaveClass(additionalClassName);
@@ -104,12 +79,19 @@ describe('<DataGrid />', () => {
     it('should render empty component if DataGrid data is empty', () => {
         const tableData: { some_field: any }[] = new Array(0);
 
-        const tableColumns: DataGridColumnType<(typeof tableData)[0]>[] = [
-            { field: 'some_field', title: 'Some title' },
+        const tableColumns: ColumnDef<(typeof tableData)[0]>[] = [
+            {
+                accessorKey: 'some_field',
+                header: 'Some title',
+            },
         ];
 
         const { getByText } = render(
-            <DataGrid data={tableData} columns={tableColumns} rowKey={() => 1} />,
+            <DataGrid
+                data={tableData}
+                columns={tableColumns}
+                getCoreRowModel={getCoreRowModel()}
+            />,
         );
 
         expect(getByText('No data')).toBeInTheDocument();

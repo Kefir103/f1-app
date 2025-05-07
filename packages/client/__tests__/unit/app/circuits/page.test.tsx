@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
+import { useSearchParams } from 'next/navigation';
 
 import CircuitsPage from '~app/circuits/page';
 import { CIRCUIT_URLS } from '~entities/circuit/api';
@@ -13,7 +14,15 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
 
+jest.mock('next/navigation');
+
 describe('Circuits page', () => {
+    beforeEach(() => {
+        (useSearchParams as jest.Mock).mockReturnValue({
+            get: jest.fn(),
+        });
+    });
+
     it('should render correctly', async () => {
         MockAdapter.onGet(CIRCUIT_URLS.index).replyOnce(200, {
             data: CircuitsMock,

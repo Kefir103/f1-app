@@ -1,86 +1,105 @@
-import { DataGrid, DataGridColumnType } from '~shared/ui/data-grid';
+'use client';
+
+import { useMemo } from 'react';
+import { ColumnDef, getCoreRowModel } from '@tanstack/react-table';
+
+import { DataGrid } from '~shared/ui/data-grid';
 
 import type { ResultType } from '~entities/result';
-import type { StatusType } from '~entities/status';
-
-import { ResultPosition } from '~entities/result/model';
 import { ResultTableFastestLapFormatter } from '~entities/result/ui';
+import { ResultPosition } from '~entities/result/model';
 
 interface IResultTableProps {
     results: ResultType[];
-    entityColumns: DataGridColumnType<ResultType>[];
+    entityColumns: ColumnDef<ResultType>[];
 }
 
-export function ResultTable({ results, entityColumns }: IResultTableProps) {
-    const columns: DataGridColumnType<ResultType>[] = [
-        {
-            field: 'position',
-            title: 'Position',
-            render: (position, resultEntity) => {
-                if (resultEntity.laps === 0) {
-                    return ResultPosition.DID_NOT_STARTED;
-                }
+export function ResultTable({ results, entityColumns = [] }: IResultTableProps) {
+    const columns = useMemo(
+        (): ColumnDef<ResultType>[] => [
+            {
+                accessorKey: 'position',
+                header: 'Position',
+                cell: ({ row, getValue }) => {
+                    if (row.original.laps === 0) {
+                        return ResultPosition.DID_NOT_STARTED;
+                    }
 
-                if (!position) {
-                    return ResultPosition.DID_NOT_FINISHED;
-                }
+                    if (!getValue()) {
+                        return ResultPosition.DID_NOT_FINISHED;
+                    }
 
-                return position;
-            },
-        },
-        ...entityColumns,
-        {
-            field: 'fastest_lap_time',
-            title: 'Fastest lap time',
-            render: (fastestLapTime) => fastestLapTime || '-',
-            rowOptions: {
-                cellOptions: {
-                    className: (_: any, { fastest_lap_rank }: ResultType) =>
-                        ResultTableFastestLapFormatter.getFastestLapCellClassName(fastest_lap_rank),
+                    return getValue();
                 },
             },
-        },
-        {
-            field: 'fastest_lap_rank',
-            title: 'Fastest lap rank',
-            rowOptions: {
-                cellOptions: {
-                    className: (fastestLapRank: number) =>
-                        ResultTableFastestLapFormatter.getFastestLapCellClassName(fastestLapRank),
+            ...entityColumns,
+            {
+                accessorKey: 'fastest_lap_time',
+                header: 'Fastest lap time',
+                cell: ({ getValue }) => getValue() || '-',
+                meta: {
+                    props: {
+                        cell: (_, row) => ({
+                            className: ResultTableFastestLapFormatter.getFastestLapCellClassName(
+                                row.original.fastest_lap_rank,
+                            ),
+                        }),
+                    },
                 },
             },
-        },
-        {
-            field: 'fastest_lap_number',
-            title: 'Fastest lap number',
-            render: (fastestLapNumber) => fastestLapNumber || '-',
-            rowOptions: {
-                cellOptions: {
-                    className: (_: any, { fastest_lap_rank }: ResultType) =>
-                        ResultTableFastestLapFormatter.getFastestLapCellClassName(fastest_lap_rank),
+            {
+                accessorKey: 'fastest_lap_rank',
+                header: 'Fastest lap rank',
+                meta: {
+                    props: {
+                        cell: (_, row) => ({
+                            className: ResultTableFastestLapFormatter.getFastestLapCellClassName(
+                                row.original.fastest_lap_rank,
+                            ),
+                        }),
+                    },
                 },
             },
-        },
-        {
-            field: 'points',
-            title: 'Points',
-        },
-        {
-            field: 'laps',
-            title: 'Laps',
-        },
-        {
-            field: 'status',
-            title: 'Status',
-            render: ({ status }: StatusType) => status,
-        },
-    ];
+            {
+                accessorKey: 'fastest_lap_number',
+                header: 'Fastest lap number',
+                cell: ({ getValue }) => getValue() || '-',
+                meta: {
+                    props: {
+                        cell: (_, row) => ({
+                            className: ResultTableFastestLapFormatter.getFastestLapCellClassName(
+                                row.original.fastest_lap_rank,
+                            ),
+                        }),
+                    },
+                },
+            },
+            {
+                accessorKey: 'points',
+                header: 'Points',
+            },
+            {
+                accessorKey: 'laps',
+                header: 'Laps',
+            },
+            {
+                accessorKey: 'status',
+                header: 'Status',
+                cell: ({
+                    row: {
+                        original: { status },
+                    },
+                }) => status.status,
+            },
+        ],
+        [],
+    );
 
     return (
-        <DataGrid rowKey={(entity) => entity.id} columns={columns} data={results} size={'small'} />
+        <DataGrid<ResultType>
+            columns={columns}
+            data={results}
+            getCoreRowModel={getCoreRowModel()}
+        />
     );
 }
-
-ResultTable.defaultProps = {
-    entityColumns: [],
-};
