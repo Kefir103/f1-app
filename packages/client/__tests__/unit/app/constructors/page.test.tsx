@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import axiosMockAdapter from 'axios-mock-adapter';
+import { useSearchParams } from 'next/navigation';
 
 import { axios } from '~shared/api/axios';
 
@@ -15,7 +16,15 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
 
+jest.mock('next/navigation');
+
 describe('<ConstructorsPage>', () => {
+    beforeEach(() => {
+        (useSearchParams as jest.Mock).mockReturnValue({
+            get: jest.fn(),
+        });
+    });
+
     it('should renders correctly', async () => {
         MockAdapter.onGet(CONSTRUCTOR_URLS.index).replyOnce(200, {
             data: ConstructorsMock,

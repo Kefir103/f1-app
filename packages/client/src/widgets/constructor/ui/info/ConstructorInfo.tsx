@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Typography } from '~shared/ui/typography/Typography';
 
 import type { Constructor } from '~entities/constructor';
 
@@ -9,20 +9,20 @@ interface IConstructorInfoProps {
 export function ConstructorInfo({ constructor_entity }: IConstructorInfoProps) {
     return (
         <>
-            <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
-                {constructor_entity.name}
-            </Typography>
-            <a
-                className={'link'}
-                href={constructor_entity.wiki_url}
-                target={'_blank'}
-                rel={'noopener'}
-            >
-                Wiki
-            </a>
-            <Typography className={'my-2'}>
+            <Typography.Title level={1}>{constructor_entity.name}</Typography.Title>
+            <Typography.Paragraph>
+                <a
+                    className={'link'}
+                    href={constructor_entity.wiki_url}
+                    target={'_blank'}
+                    rel={'noopener'}
+                >
+                    Wiki
+                </a>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
                 Nationality: {constructor_entity.nationality}
-            </Typography>
+            </Typography.Paragraph>
         </>
     );
 }

@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
+import { useSearchParams } from 'next/navigation';
 
 import SeasonsPage from '~app/seasons/page';
 
@@ -14,7 +15,15 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
 
+jest.mock('next/navigation');
+
 describe('<SeasonsPage />', () => {
+    beforeEach(() => {
+        (useSearchParams as jest.Mock).mockReturnValue({
+            get: jest.fn(),
+        });
+    });
+
     it('should render correctly', async () => {
         MockAdapter.onGet(SEASON_URLS.index).reply(200, {
             data: SeasonsMock,

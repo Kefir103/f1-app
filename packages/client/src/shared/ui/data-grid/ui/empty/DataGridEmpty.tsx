@@ -1,6 +1,7 @@
 import Icon from '@mdi/react';
 import { mdiCloudOffOutline } from '@mdi/js';
-import { TableCell, TableRow } from '@mui/material';
+
+import { TableCell, TableRow } from '~shadcn/ui/table';
 
 interface IDataGridEmptyProps {
     message?: string;

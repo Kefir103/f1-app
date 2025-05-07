@@ -1,6 +1,7 @@
-import { Link, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import moment from 'moment';
+
+import { Typography } from '~shared/ui/typography/Typography';
 
 import type { Race } from '~entities/race';
 
@@ -11,10 +12,8 @@ interface IRaceInfoProps {
 export function RaceInfo({ race }: IRaceInfoProps) {
     return (
         <>
-            <Typography variant={'h1'} component={'h1'} className={'mb-5 text-5xl font-bold'}>
-                {race.name}
-            </Typography>
-            <Typography className={'mb-2'}>
+            <Typography.Title level={1}>{race.name}</Typography.Title>
+            <Typography.Paragraph>
                 Circuit:{' '}
                 <NextLink
                     className={'link'}
@@ -23,8 +22,8 @@ export function RaceInfo({ race }: IRaceInfoProps) {
                 >
                     {race.circuit.name}
                 </NextLink>
-            </Typography>
-            <Typography className={'mb-2'}>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
                 Season:{' '}
                 <NextLink
                     className={'link'}
@@ -33,16 +32,18 @@ export function RaceInfo({ race }: IRaceInfoProps) {
                 >
                     {race.year}
                 </NextLink>
-            </Typography>
-            <Typography className={'mb-2'}>Round: {race.round}</Typography>
-            <Typography className={'mb-2'}>
+            </Typography.Paragraph>
+            <Typography.Paragraph>Round: {race.round}</Typography.Paragraph>
+            <Typography.Paragraph>
                 Race date: {moment(race.date).format('DD.MM.YYYY')}
-            </Typography>
-            <Link className={'link mb-2'} href={race.wiki_url} title={'Wiki'}>
-                Wiki
-            </Link>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
+                <a className={'link'} href={race.wiki_url} title={'Wiki'}>
+                    Wiki
+                </a>
+            </Typography.Paragraph>
             {race.winner && (
-                <Typography className={'my-2'}>
+                <Typography.Paragraph>
                     Winner:{' '}
                     <NextLink
                         className={'link'}
@@ -62,38 +63,38 @@ export function RaceInfo({ race }: IRaceInfoProps) {
                         {race.winner.constructor_entity.name}
                     </NextLink>
                     )
-                </Typography>
+                </Typography.Paragraph>
             )}
-            <Typography className={'my-2'}>
+            <Typography.Paragraph>
                 FP1 Date:{' '}
                 {moment(race.fp1_date).isValid()
                     ? moment(race.fp1_date).format('DD.MM.YYYY')
                     : 'Unknown'}
-            </Typography>
-            <Typography className={'mb-2'}>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
                 FP2 Date:{' '}
                 {moment(race.fp2_date).isValid()
                     ? moment(race.fp2_date).format('DD.MM.YYYY')
                     : 'Unknown'}
-            </Typography>
-            <Typography className={'mb-2'}>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
                 FP3 Date:{' '}
                 {moment(race.fp3_date).isValid()
                     ? moment(race.fp3_date).format('DD.MM.YYYY')
                     : 'Unknown'}
-            </Typography>
-            <Typography className={'mb-2'}>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
                 Qualifying date:{' '}
                 {moment(race.qualifying_date).isValid()
                     ? moment(race.qualifying_date).format('DD.MM.YYYY')
                     : 'Unknown'}
-            </Typography>
-            <Typography>
+            </Typography.Paragraph>
+            <Typography.Paragraph>
                 Sprint date:{' '}
                 {moment(race.sprint_date).isValid()
                     ? moment(race.sprint_date).format('DD.MM.YYYY')
                     : 'Unknown'}
-            </Typography>
+            </Typography.Paragraph>
         </>
     );
 }

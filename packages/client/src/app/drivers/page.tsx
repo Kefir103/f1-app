@@ -1,4 +1,4 @@
-import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
+import { PaginationSearchParams } from '~shared/ui/pagination';
 import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsDrivers } from '~app/drivers/breadcrumbs';

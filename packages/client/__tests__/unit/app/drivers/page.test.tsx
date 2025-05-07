@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
+import { useSearchParams } from 'next/navigation';
 
 import { DRIVER_URLS } from '~entities/driver/api';
 
@@ -15,7 +16,15 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
 
+jest.mock('next/navigation');
+
 describe('DriversPage', () => {
+    beforeEach(() => {
+        (useSearchParams as jest.Mock).mockReturnValue({
+            get: jest.fn(),
+        });
+    });
+
     it('should render drivers page correctly', async () => {
         const firstDriver = DriversMock[0];
 

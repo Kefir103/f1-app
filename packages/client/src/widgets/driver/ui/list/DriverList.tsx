@@ -1,5 +1,3 @@
-import { Grid } from '@mui/material';
-
 import type { DriverType } from '~entities/driver';
 import { DriverListCard } from '~entities/driver/ui';
 
@@ -9,12 +7,10 @@ interface IDriverList {
 
 export function DriverList({ drivers }: IDriverList) {
     return (
-        <Grid container spacing={2}>
+        <div className={'grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-4'}>
             {drivers?.map((driver) => (
-                <Grid item xs={12} md={6} lg={3} key={`driver_${driver.ref}`}>
-                    <DriverListCard driver={driver} />
-                </Grid>
+                <DriverListCard key={`driver_${driver.ref}`} driver={driver} />
             ))}
-        </Grid>
+        </div>
     );
 }

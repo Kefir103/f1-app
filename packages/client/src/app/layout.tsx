@@ -1,7 +1,7 @@
 import React from 'react';
 import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 import Providers from '~app/providers';
 
@@ -18,14 +18,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className={'dark'}>
-            <body className={`${inter.className} bg-white p-4 dark:bg-slate-950`}>
-                <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+        <html lang={'en'} suppressHydrationWarning>
+            <body className={`${inter.className}`}>
+                <NextThemesProvider
+                    attribute={'class'}
+                    defaultTheme={'system'}
+                    enableSystem
+                    disableTransitionOnChange
+                >
                     <Providers>
                         <NavigationHeader />
                         <section className={'mt-16'}>{children}</section>
                     </Providers>
-                </AppRouterCacheProvider>
+                </NextThemesProvider>
             </body>
         </html>
     );

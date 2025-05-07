@@ -1,6 +1,8 @@
-import { Card, CardContent, CardHeader, Link, Typography } from '@mui/material';
 import moment from 'moment';
 import NextLink from 'next/link';
+import { Card, CardContent, CardHeader, CardTitle } from '~shadcn/ui/card';
+
+import { Typography } from '~shared/ui/typography/Typography';
 
 import type { DriverType } from '~entities/driver';
 
@@ -10,20 +12,22 @@ interface IDriverListCard {
 
 export function DriverListCard({ driver }: IDriverListCard) {
     return (
-        <Card className={'card'}>
-            <CardContent>
-                <CardHeader
-                    title={
+        <Card>
+            <CardHeader>
+                <CardTitle>
+                    <Typography.Title level={3}>
                         <NextLink
-                            className={'link'}
+                            className={'link-white'}
                             href={`/drivers/${driver.ref}`}
                             title={`${driver.first_name} ${driver.last_name}`}
                         >
                             {driver.first_name} {driver.last_name}{' '}
                             {driver.code ? `(${driver.code})` : ''}
                         </NextLink>
-                    }
-                />
+                    </Typography.Title>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <Typography>
                     Team:{' '}
                     <NextLink
@@ -41,14 +45,14 @@ export function DriverListCard({ driver }: IDriverListCard) {
                 <Typography>Nationality: {driver.nationality}</Typography>
                 <Typography>Wins: {driver.wins_count.wins_count}</Typography>
                 <Typography>Pole positions: {driver.poles_count.poles_count}</Typography>
-                <Link
+                <a
                     href={driver.wiki_url}
                     target={'_blank'}
                     rel={'noopener'}
-                    className={'text-blue-500 underline'}
+                    className={'link'}
                 >
                     Wiki
-                </Link>
+                </a>
             </CardContent>
         </Card>
     );

@@ -1,6 +1,13 @@
+import { Fragment } from 'react';
 import NextLink from 'next/link';
-import classNames from 'classnames';
-import { Breadcrumbs as MuiBreadcrumbs } from '@mui/material';
+import {
+    Breadcrumb,
+    BreadcrumbList,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbSeparator,
+} from '~shadcn/ui/breadcrumb';
+
 
 export interface IBreadcrumbItem {
     path: string;
@@ -23,29 +30,28 @@ export function Breadcrumbs({ items }: IBreadcrumbs) {
     };
 
     return (
-        <MuiBreadcrumbs
-            className={'mb-4 mt-20 w-full'}
-            separator={<span className={'dark:text-amber-50'}>{'/'}</span>}
-        >
-            {items.map((item, index) => {
-                const breadcrumbUrl = getBreadcrumbUrl(index);
+        <Breadcrumb className={'mb-4 mt-20 w-full'}>
+            <BreadcrumbList>
+                {items.map((item, index) => {
+                    const breadcrumbUrl = getBreadcrumbUrl(index);
 
-                return (
-                    <NextLink
-                        className={classNames(
-                            'rounded-full px-4 py-2 dark:bg-slate-900 dark:text-amber-50',
-                            {
-                                'underline underline-offset-4': index < items.length - 1,
-                            },
-                        )}
-                        key={`breadcrumb_item_${breadcrumbUrl}`}
-                        href={breadcrumbUrl}
-                        title={`Breadcrumb: ${item.label}`}
-                    >
-                        {item.label}
-                    </NextLink>
-                );
-            })}
-        </MuiBreadcrumbs>
+                    return (
+                        <Fragment key={`breadcrumb_item_${breadcrumbUrl}`}>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink asChild>
+                                    <NextLink
+                                        href={breadcrumbUrl}
+                                        title={`Breadcrumb: ${item.label}`}
+                                    >
+                                        {item.label}
+                                    </NextLink>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+                            {index < items.length - 1 && <BreadcrumbSeparator />}
+                        </Fragment>
+                    );
+                })}
+            </BreadcrumbList>
+        </Breadcrumb>
     );
 }

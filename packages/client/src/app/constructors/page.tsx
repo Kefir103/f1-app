@@ -1,5 +1,5 @@
 import { Breadcrumbs } from '~shared/ui/breadcrumbs';
-import { PaginationSearchParams } from '~shared/ui/pagination-search-params';
+import { PaginationSearchParams } from '~shared/ui/pagination';
 
 import { getBreadcrumbsItemsConstructors } from '~app/constructors/breadcrumbs';
 

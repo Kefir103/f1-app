@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
+import { useSearchParams } from 'next/navigation';
 
 import RacesPage from '~app/races/page';
 import { RACE_URLS } from '~entities/race/api';
@@ -14,7 +15,15 @@ import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrum
 // @ts-ignore
 const MockAdapter = new axiosMockAdapter(axios);
 
+jest.mock('next/navigation');
+
 describe('<RacesPage />', () => {
+    beforeEach(() => {
+        (useSearchParams as jest.Mock).mockReturnValue({
+            get: jest.fn(),
+        });
+    });
+
     it('should renders correctly', async () => {
         MockAdapter.onGet(RACE_URLS.index).replyOnce(200, {
             data: RacesMock,

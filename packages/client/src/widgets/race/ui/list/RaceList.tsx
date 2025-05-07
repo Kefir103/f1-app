@@ -1,5 +1,3 @@
-import { Grid } from '@mui/material';
-
 import type { Race } from '~entities/race';
 import { RaceListCard } from '~entities/race/ui';
 
@@ -9,12 +7,10 @@ interface IRaceList {
 
 export function RaceList({ races }: IRaceList) {
     return (
-        <Grid container spacing={2}>
+        <div className={'grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-4'}>
             {races.map((race) => (
-                <Grid item key={`race_${race.id}`} xs={12} md={6} lg={3}>
-                    <RaceListCard race={race} />
-                </Grid>
+                <RaceListCard key={`race_${race.id}`} race={race} />
             ))}
-        </Grid>
+        </div>
     );
 }
