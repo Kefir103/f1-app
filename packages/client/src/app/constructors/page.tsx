@@ -3,9 +3,9 @@ import { PaginationSearchParams } from '~shared/ui/pagination';
 
 import { getBreadcrumbsItemsConstructors } from '~app/constructors/breadcrumbs';
 
-import { ConstructorList } from '~widgets/constructor/ui';
+import { useConstructorsServer } from '~entities/constructor';
 
-import { useConstructorsServer } from '~entities/constructor/api';
+import { ConstructorList } from '~widgets/constructor';
 
 interface IConstructorsPage {
     searchParams: {

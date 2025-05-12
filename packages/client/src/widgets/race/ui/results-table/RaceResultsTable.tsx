@@ -8,9 +8,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Typography } from '~shared/ui/typography/Typography';
 
 import type { ResultType } from '~entities/result';
-import { ResultTable } from '~entities/result/ui';
+import { ResultTable } from '~entities/result';
 
-export interface IResultsTableProps {
+interface IResultsTableProps {
     results: ResultType[];
 }
 

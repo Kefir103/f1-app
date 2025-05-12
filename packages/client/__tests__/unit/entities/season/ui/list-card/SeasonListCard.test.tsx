@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { SeasonListCard } from '~entities/season/ui';
+import { SeasonListCard } from '~entities/season';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 

@@ -1,5 +1,5 @@
 import type { Constructor } from '~entities/constructor';
-import { ConstructorListCard } from '~entities/constructor/ui';
+import { ConstructorListCard } from '~entities/constructor';
 
 interface IConstructorList {
     constructors: Constructor[];

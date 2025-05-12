@@ -2,9 +2,9 @@ import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsConstructorView } from '~app/constructors/[ref]/breadcrumbs';
 
-import { useConstructorServer } from '~entities/constructor/api';
+import { useConstructorServer } from '~entities/constructor';
 
-import { ConstructorInfo } from '~widgets/constructor/ui';
+import { ConstructorInfo } from '~widgets/constructor';
 
 interface IConstructorPage {
     params: {

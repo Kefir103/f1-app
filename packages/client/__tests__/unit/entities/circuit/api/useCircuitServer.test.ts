@@ -3,7 +3,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 
 import { URLS } from '~shared/config/urls';
 
-import { useCircuitServer } from '~entities/circuit/api';
+import { useCircuitServer } from '~entities/circuit';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 

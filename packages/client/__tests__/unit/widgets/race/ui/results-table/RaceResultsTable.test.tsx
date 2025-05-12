@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { RaceResultsTable } from '~widgets/race/ui';
+import { RaceResultsTable } from '~widgets/race';
 
 import { RacesResultsMock } from '~mocks/entities/race/Race.mock';
 

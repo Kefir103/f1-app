@@ -3,9 +3,9 @@ import { PaginationSearchParams } from '~shared/ui/pagination';
 
 import { getBreadcrumbsItemsRaces } from '~app/races/breadcrumbs';
 
-import { useRacesServer } from '~entities/race/api';
+import { useRacesServer } from '~entities/race';
 
-import { RaceList } from '~widgets/race/ui';
+import { RaceList } from '~widgets/race';
 
 interface IRacesPage {
     searchParams: {

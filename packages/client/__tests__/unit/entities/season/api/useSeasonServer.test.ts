@@ -2,7 +2,7 @@ import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 import { URLS } from '~shared/config/urls';
 
-import { useSeasonServer } from '~entities/season/api';
+import { useSeasonServer } from '~entities/season';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 

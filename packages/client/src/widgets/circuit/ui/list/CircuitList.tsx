@@ -1,5 +1,5 @@
 import type { CircuitType } from '~entities/circuit';
-import { CircuitListCard } from '~entities/circuit/ui';
+import { CircuitListCard } from '~entities/circuit';
 
 interface ICircuitList {
     circuits: CircuitType[];

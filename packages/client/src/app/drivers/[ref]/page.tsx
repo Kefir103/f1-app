@@ -2,9 +2,9 @@ import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsDriverView } from '~app/drivers/[ref]/breadcrumbs';
 
-import { useDriverServer } from '~entities/driver/api';
+import { useDriverServer } from '~entities/driver';
 
-import { DriverInfo } from '~widgets/driver/ui';
+import { DriverInfo } from '~widgets/driver';
 
 interface IDriverPage {
     params: {

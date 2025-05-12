@@ -1,10 +1,10 @@
-import { useRaceResultsServer, useRaceServer } from '~entities/race/api';
-
 import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsRaceView } from '~app/races/[id]/breadcrumbs';
 
-import { RaceInfo, RaceResultsTable } from '~widgets/race/ui';
+import { useRaceResultsServer, useRaceServer } from '~entities/race';
+
+import { RaceInfo, RaceResultsTable } from '~widgets/race';
 
 interface IRacePage {
     params: {

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { ConstructorInfo } from '~widgets/constructor/ui';
+import { ConstructorInfo } from '~widgets/constructor';
 
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 

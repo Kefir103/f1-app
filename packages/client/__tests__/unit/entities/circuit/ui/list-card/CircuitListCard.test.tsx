@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { CircuitListCard } from '~entities/circuit/ui';
+import { CircuitListCard } from '~entities/circuit';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 

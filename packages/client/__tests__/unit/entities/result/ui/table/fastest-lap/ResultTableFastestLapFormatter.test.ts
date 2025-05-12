@@ -1,5 +1,4 @@
-import { ResultTableFastestLapFormatter } from '~entities/result/ui';
-import { ResultFastestLap } from '~entities/result/model';
+import { ResultFastestLap , ResultTableFastestLapFormatter } from '~entities/result';
 
 describe('FastestLapFormatter', () => {
     it('should return best lap className', () => {

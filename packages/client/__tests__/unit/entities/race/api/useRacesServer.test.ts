@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import { URLS } from '~shared/config/urls';
 
 import type { Race } from '~entities/race';
-import { useRacesServer } from '~entities/race/api';
+import { useRacesServer } from '~entities/race';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 import { RaceWinnerType } from '~f1-app/shared/types/Race/Winner/RaceWinner.type';

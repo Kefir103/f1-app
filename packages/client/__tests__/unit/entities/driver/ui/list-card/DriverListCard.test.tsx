@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import moment from 'moment';
 
-import { DriverListCard } from '~entities/driver/ui';
+import { DriverListCard } from '~entities/driver';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 

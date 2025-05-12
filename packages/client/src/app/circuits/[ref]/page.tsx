@@ -3,9 +3,9 @@ import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsCircuitView } from '~app/circuits/[ref]/breadcrumbs';
 
-import { useCircuitServer } from '~entities/circuit/api';
+import { useCircuitServer } from '~entities/circuit';
 
-import { CircuitInfo } from '~widgets/circuit/ui';
+import { CircuitInfo } from '~widgets/circuit';
 
 interface ICircuitPage {
     params: {

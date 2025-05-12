@@ -1,5 +1,5 @@
 import type { SeasonType } from '~entities/season';
-import { SeasonListCard } from '~entities/season/ui';
+import { SeasonListCard } from '~entities/season';
 
 interface ISeasonList {
     seasons: SeasonType[];

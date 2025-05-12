@@ -3,7 +3,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 import { URLS } from '~shared/config/urls';
 
 import type { Race } from '~entities/race';
-import { useRaceServer } from '~entities/race/api';
+import { useRaceServer } from '~entities/race';
 
 import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
 import { RaceWinnerType } from '~f1-app/shared/types/Race/Winner/RaceWinner.type';

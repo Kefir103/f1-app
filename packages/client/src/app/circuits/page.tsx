@@ -3,9 +3,9 @@ import { PaginationSearchParams } from '~shared/ui/pagination';
 
 import { getBreadcrumbsItemsCircuits } from '~app/circuits/breadcrumbs';
 
-import { useCircuitsServer } from '~entities/circuit/api';
+import { useCircuitsServer } from '~entities/circuit';
 
-import { CircuitList } from '~widgets/circuit/ui';
+import { CircuitList } from '~widgets/circuit';
 
 interface ICircuitsPage {
     searchParams: {

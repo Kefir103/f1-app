@@ -1,1 +1,0 @@
-export { SeasonList } from './SeasonList';

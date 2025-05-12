@@ -2,9 +2,9 @@ import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsSeasonView } from '~app/seasons/[year]/breadcrumbs';
 
-import { useSeasonServer } from '~entities/season/api';
+import { useSeasonServer } from '~entities/season';
 
-import { SeasonInfo } from '~widgets/season/ui';
+import { SeasonInfo } from '~widgets/season';
 
 interface ISeasonPage {
     params: {

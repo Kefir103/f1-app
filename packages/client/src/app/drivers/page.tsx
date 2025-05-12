@@ -3,9 +3,9 @@ import { Breadcrumbs } from '~shared/ui/breadcrumbs';
 
 import { getBreadcrumbsItemsDrivers } from '~app/drivers/breadcrumbs';
 
-import { useDriversServer } from '~entities/driver/api';
+import { useDriversServer } from '~entities/driver';
 
-import { DriverList } from '~widgets/driver/ui';
+import { DriverList } from '~widgets/driver';
 
 interface IDriversPage {
     searchParams: {

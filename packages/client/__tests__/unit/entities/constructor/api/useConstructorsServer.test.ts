@@ -3,7 +3,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 
 import { URLS } from '~shared/config/urls';
 
-import { useConstructorsServer } from '~entities/constructor/api';
+import { useConstructorsServer } from '~entities/constructor';
 
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
 

@@ -4,7 +4,7 @@ import * as lodash from 'lodash';
 
 import { URLS } from '~shared/config/urls';
 
-import { useSeasonsServer } from '~entities/season/api';
+import { useSeasonsServer } from '~entities/season';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 

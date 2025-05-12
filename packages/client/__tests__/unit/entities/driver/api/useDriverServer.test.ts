@@ -2,8 +2,8 @@ import { axios } from '~shared/api/axios';
 import axiosMockAdapter from 'axios-mock-adapter';
 import { URLS } from '~shared/config/urls';
 
-import { useDriverServer } from '~entities/driver/api';
 import type { DriverType } from '~entities/driver';
+import { useDriverServer } from '~entities/driver';
 
 import { DriversConstructorsMock, DriversMock } from '~mocks/entities/driver/Driver.mock';
 

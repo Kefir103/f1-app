@@ -3,9 +3,9 @@ import { PaginationSearchParams } from '~shared/ui/pagination';
 
 import { getBreadcrumbsItemsSeasons } from '~app/seasons/breadcrumbs';
 
-import { useSeasonsServer } from '~entities/season/api';
+import { useSeasonsServer } from '~entities/season';
 
-import { SeasonList } from '~widgets/season/ui';
+import { SeasonList } from '~widgets/season';
 
 interface ISeasonsPage {
     searchParams: {

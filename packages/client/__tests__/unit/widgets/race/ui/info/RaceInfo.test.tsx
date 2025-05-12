@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import moment from 'moment/moment';
 
-import { RaceInfo } from '~widgets/race/ui';
+import { RaceInfo } from '~widgets/race';
 
 import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
 

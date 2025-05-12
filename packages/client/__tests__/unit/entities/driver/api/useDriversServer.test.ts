@@ -3,7 +3,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 import { URLS } from '~shared/config/urls';
 
 import type { DriverType } from '~entities/driver';
-import { useDriversServer } from '~entities/driver/api';
+import { useDriversServer } from '~entities/driver';
 
 import { DriversMock, DriversConstructorsMock } from '~mocks/entities/driver/Driver.mock';
 
