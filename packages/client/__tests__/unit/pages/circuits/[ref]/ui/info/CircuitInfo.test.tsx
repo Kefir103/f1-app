@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { CircuitInfo } from '~widgets/circuit';
+import { CircuitInfo } from '~pages/circuits/[ref]';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 

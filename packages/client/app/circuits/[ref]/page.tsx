@@ -4,7 +4,7 @@ import { getBreadcrumbsItemsCircuitView } from '~next/app/circuits/[ref]/breadcr
 
 import { useCircuitServer } from '~entities/circuit';
 
-import { CircuitInfo } from '~widgets/circuit';
+import { CircuitInfo } from '~pages/circuits/[ref]';
 
 interface ICircuitPage {
     params: {
