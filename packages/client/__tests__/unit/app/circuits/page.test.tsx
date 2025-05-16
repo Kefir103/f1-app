@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { URLS } from '~shared/config/urls';
 
-import CircuitsPage from '~app/circuits/page';
+import CircuitsPage from '~next/app/circuits/page';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';

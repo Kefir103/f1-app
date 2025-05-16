@@ -5,7 +5,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 
 import { URLS } from '~shared/config/urls';
 
-import DriverPage from '~app/drivers/[ref]/page';
+import DriverPage from '~next/app/drivers/[ref]/page';
 
 import { DriversMock } from '~mocks/entities/driver/Driver.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';

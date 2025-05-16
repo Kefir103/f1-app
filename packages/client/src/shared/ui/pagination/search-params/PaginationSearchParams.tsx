@@ -29,7 +29,7 @@ export function PaginationSearchParams({
     const count = Math.ceil(totalCount / Number(searchParams?.get('perPage') || perPage));
 
     const getCurrentPage = () => {
-        return Number(searchParams.get('page') ?? 1);
+        return Number(searchParams?.get('page') ?? 1);
     };
 
     const getHref = (params: string) => {

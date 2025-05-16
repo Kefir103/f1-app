@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { URLS } from '~shared/config/urls';
 
-import RacesPage from '~app/races/page';
+import RacesPage from '~next/app/races/page';
 
 import { RacesMock } from '~mocks/entities/race/Race.mock';
 

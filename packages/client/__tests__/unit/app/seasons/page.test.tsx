@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { URLS } from '~shared/config/urls';
 
-import SeasonsPage from '~app/seasons/page';
+import SeasonsPage from '~next/app/seasons/page';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';

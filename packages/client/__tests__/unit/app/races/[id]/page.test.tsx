@@ -5,7 +5,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 
 import { URLS } from '~shared/config/urls';
 
-import RacePage from '~app/races/[id]/page';
+import RacePage from '~next/app/races/[id]/page';
 
 import { getRaceWinner, RacesMock } from '~mocks/entities/race/Race.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';

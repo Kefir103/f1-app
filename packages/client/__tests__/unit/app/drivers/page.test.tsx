@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { URLS } from '~shared/config/urls';
 
-import DriversPage from '~app/drivers/page';
+import DriversPage from '~next/app/drivers/page';
 
 import { DriversConstructorsMock, DriversMock } from '~mocks/entities/driver/Driver.mock';
 

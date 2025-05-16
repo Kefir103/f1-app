@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import HomePage from '~app/page';
+import HomePage from '~next/app/page';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { getBreadcrumbTitle } from '~tests-utils/shared/breadcrumbs/getBreadcrumbTitle';

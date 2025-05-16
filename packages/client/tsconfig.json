@@ -28,6 +28,8 @@
             "~shared/*": ["./src/shared/*"],
             "~f1-app/*": ["../*"],
 
+            "~next/app/*": ["./app/*"],
+
             "~tests-utils/*": ["./__tests__/__utils__/*"],
             "~mocks/*": ["./__tests__/__mocks__/*"],
 

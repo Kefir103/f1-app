@@ -5,7 +5,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 import { URLS } from '~shared/config/urls';
 import { axios } from '~shared/api/axios';
 
-import ConstructorPage from '~app/constructors/[ref]/page';
+import ConstructorPage from '~next/app/constructors/[ref]/page';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';

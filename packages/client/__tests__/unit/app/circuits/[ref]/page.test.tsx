@@ -5,7 +5,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 
 import { URLS } from '~shared/config/urls';
 
-import CircuitPage from '~app/circuits/[ref]/page';
+import CircuitPage from '~next/app/circuits/[ref]/page';
 
 import { CircuitsMock } from '~mocks/entities/circuit/Circuit.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';

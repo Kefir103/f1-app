@@ -5,7 +5,7 @@ import axiosMockAdapter from 'axios-mock-adapter';
 
 import { URLS } from '~shared/config/urls';
 
-import SeasonPage from '~app/seasons/[year]/page';
+import SeasonPage from '~next/app/seasons/[year]/page';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 import { RouterMock } from '~tests-utils/router/Router.mock';

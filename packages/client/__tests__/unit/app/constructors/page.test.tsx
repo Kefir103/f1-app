@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { URLS } from '~shared/config/urls';
 import { axios } from '~shared/api/axios';
 
-import ConstructorsPage from '~app/constructors/page';
+import ConstructorsPage from '~next/app/constructors/page';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 import { ConstructorsMock } from '~mocks/entities/constructor/Constructor.mock';
