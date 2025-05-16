@@ -5,7 +5,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 import Providers from '~next/app/providers';
 
-import { NavigationHeader } from '~widgets/navigation/header/ui/NavigationHeader';
+import { AppHeader } from '~app/layout/header';
 
 import '~next/app/globals.css';
 
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     disableTransitionOnChange
                 >
                     <Providers>
-                        <NavigationHeader />
+                        <AppHeader />
                         <section className={'mt-16'}>{children}</section>
                     </Providers>
                 </NextThemesProvider>

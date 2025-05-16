@@ -32,7 +32,7 @@ const HeaderItems: IHeaderItems[] = [
     },
 ];
 
-export function NavigationHeader() {
+export function AppHeader() {
     return (
         <nav
             id={'navigation-header'}

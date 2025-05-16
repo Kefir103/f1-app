@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { NavigationHeader } from '~widgets/navigation/header/ui/NavigationHeader';
+import { AppHeader } from '~app/layout/header';
 
 describe('<NavigationHeader />', () => {
     it('should render correctly', () => {
-        render(<NavigationHeader />);
+        render(<AppHeader />);
 
         expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument();
         expect(screen.getByRole('link', { name: 'Drivers' })).toBeInTheDocument();
