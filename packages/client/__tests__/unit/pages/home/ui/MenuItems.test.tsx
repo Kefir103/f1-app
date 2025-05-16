@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { MenuItems } from '~views/home';
+import { MenuItems } from '~pages/home';
 
 import { RouterMock } from '~tests-utils/router/Router.mock';
 
