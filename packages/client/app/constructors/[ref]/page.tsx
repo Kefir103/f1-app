@@ -4,7 +4,7 @@ import { getBreadcrumbsItemsConstructorView } from '~next/app/constructors/[ref]
 
 import { useConstructorServer } from '~entities/constructor';
 
-import { ConstructorInfo } from '~widgets/constructor';
+import { ConstructorInfo } from '~pages/constructors/[ref]';
 
 interface IConstructorPage {
     params: {
