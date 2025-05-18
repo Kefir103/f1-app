@@ -4,7 +4,7 @@ import { getBreadcrumbsItemsDriverView } from '~next/app/drivers/[ref]/breadcrum
 
 import { useDriverServer } from '~entities/driver';
 
-import { DriverInfo } from '~widgets/driver';
+import { DriverInfo } from '~pages/drivers/[ref]';
 
 interface IDriverPage {
     params: {
