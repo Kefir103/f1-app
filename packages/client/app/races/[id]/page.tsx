@@ -4,7 +4,9 @@ import { getBreadcrumbsItemsRaceView } from '~next/app/races/[id]/breadcrumbs';
 
 import { useRaceResultsServer, useRaceServer } from '~entities/race';
 
-import { RaceInfo, RaceResultsTable } from '~widgets/race';
+import { RaceResultsTable } from '~widgets/race';
+
+import { RaceInfo } from '~pages/races/[id]';
 
 interface IRacePage {
     params: {
