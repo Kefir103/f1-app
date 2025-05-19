@@ -1,4 +1,4 @@
-export type { Circuit as CircuitType } from './type';
+export type { Circuit as CircuitType } from './model/type';
 
 export { useCircuitServer } from './api/useCircuitServer';
 export { useCircuitsServer } from './api/useCircuitsServer';

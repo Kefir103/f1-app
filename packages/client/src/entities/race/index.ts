@@ -1,4 +1,4 @@
-export type { Race } from './type';
+export type { Race } from './model/type';
 
 export { useRaceServer } from './api/useRaceServer';
 export { useRacesServer } from './api/useRacesServer';

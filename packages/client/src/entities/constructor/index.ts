@@ -1,4 +1,4 @@
-export type { Constructor } from './type';
+export type { Constructor } from './model/type';
 
 export { useConstructorServer } from './api/useConstructorServer';
 export { useConstructorsServer } from './api/useConstructorsServer';

@@ -1,1 +1,1 @@
-export type { RaceWinner } from './type';
+export type { RaceWinner } from './model/type';
