@@ -4,7 +4,7 @@ import { getBreadcrumbsItemsSeasonView } from '~next/app/seasons/[year]/breadcru
 
 import { useSeasonServer } from '~entities/season';
 
-import { SeasonInfo } from '~widgets/season';
+import { SeasonInfo } from '~pages/seasons/[year]';
 
 interface ISeasonPage {
     params: {

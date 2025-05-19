@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { SeasonInfo } from '~widgets/season';
+import { SeasonInfo } from '~pages/seasons/[year]';
 
 import { SeasonsMock } from '~mocks/entities/season/Season.mock';
 
