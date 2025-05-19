@@ -6,8 +6,7 @@ import { ColumnDef, getCoreRowModel } from '@tanstack/react-table';
 import { DataGrid } from '~shared/ui/data-grid';
 
 import type { ResultType } from '~entities/result';
-import { ResultTableFastestLapFormatter } from '~entities/result/ui';
-import { ResultPosition } from '~entities/result/model';
+import { ResultPosition, ResultTableFastestLapFormatter } from '~entities/result';
 
 interface IResultTableProps {
     results: ResultType[];

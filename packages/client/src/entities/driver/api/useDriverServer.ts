@@ -1,5 +1,6 @@
 import { axios } from '~shared/api/axios';
-import { DRIVER_URLS } from '~entities/driver/api';
+import { URLS } from '~shared/config/urls';
+
 import type { DriverType } from '~entities/driver';
 
 export async function useDriverServer(
@@ -11,7 +12,7 @@ export async function useDriverServer(
     } = {},
 ) {
     try {
-        const { data: driver } = await axios.get<DriverType>(DRIVER_URLS.ref(ref), {
+        const { data: driver } = await axios.get<DriverType>(URLS.driver.ref(ref), {
             params: {
                 ...(expandFields.length && {
                     expand: expandFields.join(','),

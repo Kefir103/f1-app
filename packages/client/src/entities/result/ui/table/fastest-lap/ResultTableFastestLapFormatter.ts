@@ -1,4 +1,4 @@
-import { ResultFastestLap } from '~entities/result/model';
+import { ResultFastestLap } from '~entities/result';
 
 export const ResultTableFastestLapFormatter = {
     getFastestLapCellClassName: (fastestLapRank?: number) =>

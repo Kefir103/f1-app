@@ -1,6 +1,6 @@
 import { axios } from '~shared/api/axios';
+import { URLS } from '~shared/config/urls';
 
-import { CONSTRUCTOR_URLS } from '~entities/constructor/api';
 import type { Constructor } from '~entities/constructor';
 
 interface IConstructorsParams {
@@ -15,7 +15,7 @@ interface IConstructorsResponse {
 
 export async function useConstructorsServer({ page, perPage }: IConstructorsParams) {
     try {
-        const { data } = await axios.get<IConstructorsResponse>(CONSTRUCTOR_URLS.index, {
+        const { data } = await axios.get<IConstructorsResponse>(URLS.constructor.index, {
             params: {
                 page,
                 perPage,

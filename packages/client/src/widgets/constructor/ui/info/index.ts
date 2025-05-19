@@ -1,1 +1,0 @@
-export { ConstructorInfo } from './ConstructorInfo';

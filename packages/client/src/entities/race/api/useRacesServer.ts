@@ -1,7 +1,7 @@
 import { axios } from '~shared/api/axios';
+import { URLS } from '~shared/config/urls';
 
 import type { Race } from '~entities/race';
-import { URLS } from '~entities/race/api/urls';
 
 interface IUseRacesServer {
     page: number;
@@ -16,7 +16,7 @@ interface IUseRacesServerResponse {
 
 export async function useRacesServer({ page, perPage, expandFields = [] }: IUseRacesServer) {
     try {
-        const { data } = await axios.get<IUseRacesServerResponse>(URLS.index, {
+        const { data } = await axios.get<IUseRacesServerResponse>(URLS.race.index, {
             params: {
                 page,
                 perPage,

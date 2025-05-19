@@ -1,5 +1,5 @@
 import type { DriverType } from '~entities/driver';
-import { DriverListCard } from '~entities/driver/ui';
+import { DriverListCard } from '~entities/driver';
 
 interface IDriverList {
     drivers: Array<DriverType>;

@@ -1,1 +1,0 @@
-export { ResultTableFastestLapFormatter } from './ResultTableFastestLapFormatter';

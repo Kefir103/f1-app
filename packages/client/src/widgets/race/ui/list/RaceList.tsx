@@ -1,5 +1,5 @@
 import type { Race } from '~entities/race';
-import { RaceListCard } from '~entities/race/ui';
+import { RaceListCard } from '~entities/race';
 
 interface IRaceList {
     races: Race[];

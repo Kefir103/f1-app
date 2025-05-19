@@ -1,1 +1,1 @@
-export type { StatusType } from './type';
+export type { StatusType } from './model/type';
