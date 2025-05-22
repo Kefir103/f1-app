@@ -30,16 +30,21 @@ describe('DriverController', () => {
         expect(controller).toBeDefined();
     });
 
-    it('should call service getAll with pagination and empty relations', async () => {
+    it('should call service getAll with pagination and empty relations and filters', async () => {
         const page = 1;
         const perPage = 10;
 
         await controller.getAll({ page, perPage });
 
-        expect(mockService.getAll).toHaveBeenCalledWith({ page, perPage, relations: {} });
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page,
+            perPage,
+            relations: {},
+            where: {},
+        });
     });
 
-    it('should call service getAll with pagination default params and empty relations', async () => {
+    it('should call service getAll with pagination default params and empty relations and filters', async () => {
         const pageDefault = 1;
         const perPageDefault = 50;
 
@@ -49,6 +54,7 @@ describe('DriverController', () => {
             page: pageDefault,
             perPage: perPageDefault,
             relations: {},
+            where: {},
         });
     });
 
@@ -59,12 +65,50 @@ describe('DriverController', () => {
             constructor_entity: true,
         };
 
-        await controller.getAll({ page, perPage }, relations);
+        await controller.getAll({ page, perPage }, {}, relations);
 
         expect(mockService.getAll).toHaveBeenCalledWith({
             page: page,
             perPage: perPage,
             relations: relations,
+            where: {},
+        });
+    });
+
+    it('should call service getAll with pagination and filters', async () => {
+        const page = 1;
+        const perPage = 10;
+        const filters = {
+            id: 1,
+        };
+
+        await controller.getAll({ page, perPage }, filters);
+
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: page,
+            perPage: perPage,
+            where: filters,
+            relations: {},
+        });
+    });
+
+    it('should call service getAll with pagination, filters and relations', async () => {
+        const page = 1;
+        const perPage = 10;
+        const filters = {
+            id: 1,
+        };
+        const relations = {
+            constructor_entity: true,
+        };
+
+        await controller.getAll({ page, perPage }, filters, relations);
+
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: page,
+            perPage: perPage,
+            relations: relations,
+            where: filters,
         });
     });
 

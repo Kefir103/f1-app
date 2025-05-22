@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as moment from 'moment';
@@ -38,7 +38,7 @@ function formatDriverResponse(driver: Partial<DriverType>) {
 }
 
 describe('Driver e2e', () => {
-    let app: INestApplication;
+    let app: NestExpressApplication;
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -87,6 +87,9 @@ describe('Driver e2e', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+
+        app.set('query parser', 'extended');
+
         await app.init();
     });
 
@@ -130,6 +133,23 @@ describe('Driver e2e', () => {
                     }),
                 ],
                 count: DriverMocks.length,
+            });
+    });
+
+    it('/driver with pagination and filters param (GET, 200)', () => {
+        return request(app.getHttpServer())
+            .get('/driver')
+            .query({
+                page: 1,
+                perPage: 1,
+                filter: {
+                    id: DriverMocks[1].id,
+                },
+            })
+            .expect(200)
+            .expect({
+                data: [formatDriverResponse(DriverMocks[1])],
+                count: 1,
             });
     });
 
