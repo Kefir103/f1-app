@@ -25,6 +25,7 @@
             "~entities/*": ["src/entities/*"],
             "~lib/*": ["src/lib/*"],
             "~middlewares/*": ["src/middlewares/*"],
+            "~utils/*": ["src/utils/*"],
 
             "~test-utils/*": ["test-utils/*"]
         }
