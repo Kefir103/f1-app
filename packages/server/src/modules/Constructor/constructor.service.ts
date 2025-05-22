@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -10,13 +10,24 @@ export class ConstructorService {
         @InjectRepository(Constructor) private constructorRepository: Repository<Constructor>,
     ) {}
 
-    public async getAll(page: number, perPage: number) {
+    public async getAll({
+        page,
+        perPage,
+        where = {},
+    }: {
+        page: number;
+        perPage: number;
+        where?: FindOptionsWhere<Constructor>;
+    }) {
         const constructors = await this.constructorRepository.find({
             skip: (page - 1) * perPage,
             take: perPage,
+            ...(where && {
+                where,
+            }),
         });
 
-        const count = await this.getCount();
+        const count = await this.getCount({ where });
 
         return {
             data: constructors,
@@ -28,7 +39,7 @@ export class ConstructorService {
         return await this.constructorRepository.findOneBy({ ref: ref });
     }
 
-    public async getCount() {
-        return await this.constructorRepository.count();
+    public async getCount({ where = {} }: { where?: FindOptionsWhere<Constructor> } = {}) {
+        return await this.constructorRepository.count({ where });
     }
 }

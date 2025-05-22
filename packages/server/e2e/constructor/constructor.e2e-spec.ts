@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -10,7 +10,7 @@ import { ConstructorModule } from '~modules/Constructor/constructor.module';
 import { ConstructorsMock } from '~modules/Constructor/__tests__/mock/Constructor.mock';
 
 describe('Constructor e2e', () => {
-    let app: INestApplication;
+    let app: NestExpressApplication;
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -26,6 +26,9 @@ describe('Constructor e2e', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+
+        app.set('query parser', 'extended');
+
         await app.init();
     });
 
@@ -42,6 +45,23 @@ describe('Constructor e2e', () => {
             .query({ page: 1, perPage: 1 })
             .expect(200)
             .expect({ data: [ConstructorsMock[0]], count: ConstructorsMock.length });
+    });
+
+    it('/constructor with pagination and filters (GET, 200)', () => {
+        return request(app.getHttpServer())
+            .get('/constructor')
+            .query({
+                page: 1,
+                perPage: 10,
+                filter: {
+                    id: ConstructorsMock[1].id,
+                },
+            })
+            .expect(200)
+            .expect({
+                data: [ConstructorsMock[1]],
+                count: 1,
+            });
     });
 
     it('/constructor/:ref (GET, 200)', () => {
