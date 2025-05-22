@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 
@@ -8,13 +8,24 @@ import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 export class CircuitService {
     constructor(@InjectRepository(Circuit) private circuitRepository: Repository<Circuit>) {}
 
-    public async getAll(page: number, perPage: number) {
+    public async getAll({
+        page,
+        perPage,
+        where = {},
+    }: {
+        page: number;
+        perPage: number;
+        where?: FindOptionsWhere<Circuit>;
+    }) {
         const data = await this.circuitRepository.find({
             take: perPage,
             skip: (page - 1) * perPage,
+            ...(where && {
+                where,
+            }),
         });
 
-        const count = await this.getCount();
+        const count = await this.getCount({ where });
 
         return {
             data: data,
@@ -26,7 +37,7 @@ export class CircuitService {
         return await this.circuitRepository.findOneBy({ ref: ref });
     }
 
-    private async getCount() {
-        return await this.circuitRepository.count();
+    private async getCount({ where = {} }: { where?: FindOptionsWhere<Circuit> }) {
+        return await this.circuitRepository.count({ where });
     }
 }
