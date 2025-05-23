@@ -153,6 +153,28 @@ describe('RaceService', () => {
         expect(races).toEqual(expectedRaces);
     });
 
+    it('should return races with pagination and filters', async () => {
+        const page = 1;
+        const perPage = 10;
+        const filters = {
+            id: RacesMock[1].id,
+        };
+
+        const races = await service.getAll({ page, perPage, where: filters });
+
+        const expectedRaces = {
+            data: [
+                {
+                    ...RacesMock[1],
+                    circuit: RacesCircuitsMock.find(({ id }) => id === RacesMock[1].circuit_id),
+                },
+            ],
+            count: 1,
+        };
+
+        expect(races).toEqual(expectedRaces);
+    });
+
     it('should return race by id', async () => {
         const raceMock = {
             ...RacesMock[0],

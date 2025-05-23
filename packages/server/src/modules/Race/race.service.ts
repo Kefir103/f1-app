@@ -1,4 +1,4 @@
-import { DataSource, FindOptionsRelations, Repository } from 'typeorm';
+import { DataSource, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
@@ -15,10 +15,12 @@ export class RaceService {
         page = 1,
         perPage = 10,
         relations = {},
+        where = {},
     }: {
         page: number;
         perPage: number;
         relations?: FindOptionsRelations<Race>;
+        where?: FindOptionsWhere<Race>;
     }) {
         const races = await this.raceRepository.find({
             skip: (page - 1) * perPage,
@@ -31,9 +33,12 @@ export class RaceService {
                 circuit: true,
                 ...relations,
             },
+            ...(where && {
+                where,
+            }),
         });
 
-        const count = await this.getCount();
+        const count = await this.getCount({ where });
 
         return {
             data: races,
@@ -62,7 +67,7 @@ export class RaceService {
         return race;
     }
 
-    public async getCount() {
-        return await this.raceRepository.count();
+    public async getCount({ where = {} }: { where?: FindOptionsWhere<Race> } = {}) {
+        return await this.raceRepository.count({ where });
     }
 }

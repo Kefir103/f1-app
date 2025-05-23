@@ -1,7 +1,8 @@
-import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as moment from 'moment';
+
 import * as lodash from 'lodash';
 
 import { TestDbConnection } from '~test-utils/db/DbConnection';
@@ -51,7 +52,7 @@ function formatRaceResponse(race: RaceType) {
 }
 
 describe('Race e2e', () => {
-    let app: INestApplication;
+    let app: NestExpressApplication;
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -100,7 +101,10 @@ describe('Race e2e', () => {
             ],
         }).compile();
 
-        app = moduleFixture.createNestApplication();
+        app = moduleFixture.createNestApplication<NestExpressApplication>();
+
+        app.set('query parser', 'extended');
+
         await app.init();
     });
 
@@ -167,6 +171,28 @@ describe('Race e2e', () => {
                     )[0],
                 ],
                 count: RacesMock.length,
+            });
+    });
+
+    it('/race with pagination and filters (GET, 200)', () => {
+        return request(app.getHttpServer())
+            .get('/race')
+            .query({
+                page: 1,
+                perPage: 10,
+                filter: {
+                    id: RacesMock[1].id,
+                },
+            })
+            .expect(200)
+            .expect({
+                data: [
+                    formatRaceResponse({
+                        ...RacesMock[1],
+                        circuit: RacesCircuitsMock.find(({ id }) => id === RacesMock[1].circuit_id),
+                    }),
+                ],
+                count: 1,
             });
     });
 
