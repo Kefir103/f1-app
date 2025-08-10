@@ -11,8 +11,6 @@ import {
     IsNull,
     Between,
     In,
-    Or,
-    And,
 } from 'typeorm';
 
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
@@ -241,12 +239,6 @@ describe('FilterDecorator', () => {
             in: {
                 operator: In,
                 value: [],
-            },
-            or: {
-                operator: Or,
-            },
-            and: {
-                operator: And,
             },
         };
 

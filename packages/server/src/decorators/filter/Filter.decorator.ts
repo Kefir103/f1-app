@@ -11,8 +11,6 @@ import {
     IsNull,
     Between,
     In,
-    Or,
-    And,
 } from 'typeorm';
 
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
@@ -35,8 +33,6 @@ const FILTERS = {
         return Between.call(null, ...getArrayPossibleFilter(value));
     },
     in: (value: any[] | string) => In(getArrayPossibleFilter(value)),
-    or: (value: any) => Or(value),
-    and: (value: any) => And(value),
 };
 
 const filterColumns = (entity: EntityClassOrSchema, filters: object) => {
