@@ -30,25 +30,45 @@ describe('SeasonsController', () => {
         expect(controller).toBeDefined();
     });
 
-    it('should call service with pagination', async () => {
+    it('should call service getAll with pagination', async () => {
         const page = 1;
         const perPage = 10;
 
         await controller.getAll({ page, perPage });
 
-        expect(mockService.getAll).toHaveBeenCalledWith(page, perPage);
+        expect(mockService.getAll).toHaveBeenCalledWith({ page, perPage, where: {} });
     });
 
-    it('should call service with default pagination', async () => {
+    it('should call service getAll with default pagination', async () => {
         const pageDefault = 1;
         const perPageDefault = 50;
 
         await controller.getAll({});
 
-        expect(mockService.getAll).toHaveBeenCalledWith(pageDefault, perPageDefault);
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: pageDefault,
+            perPage: perPageDefault,
+            where: {},
+        });
     });
 
-    it('should call service with year', async () => {
+    it('should call service getAll with pagination and filters', async () => {
+        const page = 1;
+        const perPage = 10;
+        const filters = {
+            id: 1,
+        };
+
+        await controller.getAll({ page, perPage }, filters);
+
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: page,
+            perPage: perPage,
+            where: filters,
+        });
+    });
+
+    it('should call service getOne with year', async () => {
         const year = 1;
 
         await controller.getOne(year);

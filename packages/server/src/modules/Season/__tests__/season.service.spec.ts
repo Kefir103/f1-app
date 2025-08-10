@@ -42,7 +42,7 @@ describe('SeasonsService', () => {
         const page = 1;
         const perPage = 1;
 
-        const seasonsWithCount = await service.getAll(page, perPage);
+        const seasonsWithCount = await service.getAll({ page, perPage });
 
         const expectedSeasonsWithCount = {
             data: [lodash.orderBy([...SeasonsMock], ['year'], ['desc'])[0]],
@@ -58,7 +58,7 @@ describe('SeasonsService', () => {
         const page = 1;
         const perPage = seasonsMock.length;
 
-        const sortedSeasons = await service.getAll(page, perPage);
+        const sortedSeasons = await service.getAll({ page, perPage });
 
         const expectedSeasons = {
             data: lodash.orderBy([...seasonsMock], ['year'], ['desc']),
@@ -66,6 +66,23 @@ describe('SeasonsService', () => {
         };
 
         expect(sortedSeasons).toEqual(expectedSeasons);
+    });
+
+    it('should find with filters and pagination', async () => {
+        const page = 1;
+        const perPage = 10;
+        const filters = {
+            id: SeasonsMock[1].id,
+        };
+
+        const seasons = await service.getAll({ page, perPage, where: filters });
+
+        const expectedSeasons = {
+            data: [SeasonsMock[1]],
+            count: 1,
+        };
+
+        expect(seasons).toEqual(expectedSeasons);
     });
 
     it('should find one by year', async () => {

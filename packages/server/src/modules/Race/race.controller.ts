@@ -1,7 +1,8 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
-import { FindOptionsRelations } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere } from 'typeorm';
 
 import { IPaginationParams, PaginationParams } from '~decorators/pagination/Pagination.decorator';
+import { FilterParams } from '~decorators/filter/Filter.decorator';
 import { ExpandParams } from '~decorators/expand/Expand.decorator';
 
 import { RaceService } from '~modules/Race/race.service';
@@ -19,9 +20,15 @@ export class RaceController {
     @Get()
     public async getAll(
         @PaginationParams() { page = 1, perPage = 50 }: IPaginationParams,
+        @FilterParams(Race) filters: FindOptionsWhere<Race> = {},
         @ExpandParams(Race) raceRelations: FindOptionsRelations<Race> = {},
     ) {
-        return await this.raceService.getAll({ page, perPage, relations: raceRelations });
+        return await this.raceService.getAll({
+            page,
+            perPage,
+            relations: raceRelations,
+            where: filters,
+        });
     }
 
     @Get(':id')

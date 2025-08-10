@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as lodash from 'lodash';
@@ -12,7 +12,7 @@ import { Season } from '~entities/Public/Season/Season.entity';
 import { SeasonsMock } from '~modules/Season/__tests__/mock/season.mock';
 
 describe('Season e2e', () => {
-    let app: INestApplication;
+    let app: NestExpressApplication;
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -27,11 +27,14 @@ describe('Season e2e', () => {
             ],
         }).compile();
 
-        app = moduleFixture.createNestApplication();
+        app = moduleFixture.createNestApplication<NestExpressApplication>();
+
+        app.set('query parser', 'extended');
+
         await app.init();
     });
 
-    it('/season (GET)', () => {
+    it('/season (GET, 200)', () => {
         return request(app.getHttpServer())
             .get('/season')
             .expect(200)
@@ -41,7 +44,7 @@ describe('Season e2e', () => {
             });
     });
 
-    it('/season with pagination (GET)', () => {
+    it('/season with pagination (GET, 200)', () => {
         return request(app.getHttpServer())
             .get('/season')
             .query({ page: 1, perPage: 1 })
@@ -49,6 +52,23 @@ describe('Season e2e', () => {
             .expect({
                 data: [lodash.orderBy([...SeasonsMock], ['year'], ['desc'])[0]],
                 count: SeasonsMock.length,
+            });
+    });
+
+    it('/season with pagination and filters (GET, 200)', () => {
+        return request(app.getHttpServer())
+            .get('/season')
+            .query({
+                page: 1,
+                perPage: 10,
+                filter: {
+                    id: SeasonsMock[1].id,
+                },
+            })
+            .expect(200)
+            .expect({
+                data: [SeasonsMock[1]],
+                count: 1,
             });
     });
 

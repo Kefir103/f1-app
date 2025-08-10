@@ -1,6 +1,10 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { FindOptionsWhere } from 'typeorm';
 
 import { IPaginationParams, PaginationParams } from '~decorators/pagination/Pagination.decorator';
+import { FilterParams } from '~decorators/filter/Filter.decorator';
+
+import { Circuit } from '~entities/Public/Circuit/Circuit.entity';
 
 import { CircuitService } from '~modules/Circuit/circuit.service';
 
@@ -9,8 +13,11 @@ export class CircuitController {
     constructor(private circuitService: CircuitService) {}
 
     @Get()
-    public async getAll(@PaginationParams() { page = 1, perPage = 50 }: IPaginationParams) {
-        return await this.circuitService.getAll(page, perPage);
+    public async getAll(
+        @PaginationParams() { page = 1, perPage = 50 }: IPaginationParams,
+        @FilterParams(Circuit) filters: FindOptionsWhere<Circuit> = {},
+    ) {
+        return await this.circuitService.getAll({ page, perPage, where: filters });
     }
 
     @Get(':ref')

@@ -30,22 +30,42 @@ describe('ConstructorsController', () => {
         expect(controller).toBeDefined();
     });
 
-    it('should call service with pagination', async () => {
+    it('should call service getAll with pagination', async () => {
         const page = 1;
         const perPage = 1;
 
         await controller.getAll({ page, perPage });
 
-        expect(mockService.getAll).toHaveBeenCalledWith(page, perPage);
+        expect(mockService.getAll).toHaveBeenCalledWith({ page, perPage, where: {} });
     });
 
-    it('should find with pagination default params', async () => {
+    it('should call service getAll with pagination default params', async () => {
         const defaultPage = 1;
         const defaultPerPage = 50;
 
         await controller.getAll({});
 
-        expect(mockService.getAll).toHaveBeenCalledWith(defaultPage, defaultPerPage);
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: defaultPage,
+            perPage: defaultPerPage,
+            where: {},
+        });
+    });
+
+    it('should call service getAll with pagination and filters', async () => {
+        const page = 1;
+        const perPage = 50;
+        const filters = {
+            id: 1,
+        };
+
+        await controller.getAll({ page, perPage }, filters);
+
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page: page,
+            perPage: perPage,
+            where: filters,
+        });
     });
 
     it('should call service getOne with ref', async () => {

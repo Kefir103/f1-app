@@ -41,11 +41,28 @@ describe('ConstructorsService', () => {
         const page = 1;
         const perPage = 1;
 
-        const constructorsWithCount = await service.getAll(page, perPage);
+        const constructorsWithCount = await service.getAll({ page, perPage });
 
         const expectedConstructorsWithCount = {
             data: [ConstructorsMock[0]],
             count: ConstructorsMock.length,
+        };
+
+        expect(constructorsWithCount).toEqual(expectedConstructorsWithCount);
+    });
+
+    it('should find with pagination and filters', async () => {
+        const page = 1;
+        const perPage = 10;
+        const filters = {
+            id: ConstructorsMock[1].id,
+        };
+
+        const constructorsWithCount = await service.getAll({ page, perPage, where: filters });
+
+        const expectedConstructorsWithCount = {
+            data: [ConstructorsMock[1]],
+            count: 1,
         };
 
         expect(constructorsWithCount).toEqual(expectedConstructorsWithCount);

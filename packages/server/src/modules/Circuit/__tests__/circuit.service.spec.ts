@@ -41,11 +41,28 @@ describe('CircuitService', () => {
         const page = 1;
         const perPage = 1;
 
-        const circuitsWithCount = await service.getAll(page, perPage);
+        const circuitsWithCount = await service.getAll({ page, perPage });
 
         const expectedCircuitsWithCount = {
             data: [CircuitMocks[0]],
             count: CircuitMocks.length,
+        };
+
+        expect(circuitsWithCount).toEqual(expectedCircuitsWithCount);
+    });
+
+    it('should find with filters', async () => {
+        const page = 1;
+        const perPage = 5;
+        const filters = {
+            id: CircuitMocks[1].id,
+        };
+
+        const circuitsWithCount = await service.getAll({ page, perPage, where: filters });
+
+        const expectedCircuitsWithCount = {
+            data: [CircuitMocks[1]],
+            count: 1,
         };
 
         expect(circuitsWithCount).toEqual(expectedCircuitsWithCount);

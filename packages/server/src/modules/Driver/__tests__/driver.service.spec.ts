@@ -58,12 +58,80 @@ describe('DriverService', () => {
         expect(driversWithCount).toEqual(expectedDriversWithCount);
     });
 
+    it('should find with relations', async () => {
+        const page = 1;
+        const perPage = 1;
+
+        const driversWithCount = await service.getAll({
+            page,
+            perPage,
+            relations: {
+                constructor_entity: true,
+            },
+        });
+
+        const expectedDriversWithCount = {
+            data: [
+                {
+                    ...DriverMocks[0],
+                    constructor_entity: DriverConstructorMock.find(
+                        ({ id }) => id === DriverMocks[0].constructor_id,
+                    ),
+                },
+            ],
+            count: DriverMocks.length,
+        };
+
+        expect(driversWithCount).toEqual(expectedDriversWithCount);
+    });
+
+    it('should find with filters', async () => {
+        const page = 1;
+        const perPage = 5;
+
+        const driverMock = DriverMocks[1];
+
+        const driversWithCount = await service.getAll({
+            page,
+            perPage,
+            where: {
+                id: driverMock.id,
+            },
+        });
+
+        const expectedDriversWithCount = {
+            data: [DriverMocks[1]],
+            count: 1,
+        };
+
+        expect(driversWithCount).toEqual(expectedDriversWithCount);
+    });
+
     it('should find one driver by ref', async () => {
         const ref = DriverMocks[0].ref;
 
         const driver = await service.getOne(ref);
 
         const expectedDriver = DriverMocks[0];
+
+        expect(driver).toEqual(expectedDriver);
+    });
+
+    it('should find one driver by ref with relation', async () => {
+        const ref = DriverMocks[0].ref;
+
+        const driver = await service.getOne(ref, {
+            relations: {
+                constructor_entity: true,
+            },
+        });
+
+        const expectedDriver = {
+            ...DriverMocks[0],
+            constructor_entity: DriverConstructorMock.find(
+                ({ id }) => id === DriverMocks[0].constructor_id,
+            ),
+        };
 
         expect(driver).toEqual(expectedDriver);
     });

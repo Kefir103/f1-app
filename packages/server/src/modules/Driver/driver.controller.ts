@@ -1,8 +1,9 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
-import { FindOptionsRelations } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere } from 'typeorm';
 
 import { IPaginationParams, PaginationParams } from '~decorators/pagination/Pagination.decorator';
 import { ExpandParams } from '~decorators/expand/Expand.decorator';
+import { FilterParams } from '~decorators/filter/Filter.decorator';
 
 import { Driver } from '~entities/Public/Driver/Driver.entity';
 
@@ -15,9 +16,15 @@ export class DriverController {
     @Get()
     public async getAll(
         @PaginationParams() { page = 1, perPage = 50 }: IPaginationParams,
+        @FilterParams(Driver) filters: FindOptionsWhere<Driver> = {},
         @ExpandParams(Driver) driverRelations: FindOptionsRelations<Driver> = {},
     ) {
-        return await this.driverService.getAll({ page, perPage, relations: driverRelations });
+        return await this.driverService.getAll({
+            page,
+            perPage,
+            relations: driverRelations,
+            where: filters,
+        });
     }
 
     @Get(':ref')

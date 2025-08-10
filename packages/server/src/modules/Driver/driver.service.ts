@@ -1,4 +1,4 @@
-import { FindOptionsRelations, Repository } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,10 +13,12 @@ export class DriverService {
         page,
         perPage,
         relations = {},
+        where = {},
     }: {
         page: number;
         perPage: number;
         relations?: FindOptionsRelations<Driver>;
+        where?: FindOptionsWhere<Driver>;
     }) {
         const drivers = await this.driverRepository.find({
             skip: (page - 1) * perPage,
@@ -26,9 +28,12 @@ export class DriverService {
                 poles_count: true,
                 ...relations,
             },
+            ...(where && {
+                where,
+            }),
         });
 
-        const count = await this.getCount();
+        const count = await this.getCount({ where });
 
         return {
             count: count,
@@ -52,7 +57,9 @@ export class DriverService {
         });
     }
 
-    public async getCount() {
-        return await this.driverRepository.count();
+    public async getCount({ where = {} }: { where?: FindOptionsWhere<Driver> } = {}) {
+        return await this.driverRepository.count({
+            where: where,
+        });
     }
 }

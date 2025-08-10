@@ -45,7 +45,12 @@ describe('RaceController', () => {
 
         await controller.getAll({ page, perPage });
 
-        expect(mockRaceService.getAll).toHaveBeenCalledWith({ page, perPage, relations: {} });
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({
+            page,
+            perPage,
+            relations: {},
+            where: {},
+        });
     });
 
     it('should call service getAll with default pagination and emptyRelations', async () => {
@@ -58,6 +63,24 @@ describe('RaceController', () => {
             page: pageDefault,
             perPage: perPageDefault,
             relations: {},
+            where: {},
+        });
+    });
+
+    it('should call service getAll with pagination and filters', async () => {
+        const page = 1;
+        const perPage = 10;
+        const filters = {
+            id: 1,
+        };
+
+        await controller.getAll({ page, perPage }, filters);
+
+        expect(mockRaceService.getAll).toHaveBeenCalledWith({
+            page: page,
+            perPage: perPage,
+            where: filters,
+            relations: {},
         });
     });
 
@@ -68,12 +91,13 @@ describe('RaceController', () => {
             results: true,
         };
 
-        await controller.getAll({ page, perPage }, relations);
+        await controller.getAll({ page, perPage }, {}, relations);
 
         expect(mockRaceService.getAll).toHaveBeenCalledWith({
             page: page,
             perPage: perPage,
             relations: relations,
+            where: {},
         });
     });
 

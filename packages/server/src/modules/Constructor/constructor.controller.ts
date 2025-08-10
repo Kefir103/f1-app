@@ -1,16 +1,23 @@
 import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { FindOptionsWhere } from 'typeorm';
 
 import { IPaginationParams, PaginationParams } from '~decorators/pagination/Pagination.decorator';
+import { FilterParams } from '~decorators/filter/Filter.decorator';
 
 import { ConstructorService } from '~modules/Constructor/constructor.service';
+
+import { Constructor } from '~entities/Public/Constructor/Constructor.entity';
 
 @Controller('constructor')
 export class ConstructorController {
     constructor(private readonly constructorService: ConstructorService) {}
 
     @Get()
-    public async getAll(@PaginationParams() { page = 1, perPage = 50 }: IPaginationParams) {
-        return await this.constructorService.getAll(page, perPage);
+    public async getAll(
+        @PaginationParams() { page = 1, perPage = 50 }: IPaginationParams,
+        @FilterParams(Constructor) filters: FindOptionsWhere<Constructor> = {},
+    ) {
+        return await this.constructorService.getAll({ page, perPage, where: filters });
     }
 
     @Get(':ref')
