@@ -36,7 +36,12 @@ describe('SeasonsController', () => {
 
         await controller.getAll({ page, perPage });
 
-        expect(mockService.getAll).toHaveBeenCalledWith({ page, perPage, where: {} });
+        expect(mockService.getAll).toHaveBeenCalledWith({
+            page,
+            perPage,
+            where: {},
+            relations: {},
+        });
     });
 
     it('should call service getAll with default pagination', async () => {
@@ -49,38 +54,44 @@ describe('SeasonsController', () => {
             page: pageDefault,
             perPage: perPageDefault,
             where: {},
+            relations: {},
         });
     });
 
-    it('should call service getAll with pagination and filters', async () => {
+    it('should call service getAll with pagination, filters and expand', async () => {
         const page = 1;
         const perPage = 10;
         const filters = {
             id: 1,
         };
+        const expand = {};
 
-        await controller.getAll({ page, perPage }, filters);
+        await controller.getAll({ page, perPage }, expand, filters);
 
         expect(mockService.getAll).toHaveBeenCalledWith({
             page: page,
             perPage: perPage,
             where: filters,
+            relations: expand,
         });
     });
 
-    it('should call service getOne with year', async () => {
+    it('should call service getOne with year and relations', async () => {
         const year = 1;
+        const relations = {};
 
-        await controller.getOne(year);
+        await controller.getOne(year, relations);
 
-        expect(mockService.getOne).toHaveBeenCalledWith(year);
+        expect(mockService.getOne).toHaveBeenCalledWith(year, {
+            relations,
+        });
     });
 
     it('should throw NotFoundException if season is falsy', async () => {
         jest.spyOn(mockService, 'getOne').mockReturnValueOnce(null);
 
         await expect(async () => {
-            await controller.getOne(-1);
+            await controller.getOne(-1, {});
         }).rejects.toThrow(NotFoundException);
     });
 });

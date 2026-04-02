@@ -5,9 +5,10 @@ import { SeasonService } from '~modules/Season/season.service';
 import { SeasonController } from '~modules/Season/season.controller';
 
 import { Season } from '~entities/Public/Season/Season.entity';
+import { SeasonWinnerDriverView } from '~entities/Public/Season/winner/SeasonWinnerDriverView.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Season])],
+    imports: [TypeOrmModule.forFeature([Season, SeasonWinnerDriverView])],
     providers: [SeasonService],
     controllers: [SeasonController],
 })

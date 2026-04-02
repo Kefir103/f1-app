@@ -1,4 +1,4 @@
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -12,10 +12,12 @@ export class SeasonService {
         page,
         perPage,
         where = {},
+        relations,
     }: {
         page: number;
         perPage: number;
         where?: FindOptionsWhere<Season>;
+        relations?: FindOptionsRelations<Season>;
     }) {
         const seasons = await this.seasonRepository.find({
             skip: (page - 1) * perPage,
@@ -23,6 +25,9 @@ export class SeasonService {
             order: {
                 year: 'DESC',
             },
+            ...(relations && {
+                relations,
+            }),
             ...(where && {
                 where,
             }),
@@ -36,8 +41,22 @@ export class SeasonService {
         };
     }
 
-    public async getOne(year: number) {
-        return this.seasonRepository.findOneBy({ year });
+    public async getOne(
+        year: number,
+        {
+            relations,
+        }: {
+            relations?: FindOptionsRelations<Season>;
+        },
+    ) {
+        return this.seasonRepository.findOne({
+            where: {
+                year,
+            },
+            ...(relations && {
+                relations,
+            }),
+        });
     }
 
     private async getCount({ where = {} }: { where?: FindOptionsWhere<Season> } = {}) {

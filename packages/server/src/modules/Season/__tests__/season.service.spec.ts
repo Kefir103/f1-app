@@ -5,18 +5,26 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Season } from '~entities/Public/Season/Season.entity';
 import { SeasonService } from '~modules/Season/season.service';
 
-import { SeasonsMock } from '~modules/Season/__tests__/mock/season.mock';
+import { SeasonsDriverWinnerMock, SeasonsMock } from '~modules/Season/__tests__/mock/season.mock';
 
 import { UnitMockRepository } from '~test-utils/unit/mock-repository/UnitMockRepository';
 
 describe('SeasonsService', () => {
     let service: SeasonService;
 
-    const seasonUnitMockRepository = UnitMockRepository(SeasonsMock);
+    const seasonUnitMockRepository = UnitMockRepository(SeasonsMock, [
+        {
+            name: 'winner_driver',
+            key: 'year',
+            foreign_key: 'year',
+            multiple: false,
+            entities: SeasonsDriverWinnerMock,
+        },
+    ]);
 
     const mockRepository = {
         find: jest.fn().mockImplementation(seasonUnitMockRepository.find),
-        findOneBy: jest.fn().mockImplementation(seasonUnitMockRepository.findOneBy),
+        findOne: jest.fn().mockImplementation(seasonUnitMockRepository.findOne),
         count: jest.fn().mockImplementation(seasonUnitMockRepository.count),
     };
 
@@ -88,8 +96,26 @@ describe('SeasonsService', () => {
     it('should find one by year', async () => {
         const seasonMock = SeasonsMock[0];
 
-        const season = await service.getOne(seasonMock.year);
+        const season = await service.getOne(seasonMock.year, {});
 
         expect(season).toEqual(seasonMock);
+    });
+
+    it('should find one by year with season driver winner', async () => {
+        const seasonMock = SeasonsMock[0];
+        const seasonDriverWinnerMock = SeasonsDriverWinnerMock.find(
+            ({ year }) => year === seasonMock.year,
+        );
+
+        const season = await service.getOne(seasonMock.year, {
+            relations: {
+                winner_driver: true,
+            },
+        });
+
+        expect(season).toEqual({
+            ...seasonMock,
+            winner_driver: seasonDriverWinnerMock,
+        });
     });
 });
